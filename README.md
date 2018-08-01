@@ -12,4 +12,5 @@ and CloudFront
 Webotron currently has the following features
 
 - List list_buckets
-- List content of bucket 
+- List content of bucket
+- Create and Setup bucket

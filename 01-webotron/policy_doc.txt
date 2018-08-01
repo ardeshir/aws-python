@@ -1,0 +1,73 @@
+In [4]: s3 = session.resource('s3')
+
+In [5]: s3.Bucket(name='aws-python-us-east-2')
+Out[5]: s3.Bucket(name='aws-python-us-east-2')
+
+In [6]: bucket = s3.Bucket(name='aws-python-us-east-2')
+
+In [7]: bucket.upload_file('index.html', 'index.html', ExtraArgs={'ContentType':'text/html'})
+
+In [8]: policy = """
+   ...: {
+   ...:     "Version": "2012-10-17",
+   ...:     "Statement": [
+   ...:         {
+   ...:             "Sid": "PublicReadGetObject",
+   ...:             "Effect": "Allow",
+   ...:             "Principal": "*",
+   ...:             "Action": "s3:GetObject",
+   ...:             "Resource": "arn:aws:s3:::%s/*"
+   ...:         }
+   ...:     ]
+   ...: }
+   ...: """  % bucket.name
+
+In [9]: print(policy)
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::aws-python-us-east-2/*"
+        }
+    ]
+}
+
+
+In [10]: pol = bucket.Policy()
+
+In [11]: policy
+Out[11]: '\n{\n    "Version": "2012-10-17",\n    "Statement": [\n        {\n            "Sid": "PublicReadGetObject",\n            "Effect": "Allow",\n            "Principal": "*",\n            "Action": "s3:GetObject",\n            "Resource": "arn:aws:s3:::aws-python-us-east-2/*"\n        }\n    ]\n}\n'
+
+In [12]: policy = policy.strip()
+
+In [13]: pol = bucket.Policy()
+
+In [14]: pol.put(Policy=policy)
+Out[14]:
+{'ResponseMetadata': {'RequestId': '2F80FCADE7513463',
+  'HostId': 'n8T5PMoKbt+fBv4jDCB62LSIpIhQRjQRrzlJu80eVjnqLmqykSPuh0S/+BZWMZLP5MCTpm9qylc=',
+  'HTTPStatusCode': 204,
+  'HTTPHeaders': {'x-amz-id-2': 'n8T5PMoKbt+fBv4jDCB62LSIpIhQRjQRrzlJu80eVjnqLmqykSPuh0S/+BZWMZLP5MCTpm9qylc=',
+   'x-amz-request-id': '2F80FCADE7513463',
+   'date': 'Wed, 01 Aug 2018 21:35:10 GMT',
+   'server': 'AmazonS3'},
+  'RetryAttempts': 0}}
+
+In [15]: ws = bucket.Website()
+
+In [16]: ws.put(WebsiteConfiguration={ 'ErrorDocument': { 'Key': 'index.html' }, 'IndexDocument': { 'Suffix': 'index.html' } })
+Out[16]:
+{'ResponseMetadata': {'RequestId': 'C394ACCF5775CC7B',
+  'HostId': 'BFOc82P0bXNfN05OUQORXwZTZ38oHy7bX7P50c9ufwptVIq9rOmsJ6JFC6IXBiuF0Yw6wjYT1Qc=',
+  'HTTPStatusCode': 200,
+  'HTTPHeaders': {'x-amz-id-2': 'BFOc82P0bXNfN05OUQORXwZTZ38oHy7bX7P50c9ufwptVIq9rOmsJ6JFC6IXBiuF0Yw6wjYT1Qc=',
+   'x-amz-request-id': 'C394ACCF5775CC7B',
+   'date': 'Wed, 01 Aug 2018 21:40:10 GMT',
+   'content-length': '0',
+   'server': 'AmazonS3'},
+  'RetryAttempts': 0}}
