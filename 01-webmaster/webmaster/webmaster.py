@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- code: utf-8 -*-
 from pathlib import Path
-
+import mimetypes
 import boto3
 from botocore.exceptions import ClientError
 
@@ -75,17 +75,30 @@ def setup_bucket(bucket):
 #    url = "https://%s.s3-website-us-east-2.amazonaws.com" % s3_bucket.name
     return
 
+def upload_file(s3_bucket, path, key):
+    content_type = mimetypes.guess_type(key)[0] or 'text/plain'
+    s3_bucket.upload_file(
+        path,
+        key,
+        ExtraArgs={
+            'ContentType': 'text/html'
+        })
 
 @cli.command('sync')
 @click.argument('pathname', type=click.Path(exists=True))
-def sync(pathname):
+@click.argument('bucket')
+def sync(pathname, bucket):
     """Sync conetents of Pathname to Bucket"""
+    s3_bucket = s3.Bucket(bucket)
 
     root = Path(pathname).expanduser().resolve()
     def handle_directory(target):
         for p in target.iterdir():
-            if p.is_dir(): handle_directory(p)
-            if p.is_file(): print("Path: {}\n Key: {}".format(p,p.relative_to(root)))
+            if p.is_dir():
+                handle_directory(p)
+            if p.is_file():
+                upload_file(s3_bucket, str(p), str(p.relative_to(root)))
+                #("Path: {}\n Key: {}".format(p,p.relative_to(root)))
 
     handle_directory(root)
 
