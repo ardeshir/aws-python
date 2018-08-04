@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>CloudFormation & Ansible</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+               <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li><a href="/help">Help</a></li>
+                <li><a href="/cert">Cert</a><li>
+                <li class="active">ML</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>CloudFormation & Ansible</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+<!-- start new -->  
+<p>
+    
+As you would expect, you can access CloudFormation via the AWS console (https://console.aws.amazon.com/cloudformation) or by using the command-line:
+</p>
+<b>$ aws cloudformation help # for the list of options </b><br/> 
+</p><p>
+The service is organized around the concept of stacks. Each stack typically describes a set of AWS resources and their configuration in order to start an application. When working with CloudFormation, most of your time is spent editing those templates.
+</p><p>
+There are different ways to get started with the actual editing of the templates. One of the easiest ways is to edit existing templates. AWS has a number of well-written examples available at http://amzn.to/27cHmrb.
+</p>
+<pre>
+At the highest level templates are structured as follows:
+
+{ 
+  "AWSTemplateFormatVersion" : "version date", 
+  "Description" : "Description string", 
+  "Resources" : { }, 
+  "Parameters" : { }, 
+  "Mappings" : { }, 
+  "Conditions" : { }, 
+  "Metadata" : { }, 
+  "Outputs" : { } 
+} 
+
+AWSTemplateFormatVersion is currently always 2010-09-09 and represents the version of the template language used. The Description is for you to summarize what the template does. The Resources section describes which AWS services will be instantiated and what their configurations are. When you launch a template, you have the ability to provide some extra information to CloudFormation such as which ssh keypair to use, for example, if you want to give SSH access to your EC2 instances. This kind of information goes into the Parameters section. The Mappings section is useful when you try to create a more generic template.
+
+You can, for example, define which AMI to use for a given region so that the same template can be used to start an application in any AWS region. The Conditions section allows you to add conditional logic to your other sections (if statements, logical operators, and so on). The Metadata section lets you add more arbitrary information to your resources. Finally, the Outputs section lets you extract and print out useful information based on the execution of your template such as the IP address of the EC2 server created, for example.
+
+In addition to those examples, AWS also provides a couple of tools and services around CloudFormation template creation: designer and cloudformer 
+
+
+CloudFormer
+
+CloudFormer is a tool that lets you create CloudFormation templates looking at pre-existing resources. If you have a set of resources that you have already created on an ad-hoc basis like we have done so far in the book, you can use CloudFormer to group them under a new CloudFormation template. You can then later customize the template that CloudFormer generates using a text editor or even CloudFormation designer and make it fit your needs.
+
+Unlike most AWS tools and services, CloudFormer isn't completely managed by AWS; it's a self-hosted tool that you can instantiate on demand using CloudFormation. To do so, follow the given steps:
+
+    Open https://console.aws.amazon.com/cloudformation in your browser.
+    Select the AWS region where the resources you are trying to templatize are.
+    In the Select a sample template drop-down menu, choose CloudFormer and click on Next
+    On that screen, at the top, you can provide a stack name (feel free to keep the default name AWSCloudFormer) and in the bottom part, you are asked to provide two extra parameters, a username, and a password. Those will be used later to log in to CloudFormer. Pick a username and a password, and click on Next.
+    On the next screen, you can provide extra tags and more advanced options, but we will simply continue by clicking on Next.
+
+ 
+
+    This brings us to the review page where we will check the checkbox to acknowledge that this will cause AWS CloudFormation to create IAM resources. Click on Create.
+    This will bring us back on the main screen of the CloudFormation console where we can see our AWS CloudFormer stack being created. Once the Status goes from CREATE_IN_PROGRESS to CREATE_COMPLETE, select it and click on the Output tab at the bottom.
+
+At that point, you have created the resources needed to use CloudFomer. In order to create a stack with it, do the following:
+
+In the Outputs tab (which illustrates the outputs section of CloudFormation), click on the website URL link. This will open up the CloudFormer tool. Log in using the username and password provided in the fourth step of the previous set of instructions. The following screen will appear:
+
+    Follow the workflow proposed by the tool to select the different resources you want for your CloudFormation template as far as the last step.
+    In the end, you will be able to download the generated template or save it directly in S3.
+
+The CloudFormation template generated by CloudFormer will usually need a bit of editing as you will often want to create a more flexible stack with input parameters and an outputs section.
+Creating the stack in the CloudFormation console
+
+At this point we can launch our template using the following steps:
+
+    Open the CloudFormation web console in your browser https://console.aws.amazon.com/cloudformation.
+    Click on Create Stack.
+    On the next screen, we will upload our newly generated template helloworld-cf.template by selecting Upload a template to Amazon S3 and then browsing to select our helloworld-cf.template file.
+    We will then pick a stack name such as HelloWorld.
+    After the stack name, we can see the Parameters section of our template in action. CloudFormation lets us pick which SSH keypair to use. Select your Keypair using the drop-down menu.
+    On the next screen, we have to ability the add optional tags to our resources; in the advanced section we can see how we can potentially integrate CloudFormation and SNS, make decisions on what to do when a failure or a timeout occurs, and even add a stack policy that lets you control who can edit the stack, for example. For now, we will simply click on Next.
+    This leads us to the review screen where we can verify the information selected and even estimate how much it will cost to run that stack. Click on Create.
+    This will bring us to the main CloudFormation console. On that screen, we are able to see how our resources are created in the Events tab.
+    When the creation of the template is complete, click on the Outputs tabs, which will reveal information we generated through the Outputs section of our template:
+
+    Click on the link in the value of the WebUrl key, which will open up our HelloWorld page.
+
+Updating our CloudFormation stack
+
+One of the biggest benefits of using the CloudFormation template to manage our resources is that the resources created from CloudFormation are tightly coupled to our stack. If we want to make a change to our stack, we can update the template and apply the change to our existing CloudFormation stack. Let's see how.
+Updating our stack
+
+Having generated the new JSON CloudFormation template, we can get in the CloudFormation console and update the stack as follows:
+
+    Open the CloudFormation web console in your browser https://console.aws.amazon.com/cloudformation.
+    Select the HelloWorld stack that we previously created.
+    Click on Action then Update Stack.
+    Chose the helloworld-cf-v2.template file by clicking on the Browse button selecting the file, and then clicking on Next.
+    This brings us to the next screen that lets us update the details of our stack. In our case, nothing has changed in the parameters so we can continue by clicking on Next.
+
+ 
+
+    In the next screen as well, since we simply want to see the effect of our IP change, we can click on Next.
+    This brings us to the Review page where after a couple of seconds we can see CloudFormation giving a Preview of our change:
+
+As you can see the only change will be an update on the Security group. Click on Update.
+
+    This will bring us back to the CloudFormation template where we will see the change being applied.
+
+In this particular example, AWS is able to simply update the security group to take our change into account.
+
+We can verify the change by extracting the physical ID from either the Review page or back in the console in the Resources tab:
+
+$ aws ec2 describe-security-groups \
+      --group-names HelloWorld-HelloWolrdWebServerSecurityGroup-1F7V2BLZLWT
+
+
+Change sets
+
+Our template only includes a web server and a security group that makes updating CloudFormation a fairly harmless operation. Furthermore, our change was fairly trivial as AWS could simply update the existing security group as opposed to having to replace it. As you can imagine, as the architecture becomes more and more complex so does the CloudFormation template. Depending on the update you want to perform, you might encounter unexpected changes when you review the change set in the final step of updating a template.
+
+AWS offers an alternate and safer way to update templates. The feature is called change sets and is accessible from the CloudFormation console:
+
+    Open the CloudFormation web console in your browser https://console.aws.amazon.com/cloudformation.
+    Select the HelloWorld stack that we previously created.
+    Click on Action and then Create Change Set.
+
+From there you can follow the same steps you took to create a simple Update. The main difference happens on the last screen:
+
+Unlike the regular stack updates, Change Sets have a strong emphasis on giving you the ability to review a change before applying it. If you are satisfied with the changes displayed, you have the ability to execute the update.
+
+Lastly, when using a Change Set to update your stack, you can easily audit recent changes using the Change Settab of your stack in the CloudFormation console.
+Deleting our CloudFormation stack
+
+We saw in the last section how CloudFormation was able to update resources as we update our template. The same goes when you want to remove a CloudFormation stack and its resources. In a couple of clicks, you can delete your template and the various resources that got created at launch time. From a best practice standpoint, it is highly recommended to always use CloudFormation to make changes to your resources previously initialized with CloudFormation, including when you don't need your stack anymore.
+
+Deleting a stack is very simple; you should proceed as follows:
+
+    Open the CloudFormation web console in your browser https://console.aws.amazon.com/cloudformation.
+    Select the HelloWorld stack that we previously created.
+    Click on Action, and then Delete Stack.
+
+As always, you will be able to track completion in the Events tab:
+
+CloudFormation has a unique place in the AWS ecosystem. Most architectures as complex as they are can be described and managed through CloudFormation, allowing you to keep tight control over your AWS resources creation. While CloudFormation does a great job at managing the creation of resources, it doesn't always make things easy especially when you want to make simple changes on services such as EC2. Because CloudFormation doesn't keep track of the state of the resources once they are launched, the only reliable way to update an EC2 instance, for example, is to recreate a new instance and swap it with the existing instance once the new instance is ready. This creates somewhat of an immutable design (assuming that you don't run any extra commands once the instance is created). This may be an attractive architecture choice and in some cases, it may get you a long way, but you may wish to have the ability to have long-running instances where you can quickly and reliably make changes through a controlled pipeline like we did with CloudFormation. This is what configuration management systems excel at.
+Adding a configuration management system
+
+Configuration management systems are probably the most well-known components of a classic DevOps driven organization. Present in most companies including in the enterprise market, configuration management systems are quickly replacing home grown Shell, Python, and Perl scripts. There are many reasons why configuration management systems should be part of your environment. They offer domain-specific languages, which improves the readability of the code, and are tailored to the specific needs that organizations have when trying to configure systems. This means a lot of useful built-in features, and finally, the most common configuration management tools, have a big and active user community, which often means that you will be able to find existing code for the system you are trying to automatize.
+
+Some of the most popular configuration management tools include Puppet, Chef, SaltStack, and Ansible. While all those options are fairly good, this book will focus on Ansible, the newest of those four tools mentioned. There are a number of key characteristics that make Ansible a very popular and easy to use solution. Unlike other configuration management systems, Ansible is built to work without a server, a daemon, or a database. You can simply keep your code in source control and download it on the host whenever you need to run it or use a push mechanism via SSH. The automation code you write is in YAML static files, which makes the learning curve a lot less steep than some of the other alternatives that use Ruby or specific DSL.
+Getting started with Ansible
+
+We will first install Ansible on our computer; next, we will create an EC2 instance that will let us illustrate the basic usage of Ansible. After that, we will work on recreating the Hello World Nodejs application by creating and executing what Ansible calls a playbook. We will then look at how Ansible can run in pull mode, which offers a new approach to deploying changes. Finally, we will look at replacing the UserData block in our CloudFormation template with Ansible to combine the benefits of both CloudFormation and our configuration management system.
+Creating our Ansible playground
+
+To illustrate the basic functionalities of Ansible, we are going to start by re-launching our helloworld application.
+
+In the previous section, we saw how to create a stack using the web interface. As you would expect, it is also possible to launch a stack using the command line interface.
+
+Go into your EffectiveDevOpsTemplates directory where you previously generated the helloworld-cf-template-v2.template file and run the following command:
+
+$ aws cloudformation create-stack \
+      --capabilities CAPABILITY_IAM \
+      --stack-name ansible \
+      --template-body file://helloworld-cf-template-v2.template  \
+      --parameters ParameterKey=KeyPair,ParameterValue=EffectiveDevOpsAWS
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:511912822958:stack/ansible/6c52ef30-32b6-11e6-a0f4-500c524294d2"
+}  
+
+Our instance will soon be ready. We can now bootstrap our environment by creating a workspace.
+Creating our Ansible repository
+
+Our first goal with Ansible is to be able to run commands on remote hosts. In order to do that efficiently, we can configure our local environment. Because we don't want to have to redo those steps time and time again and because ultimately we want to source-control everything, we will create a new Git repository. To do that, we will repeat the same steps as when we created our EffectiveDevOpsTemplate repository.
+
+Once logged in to GitHub, create a new repository for the CloudFormation template:
+
+    In your browser, open https://github.com/new.
+    Call the new repository Ansible.
+    Check the checkbox Initialize this repository with a README
+    Finally, click the button Create repository.
+
+ 
+
+    Once your repository is created, clone it into your computer:
+
+$ git clone https://github.com/<your_github_username>/ansible 
+
+    Now that the repository is cloned, we will go into the repository and copy the template previously created in the new GitHub repository:
+
+$ cd ansible  
+
+At its base, Ansible is a tool that can run commands remotely on the hosts in your inventory. The inventory can be managed manually, by creating an INI-like file where you list all your hosts and IPs, or dynamically if it can query an API. As you can imagine, Ansible is perfectly capable of taking advantage of the AWS API to fetch our inventory. To do so, we will download a Python script from the official Ansible Git repository and give the execution permissions:
+
+$ curl -Lo ec2.py http://bit.ly/2v4SwE5
+$ chmod +x ec2.py  
+
+Before we can start testing this Python script, we also need to provide a configuration for it.
+
+Create a new file in the same directory and call it ec2.ini.
+
+In it, we will put the following configuration:
+
+[ec2] 
+regions = all 
+regions_exclude = us-gov-west-1,cn-north-1 
+destination_variable = public_dns_name 
+vpc_destination_variable = ip_address 
+route53 = False 
+cache_path = ~/.ansible/tmp 
+cache_max_age = 300 
+rds = False 
+
+Once this is done, you can finally validate that the inventory is in a working state by executing the ec2.py script:
+
+$ ./ec2.py  
+
+This command should return a big nested JSON of the different resources found on your AWS account. Among those is the public IP address of the EC2 instance we created in the previous section.
+
+The last step in our bootstrapping is to configure Ansible itself such that it knows how to get the inventory of our infrastructure, which user to use when it tries to SSH into our instances, how to become root, and so on.
+
+We will create a new file in the same location and call it ansible.cfg.
+
+Its content should be as follows:
+
+[defaults] 
+inventory      = ./ec2.py 
+remote_user    = ec2-user 
+become         = True 
+become_method  = sudo 
+become_user    = root 
+nocows         = 1  
+
+At that point, we are ready to start running Ansible commands.
+
+Ansible has a few commands and some simple concepts. We will first look at the ansible command and the concept of modules.
+Executing modules
+
+The Ansible command is the main command that drives the execution of the different modules on the remote hosts.
+
+Modules are libraries that can be executed directly on remote hosts. Ansible comes with a number of modules as listed here http://bit.ly/24rU0yk. In addition to the standard modules, you can also create your own modules using Python. There are modules for most common use cases and technologies. The first module we will see is a simple module called ping that tries to connect to a host and returns pong if the host is usable.
+Module documentation can also be accessed using the ansible-doc command, that is,
+$ ansible-doc ping.
+
+In the creating our Ansible playground section, we created a new EC2 instance using CloudFormation. So far we haven't looked up its IP address. Using Ansible and the ping command can discover that information. As mentioned before, we need to be in the ansible directory to run the ansible command. The command is:
+
+$ ansible--private-key ~/.ssh/EffectiveDevOpsAWS.pem ec2 -m ping
+54.175.86.38 | success >> {
+    "changed": false,
+    "ping": "pong"
+}  
+
+As we can see, Ansible was able to find our EC2 instance querying the AWS EC2 API and the instance is ready to be used.
+
+Configuring SSH
+As Ansible relies heavily on SSH, it is worth spending a bit of time on configuring SSH via the $HOME/.ssh/config file. For instance, you use the following options to avoid having to specify --private-keyand -u in the preceding example:
+IdentityFile ~/.ssh/EffectiveDevOpsAWS.pem
+User ec2-user
+StrictHostKeyChecking no
+PasswordAuthentication no
+ForwardAgent yes
+Once configured, you won't need to provide the --private-key option to Ansible.
+
+
+Running arbitrary commands
+
+The Ansible command can also be used to run arbitrary commands on remote servers. In the following example, we will run the df command only on all hosts matching 54.175.86.* for their public Ip address (you will need to adapt this command to match you instance public IP as returned in the ping command of the previous example):
+
+$ ansible --private-key ~/.ssh/EffectiveDevOpsAWS.pem '54.175.86.*' \
+      -a 'df -h'
+54.175.86.38 | success | rc=0 >>
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/xvda1      7.8G  1.3G  6.5G  16% /
+
+devtmpfs        490M   56K  490M   1% /dev
+tmpfs           498M     0  498M   0% /dev/shm  
+
+Now that we have a basic understanding of how Ansible works, we can start combining calls to different Ansible modules to put in place our automation. This is called creating a playbook.
+Ansible playbooks
+
+Playbooks are the files containing Ansible's configuration, deployment, and orchestration language. By creating those files, you sequentially define the state of your systems from the OS configuration down to application deployment and monitoring. Ansible uses YAML, which is fairly easy to read. For that reason, similarly to what we did with CloudFormation, an easy way to get started with Ansible is to look at some examples inside the official Ansible GitHub repository: https://github.com/ansible/ansible-examples. 
+
+Creating a playbook
+
+Ansible provides a number of best practices on their website at http://bit.ly/1ZqdcLH.
+
+One emphasis in their documentation is on using roles.
+
+"One thing you will definitely want to do though is using the "roles" organization feature, which is documented as part of the main playbooks page. See Playbook Roles and Include Statements. You absolutely should be using roles. Roles are great. Use roles. Roles! Did we say that enough? Roles are great."
+
+Creating roles is a key component in making Ansible modular enough so that you can reuse your code across services and playbooks. To demonstrate a proper structure, we are going to create a role that our playbook will then call.
+Creating roles to deploy and start our web application
+
+We are going to use roles to recreate the HellowWorld stack we previously made using the UserDatablock of CloudFormation. If you recall, the UserData looked roughly like this:
+
+yum install --enablerepo=epel -y nodejs 
+wget http://bit.ly/2vESNuc -O /home/ec2-user/helloworld.js 
+wget http://bit.ly/2vVvT18 -O /etc/init/helloworld.conf 
+start helloworld 
+
+You will notice three different types of operation in the preceding script. We are first preparing the system to run our application. To do that, in our example, we are simply installing node.js. Next, we copy the different resources needed to run the application, in our case, the JavaScript code and the upstart configuration. Finally, we start the service.
+
+As always when programming, it is important to keep the code DRY. If deploying and starting our application is very unique to our HelloWorld project, installing node.js likely isn't. In order to make the installation of node.js a reusable piece of code, we are going to create two roles. One to install node.js and one to deploy and start the HelloWorld application.
+
+By default, Ansible expects to see roles inside a roles directory at the root of the Ansible repository. The first thing we need to do is to create this directory and cd into it:
+
+$ mkdir roles
+$ cd roles  
+
+We can now create our roles.
+
+Ansible has an ansible-galaxy command, which can be used to initialize the creation of a role. The first role we will look into is the role that will install node.js:
+
+$ ansible-galaxy init nodejs
+- nodejs was created successfully  
+
+As briefly mentioned, Ansible like most other configuration management systems has a strong community support who share roles online via https://galaxy.ansible.com/. In addition to using the ansible-galaxycommand to create the skeleton for new roles, you can also use ansible-galaxy to import and install community supported roles.
+
+This creates a directory nodejs and a number of sub directories that will let us structure the different sections of our role. We are going to go in that directory:
+
+$ cd nodejs  
+
+The most important directory inside that nodejs directory is the one called tasks. When Ansible executes a playbook, it runs the code present in the file tasks/main.yml.
+
+Open the file with your favorite text editor.
+
+When you first open main.yml, you will see the following:
+
+--- 
+# tasks file for nodejs 
+
+The goal of the nodejs role is to install node.js and npm. To do so, we will proceed similarly to what we did in the UserData script and use yum to perform those tasks.
+
+When writing a task in Ansible, you sequence a number of calls to various Ansible modules. The first module we are going to look at is a wrapper around the yum command. The documentation on it is available at http://bit.ly/28joDLe. This will let us install our packages. We are also going to introduce the concept of loops. Since we have two pages to install, we will want to call the yum module twice. We use the operator with_items.
+
+After the initial three dashes and comments, we are going to call the yum module in order to install our packages:
+
+--- 
+# tasks file for nodejs 
+ 
+- name: Installing node and npm 
+  yum: 
+    name: "{{ item }}" 
+    enablerepo: epel 
+    state: installed 
+  with_items: 
+    - nodejs 
+    - npm 
+
+Whenever Ansible runs that playbook, it will look at packages installed on the system and if it doesn't find the nodejs or npm package it will install them.
+
+This first role is complete. For the purpose of this book, we are keeping the role very simple, but you can imagine, in a more production-type environment, having a role that will install specific versions of node.js and npm, fetching the binaries directly from https://nodejs.org/en/, and maybe even installing specific dependencies.
+
+Our next role will be dedicated to deploying and starting the HelloWorld application we previously built. We are going to go one directory up back into the roles directory and call ansible-galaxy one more time:
+
+$ cd ..
+$ ansible-galaxy init helloworld
+- helloworld was created successfully  
+
+Like before, we will now go inside the newly created helloworld directory:
+
+$ cd helloworld  
+
+This time, we will explore some of the other directories present. One of the sub-directory that was created when we ran the ansible-galaxy command is the directory called files. Adding files to that directories will give us the ability to copy files on the remote hosts.
+
+To do so, we are first going to download our two files in this directory:
+
+$ wget http://bit.ly/2vESNuc -O files/helloworld.js
+$ wget http://bit.ly/2vVvT18 -O files/helloworld.conf  
+
+We can now use task files to perform the copy on the remote system. Open the file tasks/main.yml and, after the initial three dashes and comment, add the following:
+
+- name: Copying the application file 
+  copy: 
+    src: helloworld.js 
+    dest: /home/ec2-user/ 
+    owner: ec2-user 
+    group: ec2-user 
+    mode: 0644 
+  notify: restart helloworld 
+
+We are taking advantage of the copy module documented at http://bit.ly/1WBv08E to copy our application file in the home directory of the ec2-user. On the last line of that call, we add at the end a notify option (note how the notify statement is aligned with the call to the copy module). Notify actions are triggers that can be added at the end of each block of tasks in a playbook. In this example, we are telling Ansible to call the restart hello world directive if the file helloworld.js changed (we will define how to do a restart of the helloworld application a bit later in a different file). One of the big differences between CloudFormation and Ansible is that Ansible is expected to run multiple times throughout the lifetime of your systems. A lot of the functionalities built into Ansible are optimized for long-running instances. As such, the notify option makes it easy to trigger events when a system changes state. Similarly, Ansible will know to stop the execution when an error in encountered preventing outages as far as possible.
+
+Now that we have copied our application file, we can add our second file, the upstart script. After the previous call to copy the helloword.js file we are going to add the following call:
+
+- name: Copying the upstart file 
+  copy: 
+    src: helloworld.conf 
+    dest: /etc/init/helloworld.conf 
+    owner: root 
+    group: root 
+    mode: 0644 
+
+The last task we need to perform is to start our service. We will use the service module for that. The module documentation is available at http://bit.ly/22I7QNH:
+
+- name: Starting the HelloWorld node service 
+  service: 
+    name: helloworld 
+    state: started 
+
+Our task file is now completed. You should end up with something resembling the following: http://bit.ly/2uPlJTk. Having finished our task file, we are going to move on to the next file, which will give Ansible knowledge of how to restart helloworld as called out in the notify parameter of our task.
+
+These types of interaction are defined in the handler section of the role. We are going to edit the file handlers/main.yml. Here too, we are going to use the service module. The following is a comment:
+
+--- 
+# handlers file for helloworld 
+
+Add the following:
+
+- name: restart helloworld 
+  service: 
+    name: helloworld 
+    state: restarted 
+
+No surprises here; we are using the same module we previously used to manage the service. We need one more step in our role. In order for that role to work, the system needs to have node.js installed. Ansible supports the concept of role dependencies. We can explicitly tell that our helloworld role depends on the nodejs role we previously created such that, if the helloworld role is executed, it will first call the nodejs role and install the necessary requirements to run the app.
+
+Open the file meta/main.yml.
+
+This file has two sections. The first one under galaxy_info lets you fill in information on the role you are building. If you desire, you can ultimately publish your role on GitHub and link to it back into ansible-galaxy to share your creation with the Ansible community. The second section at the bottom of the file is called dependencies and it is the one we want to edit to make sure that nodejs is present on the system prior to starting our application.
+
+Remove the square brackets ([]) and add an entry to call nodejs as follows:
+
+dependencies: 
+  - nodejs 
+
+Your file should look like this http://bit.ly/2uOUyry.
+
+This concludes the creation of the code for the role. From a documentation standpoint, it is good practice to also edit README.md.
+
+Once done, we can move on to creating a playbook file that will reference our newly created role. 
+Creating the playbook file
+
+At the top level of our Ansible repository (two directories up from the helloworld role), we are going to create a new file called helloworld.yml. In it, we are going to add the following:
+
+--- 
+- hosts: "{{ target | default('localhost') }}" 
+  become: yes 
+  roles: 
+    - helloworld 
+
+This basically tells Ansible to execute the role HelloWorld on to the hosts listed in the variable target or localhost if the target isn't defined. The become option will tell Ansible to execute the role with elevated privileges (in our case sudo). At this point, your Ansible repository should look like this: http://bit.ly/2uPkROD. We are ready to test our playbook.
+
+Note that in practice, on a bigger scale, the roles sections could include more than a single role. If you deploy multiple applications or services to a target, you will often see playbook looking like this. We will see in later chapters more examples of this:
+
+---
+- hosts: webservers
+  roles:
+      - foo
+      - bar
+      - baz
+
+
+
+Executing a playbook
+
+Execution of playbooks is done using the dedicated ansible-playbook command. The command relies on the same Ansible configuration file as we used previously and therefore we want to run the command from the root of our Ansible repository.
+
+The syntax of the command is:
+
+ansible-playbook <playbook.yml> [options]   
+
+We will first run the following command (adapt the value of the private key option):
+
+$ ansible-playbook helloworld.yml \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -e target=ec2 \
+      --list-hosts  
+
+The option -e (or --extra-vars) allows us to pass extra options for execution. In our case, we are defining the variable target (which we declared in the hosts file of our playbook) to be equal to ec2. This first ansible-playbookcommand will tell Ansible to target all EC2 instances. The option --list-hosts will make Ansible return a list of hosts that match the hosts criteria. It won't actually run anything against those hosts.
+
+The output of the command will be something like:
+
+playbook: helloworld.yml
+
+play #1 (ec2): host count=1
+
+54.175.86.38
+
+The list-hosts option is a good way to verify your inventory and, on more complex playbooks with more specific hosts values, to verify which hosts would run actual playbooks, allowing you to verify that they are targeting the hosts you expect.
+
+We now know which hosts will be impacted if we were to use this value for the target. The next thing we want to check is what will happen if we run our playbook. The ansible-playbook command has an option -C (or --check) that will try to predict the change a given playbook will make:
+
+$ ansible-playbook helloworld.yml \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -e target=54.175.86.38 \
+      --check  
+
+PLAY [54.175.86.38] **********************************************************
+
+GATHERING FACTS ***************************************************************
+
+ok: [54.175.86.38]
+
+TASK: [HelloWorld | Installing node] ******************************************
+
+changed: [54.175.86.38]
+
+TASK: [HelloWorld | Copying the application file] *****************************
+
+changed: [54.175.86.38]
+
+TASK: [HelloWorld | Copying the upstart file] *********************************
+
+changed: [54.175.86.38]
+
+TASK: [HelloWorld | Starting the HelloWorld node service] *********************
+
+failed: [54.175.86.38] => {"failed": true}
+
+msg: no service or tool found for: helloworld
+
+ 
+
+FATAL: all hosts have already failed -- aborting
+
+PLAY RECAP ********************************************************************
+
+to retry, use: --limit @/Users/nathanielfelsen/helloworld.retry
+
+54.175.86.38 : ok=4 changed=3 unreachable=0 failed=1
+
+Running that command will execute our playbook in dry-run mode. Through that mode, we can ensure that the proper tasks will be executed. Because we are in dry-run mode, some of the modules don't really find everything they need to simulate how they would run and that's why we see that error at the end of the service module.
+
+Having verified the hosts and code, we can finally run ansible-playbook and execute our changes:
+
+$ ansible-playbook helloworld.yml \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -e target=54.175.86.38  
+
+The output is very similar to the check command except that this time the execution finished properly. Our application is now installed and configured. We can verify that it is correctly running:
+
+$ curl 54.175.86.38:3000
+Hello World  
+
+We were able to reproduce what we previously did with CloudFormation using Ansible.
+
+Now that we have tested our first playbook, we can commit our changes. We will do that in 2 commits to break down the initialization of the repository and the creation of the role:
+
+From the root of your Ansible repository, run the following commands:
+
+$ git add ansible.cfg ec2.ini ec2.py
+$ git commit -m "Configuring ansible to work with EC2"
+$ git add roles helloworld.yml
+$ git commit -m "Adding role for nodejs and helloworld"
+$ git push  
+
+Canary-testing changes
+
+One of the great benefits of using Ansible to manage services is that you can easily make changes to your code and quickly push the change. In some situations where you have a big fleet of services managed by Ansible, you may wish to push out a change just to a single host to make sure things are how you expect them to be. This is often called canary testing. With Ansible doing that is really easy. To illustrate that, we are going open the file roles/helloworld/files/helloworld.js and then simply change the response on line 11 from Hello World to Hello New World:
+
+    // Send the response body as "Hello World" 
+    response.end('Hello New World\n'); 
+}).listen(3000); 
+
+Save the file. Then run ansible-playbook again, first with the --check option:
+
+$ ansible-playbook helloworld.yml \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -e target=54.175.86.38 \
+      --check  
+
+This time Ansible detects only 2 changes. The first one overwrites the application file and the second one executes the notify statement, which means restarting the application. Seeing that it is what we expect, we can run our playbook without the --check options:
+
+$ ansible-playbook helloworld.yml \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -e target=54.175.86.38  
+
+This produces the same output as in our previous command but this time the change is in effect:
+
+$ curl 54.175.86.38:3000
+Hello New World  
+
+Our change was very simple but if we had done that same change through updating our CloudFormation template, CloudFormation would have had to create a new EC2 instance to make it happen. Here we simply updated the code of the application and pushed it through Ansible on the target host.
+
+We will now revert this change locally in Git:
+
+$ git checkout roles/helloworld/files/helloworld.js  
+
+We will remove it from the EC2 instance as we illustrate a new concept, running Ansible asynchronously.
+The sooner, the better
+Being able to push changes in seconds instead of minutes may seem like a small win but it isn't. Speed matters, It is what sets apart successful start-ups and technologies. The ability to deploy new servers in minutes instead of days is a big factor in Cloud adoption. Similarly, the recent success of containers as we will see later.
+Running Ansible in pull mode
+
+Having the ability to instantly make a change like we just did is a very valuable feature. We could easily and synchronously push the new code out and verify that the Ansible execution was successful. At a bigger scale, while being able to change anything across a fleet of servers remains as valuable as in our example, it is also sometimes a bit trickier. The risk of making changes that way is that you have to be very disciplined about not pushing changes just to a subset of hosts and forgetting other hosts that are also sharing the role that just got updated. Otherwise, very quickly, the increasing number of changes between the Ansible configuration repository and the running servers makes running Ansible a riskier operation. For those situations, it is usually preferable to use a pull mechanism that will automatically pull in the changes. Of course, you don't have to choose one or the other: it is easy to configure both push and pull mechanisms to deploy changes. Ansible provide a command called ansible-pull, which, as its name suggests, makes it easy to run Ansible in pull mode. The ansible-pull command works very much like ansible-playbook except that it starts by pulling your code from your GitHub repository.
+Installing Git and Ansible on our EC2 instance
+
+Since we need to be able to run Ansible and Git remotely, we first need to install those packages on our EC2 instance. For now, we will do that by manually installing those two packages. We will implement a reusable solution later in this chapter.
+
+Since Ansible is a perfect tool to run remote commands and has a module to manage most common needs such as installing packages, instead of logging in on the host through ssh and running some commands, we are going to use Ansible to push out those changes. We will install Git from the Epel yum repository and Ansible using pip. This will require running commands as root, which you can do with the help of the become option. Adapting the IP address of your EC2 instance, run the following commands:
+
+$ ansible '54.175.86.38' \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      --become \
+      -m yum -a 'name=git enablerepo=epel state=installed'
+    
+$ ansible '54.175.86.38' \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      --become \
+      -m pip -a 'name=ansible state=present'  
+
+With ansible-pull, our goal is for Ansible to apply the change locally; we can make a change to our Ansible repository to optimize this operation.
+Configuring Ansible to run on localhost
+
+Since ansible-pull relies on Git to clone locally the repository and execute it, we don't need the execution to happen over SSH. Go to the root directory of your Ansible repository to create a new file.
+
+The file should be called localhost and contain the following:
+
+[localhost] 
+localhost ansible_connection=local 
+
+Essentially, what we are doing is creating a static inventory and asking ansible to run commands in local (as opposed to using SSH) when the target host is localhost.
+
+We can save the changes and commit the new file to GitHub:
+
+$ git add localhost
+$ git commit -m "Adding localhost inventory"
+$ git push  
+
+Adding a cronjob to our EC2 instance
+
+We are now going to create a crontab entry to periodically call ansible-pull. Here too, we will rely on Ansible create our cronjob remotely. Run the following command adapting the IP address:
+
+$ ansible '54.175.86.38' \
+      --private-key ~/.ssh/EffectiveDevOpsAWS.pem \
+      -m cron -a 'name=ansible-pull minute="*/10" job="/usr/local/bin/ansible-pull -U https://github.com/<your_username>/ansible helloworld.yml -i localhost --sleep 60"'
+
+In the preceding command, we are telling Ansible to use the cron module targeting our ec2 instance. We are providing a name that Ansible will use to track the cronjob over time, telling cron to run the job every 10 minutes, and finally the command to execute and its parameters. The parameters we are giving to ansible-pullare the GitHub URL of our branch, the inventory file we just added to our repository, and a sleep that will make the command start at a random time between 1 and 60 seconds after the call started.
+
+This will help spread out the load on the network and prevent all node services from restarting at the same time if we have more than one server. After waiting for a bit, we can verify that our change is effective:
+
+$ curl 54.175.86.38:3000
+Hello World  
+
+After manually integrating Ansible to the EC2 instance we created using CloudFormation, we can now formalize the procedure.
+Integrating Ansible with CloudFormation
+
+While there are different strategies to integrate Ansible to CloudFormation, in our situation there is an obvious path. We are going to take advantage of the UserData field, and do the initialization of Ansible through the ansible-pull command.
+
+We are going to start off the troposphere script we created earlier in this chapter. We will duplicate it and call the new script ansiblebase-cf-template.py.
+
+Go to your template repository and duplicate the previous template as follow:
+
+$ cd EffectiveDevOpsTemplates
+$ cp helloworld-cf-template.py ansiblebase-cf-template.py  
+
+Then open the ansiblebase-cf-template.py script with your editor.
+
+To keep the script readable, we will first define several variables.
+
+Before the declaration of the application port, we will define an application name:
+
+ApplicationName = "helloworld" 
+ApplicationPort = "3000" 
+
+We will also set a number of constants around the GitHub information. Replace the value of GithubAccount with your GitHub username or GitHub organization name:
+
+ApplicationPort = "3000" 
+ 
+GithubAccount = "EffectiveDevOpsWithAWS"
+GithubAnsibleURL = "https://github.com/{}/ansible".format(GithubAccount)
+
+After the definition of GithubAnsibleURL, we are going to create one more variable that will contain the command line we want to execute to configure the host through Ansible. We will call ansible-pull and use the variables GithubAnsibleURL and ApplicationName that we just defined. This is what this looks like:
+
+AnsiblePullCmd = \ 
+    "/usr/local/bin/ansible-pull -U {} {}.yml -i localhost".format( 
+        GithubAnsibleURL, 
+        ApplicationName 
+    ) 
+
+We are now going to update the userdata block. Instead of installing nodejs, downloading our application files and starting the service, we will change this block to install git and ansible, execute the command contained in the AnsiblePullCmd variable, and finally create a cronjob to re-execute that command every 10 minutes.
+
+Delete the previous ud variable definition and replace it with the following:
+
+ud = Base64(Join('\n', [
+    "#!/bin/bash",
+    "yum install --enablerepo=epel -y git",
+    "pip install ansible",
+    AnsiblePullCmd,
+    "echo '*/10 * * * * {}' > /etc/cron.d/ansible-pull".format(AnsiblePullCmd)
+]))
+
+We can now save our file and use it to create our JSON template and test it. Your new script should look like this: http://bit.ly/2vZtvGD
+
+$ python ansiblebase-cf-template.py > ansiblebase.template
+$ aws cloudformation update-stack \
+      --stack-name HelloWorld \
+      --template-body file://ansiblebase.template \
+      --parameters  ParameterKey=KeyPair,ParameterValue=EffectiveDevOpsAWS
+{
+    "StackId": "arn:aws:cloudformation:us-east-1:511912822958:stack/HelloWorld/ef2c3250-6428-11e7-a67b-50d501eed2b3"  
+}
+
+We can now wait until the execution is complete:
+
+$ aws cloudformation wait stack-create-complete \
+      --stack-name HelloWorld
+
+Now that the stack creation is complete, we can query CloudFormation to get the output of the stack and more particularly its public IP address:
+
+$ aws cloudformation describe-stacks \
+      --stack-name HelloWorld \
+      --query 'Stacks[0].Outputs[0]'
+{
+    "Description": "Public IP of our instance.",
+    "OutputKey": "InstancePublicIp",
+    "OutputValue": "54.234.241.247"
+}  
+
+And finally, we can verify that our server is up-and-running:
+
+$ curl 54.234.241.247:3000
+Hello World  
+
+We can now commit our newly created troposphere script to our EffectiveDevOpsTemplates repository:
+
+$ git add ansiblebase-cf-template.py
+$ git commit -m "Adding a Troposphere script to create a stack that relies on Ansible to manage our application"
+$ git push  
+
+We now have a complete solution to efficiently manage our infrastructure using code. We demonstrated it on a very simple example but, as you can imagine, everything is applicable to bigger infrastructure with a greater number of services.
+
+This chapter is almost over, we can now delete our stack to free up the resources that we are currently consuming. In the earlier part the chapter, we did that using the web interface. As you can imagine, this can also be done easily using the command line interface as follow:
+
+$ aws cloudformation delete-stack --stack-name HelloWorld  
+
+
+
+    
+    
+</pre>
+
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

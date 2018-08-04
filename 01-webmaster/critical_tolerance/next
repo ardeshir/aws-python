@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>k8s</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;       
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/"><strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav"><li class="active"><a href="/about">About</a></li></ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/intro">Overview</a></li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+             <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/help">Help</a></li>
+
+            
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>What Makes Up Docker?</h1>
+    </div>
+
+    <div class="body-content">
+   <p>
+       <ul>
+ <li><b>Dockerfile:</b> It consists of instructions on how to build an image that runs our program.</li>
+ <li><b>Docker client:</b> This is a command-line program used by the user to interact with Docker daemon.</li>
+ <li><b>Docker daemon:</b> This is the Daemon application that listens for commands to manage building or running containers and pushing containers to Docker registry. It is also responsible for configuring container networks, volumes, and so on.</li>
+ <li><b>Docker images:</b> Docker images contain all the steps necessary to build a container binary that can be executed on any Linux machine with Docker installed.</li>
+ <li><b>Docker registry:</b> The Docker registry is responsible for storing and retrieving the Docker images. We can use a public Docker registry or a private one. Docker Hub is used as the default Docker registry.</li>
+ <li><b>Docker Container:</b> The Docker container is different from the Container we have been discussing so far. A Docker container is a runnable instance of a Docker image. A Docker container can be created, started, stopped, and so on.</li>
+ <li><b>Docker API: </b>The Docker client we discussed earlier is a command-line interface to interact with Docker API. This means that the Docker daemon need not be running on the same machine as does the Docker client. The default setup that we will be using throughout the book talks to the Docker daemon on the local system using UNIX sockets or a network interface
+</li></ul>
+
+<p>
+    <img src="http://dev.univrs.io/docker_arch.png" width="800px" class="img-responsive"/>
+</p>
+   </div>
+<!-- new -->    
+<div class="vertical-center">
+  
+	<div class="container well">
+	  <a href="/intro">&lt;&lt; Prev</a> | <a href="/docker">Next &gt;&gt;</a>
+
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

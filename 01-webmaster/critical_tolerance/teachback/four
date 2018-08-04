@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active"> [ NEW ]</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1> Four</h1>
+      <h2><a href="three"> &lt;&lt; Pre</a>  | <a href="one"> Start &gt;&gt;</a></h2>
+    </div>
+
+    <div class="body-content">
+<!-- start new -->  
+<h2> <a href="four">Students Do: Tamagotchi Time</a></h2>
+<p>Remember Tamagotchis? They were those little toys that contained "digital pets" which you could feed, pet,
+play with, and care for. Kind of like Furbies but a whole lot less terrifying. Over the next thirty minutes or so,
+you are going to create your own basic Tamagotchi clone using constructors.
+Create a constructor called "DigitalPal" which will create four properties and four methods...</p>
+<pre>
+// constructor function which can be used to create "digitalpal" objects
+var DigitalPal = function() {
+  this.hungry = false;
+  this.sleepy = false;
+  this.bored = true;
+  this.age = 0;
+
+  // method which feeds the digitalpal when they are hungry and sets them to sleepy
+  this.feed = function() {
+    if (this.hungry === true) {
+      console.log("That was yummy!");
+      this.hungry = false;
+      this.sleepy = true;
+    }
+    else {
+      console.log("No thanks, I'm full.");
+    }
+  };
+
+  // method which puts the digitalpal to sleep when they are sleepy, increases their age by one,
+  // and sets them to bored
+  this.sleep = function() {
+    if (this.sleepy === true) {
+      console.log("ZZzzZZZzzzZZz~~");
+      this.sleepy = false;
+      this.bored = true;
+      this.increaseAge();
+    }
+    else {
+      console.log("No way! I'm not tired!");
+    }
+  };
+
+  // method which allows the user to play with their digitalpal when they are bored and sets them to hungry
+  this.play = function() {
+    if (this.bored === true) {
+      console.log("Yay! Let's play!");
+      this.bored = false;
+      this.hungry = true;
+    }
+    else {
+      console.log("Not right now. Maybe later?");
+    }
+  };
+
+  // method which is called in "this.sleep" to increase the age of the digitalpal by one
+  this.increaseAge = function() {
+    this.age++;
+    console.log("Happy Birthday to me! I am " + this.age + " old!");
+  };
+};
+
+// creates a new "digitalpal" object with the name "dog"
+var dog = new DigitalPal();
+
+// adds the property "outside" to the "dog" object and sets it to false
+dog.outside = false;
+
+// adds the method "bark" to the "dog" obeject which prints a message to the screen
+dog.bark = function() {
+  console.log("Woof! Woof!");
+};
+
+// adds the method "letoutside" to the "dog" obeject which lets "dog" outside when it's outside
+dog.letOutside = function() {
+  if (this.outside === false) {
+    console.log("Yay! I love the outdoors!");
+    this.outside = true;
+    this.bark();
+  }
+  else {
+    console.log("We're already outside though...");
+  }
+};
+
+// adds the method "letinside" to the "dog" obeject which lets "dog" inside when it's outside
+dog.letInside = function() {
+  if (this.outside === true) {
+    console.log("Awwww... Do I have to?");
+    this.outside = false;
+  }
+  else {
+    console.log("We're already inside though...");
+  }
+};
+
+// creates a new "digitalpal" object with the name "cat"
+var cat = new DigitalPal();
+
+// adds the proptery "housequality" to the "cat" object
+cat.houseQuality = 100;
+
+// adds the "meow" method to the "cat" object which prints a message to the screen
+cat.meow = function() {
+  console.log("Meow! Meow!");
+};
+
+// adds the "destroyFurniture" method to the "cat" object which decreases the "cat.houseQuality" value by ten
+cat.destroyFurniture = function() {
+  if (this.houseQuality - 10 > 0) {
+    this.houseQuality -= 10;
+    this.bored = false;
+    this.sleepy = true;
+    console.log("MUAHAHAHAHA! TAKE THAT FURNITURE!");
+  }
+  else {
+    console.log("I've already destroyed it all!");
+  }
+};
+
+// adds the "buynewfurniture" method to the "cat" object which increases the "cat.housequality" value by fifty
+cat.buyNewFurniture = function() {
+  this.houseQuality += 50;
+  console.log("Are you sure that's a good idea?");
+};
+
+// Try calling an animal's method below
+// Example: cat.destroyFurniture();
+cat.destroyFurniture()
+</pre>
+<h4>node 04-tamagotchi.js</h4>
+<p>output :  <br/>
+<b>MUAHAHAHAHA! TAKE THAT FURNITURE!</b>
+</p>
+<!-- end new -->    
+<div class="vertical-center">
+  
+	<div class="container well"><a href="three"> &lt;&lt; Pre</a>  | <a href="one"> Start &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="module.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

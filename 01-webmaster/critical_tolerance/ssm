@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="cf">CloudFormation</a></li>
+                <li class="active">SSM</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1> Confd with SSM Parameter Store</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+<!-- start new -->  
+<h2>Confd Dynamic Configuration Management with SSM Parameter Store</h2>
+<p>The Parameter Store has the ability to store three different types of data, which can then be programmatically accessed via the SSM API. <br/>
+<h4>The three types of data are: </h4>
+<ul>
+<li>String </li>
+<li>String List and </li>
+<li>Secure String. </li></ul>
+Let's focuse on the String & Secure String options and how it can be used to store and retrieve secrets within your AWS environment with Confd.</p>
+<h4>Before we can ask confd to update our configuration files, let's store some data with SSM in the Parameter Store:</h4>
+<pre>
+aws ssm put-parameter --name "/univrs/data/url" --type "String" --value "univrs.io"
+aws ssm put-parameter --name "/univrs/data/user" --type "SecureString" --value "ubuntu"
+</pre>
+<h4>Let's view them:</h4>
+<pre>
+0> aws ssm get-parameter --name "/univrs/data/user"
+{
+    "Parameter": {
+        "Type": "SecureString", 
+        "Name": "/univrs/data/user", 
+        "Value": "AQICAHh2+A9IplQTefNHcvox10nRuvOaghThI6OpBgCnH/+Q8AHP7Rpt8/TMAFSVvaF+ekeWAAAAZDBiBgkqhkiG9w0BBwagVTBTAgEAME4GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMUPBsqHZ1ycWfOBZPAgEQgCEVfafxR66BqOrVSI/Jglf+yRNQnO8w0EcOXYu0hkycjX4="
+    }
+}
+[root@univrs]:~
+0> aws ssm get-parameter --name "/univrs/data/url"
+{
+    "Parameter": {
+        "Type": "String", 
+        "Name": "/univrs/data/url", 
+        "Value": "univrs.io"
+    }
+}
+</pre>
+<h3> 
+<h4>Great! Now let's get confd to use <b>ssm</b> as the backend store</h4>
+<pre>
+[root@univrs]:/etc/confd/conf.d
+0> <b>confd -onetime -backend ssm</b>
+2018-03-17T15:54:09Z univrs confd[4381]: INFO Backend set to ssm
+2018-03-17T15:54:09Z univrs confd[4381]: INFO Starting confd
+2018-03-17T15:54:09Z univrs confd[4381]: INFO Backend source(s) set to 
+2018-03-17T15:54:10Z univrs confd[4381]: INFO Target config /tmp/univrs.conf out of sync
+2018-03-17T15:54:10Z univrs confd[4381]: INFO Target config /tmp/univrs.conf has been updated
+</pre>
+<br/>
+<h3>Our Configuration file /tmp/univrs.conf has been updated!</h3>
+<pre>
+0> cat /tmp/univrs.conf 
+[univrs]
+univrs_url = univrs.io
+univrs_user = ubuntu
+</pre>
+<h2>But how did confd know where to find the values for our /tmp/unvirs.conf file?
+<h3>Lets look at the Toml file in /etc/confd/conf.d:</h3>
+<pre>
+[root@univrs]:/etc/confd/conf.d
+0> cat univrs.toml
+[template]
+src = "univrs.conf.tmpl"
+dest = "/tmp/univrs.conf"
+keys = [
+   "/univrs/data/url",
+   "/univrs/data/user",
+]
+</pre>
+<h3>What does our template look like?</h3>
+<pre>
+[root@univrs]:/etc/confd/conf.d
+0> ls
+univrs.toml
+[root@univrs]:/etc/confd/conf.d
+0> ls ../
+conf.d  templates
+[root@univrs]:/etc/confd/conf.d
+0> cat ../templates/univrs.conf.tmpl 
+[univrs]
+univrs_url = {{ getv "/univrs/data/url" }}
+univrs_user = {{ getv "/univrs/data/user" }}
+
+
+</pre>
+
+<h4>Documentation<h4>
+<a href="https://github.com/univrs/confd">https://github.com/univrs/confd</a>
+
+<h4>AWS Parameter Store can be found here: <h4>
+<a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/systems-manager-paramstore.html">http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/systems-manager-paramstore.html</a>
+<br/>
+<h4>Using Paramter Store with CloudFormation</h4>
+<a href="https://goo.gl/7bPkFV">Integrating AWS CloudFormation with AWS Systems Manager Parameter Store</a>
+<br/><br/>
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

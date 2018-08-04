@@ -1,3 +1,8 @@
+#!/usr/bin/python
+
+# -*- code: utf-8 -*-
+
+
 import boto3
 import click
 from botocore.exceptions import ClientError
@@ -32,7 +37,7 @@ def list_bucket_objects(bucket):
 def setup_bucket(bucket):
     """Create and configure S3 bucket"""
     s3_bucket = None
-    
+
     try:
         s3_bucket = s3.create_bucket(
            Bucket=bucket)

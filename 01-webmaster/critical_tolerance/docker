@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>k8s</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/intro">Overview</a></li>
+            <li class="active">Docker</li>
+            <li><a href="/ecs">ECS</a></li>
+             <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Docker Images</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+    <div class="body-content">
+    <!--  START MAIN BODY CONTENT -->
+    
+<h2>Why this Matters</h2>
+<h3>
+
+Traditional monolithic architectures are hard to scale. As an application's code base grows, it becomes complex to update and maintain. Introducing new features, languages, frameworks, and technologies becomes very hard, limiting innovation and new ideas.
+
+Within a microservices architecture, each application component runs as its own service and communicates with other services via a well-defined API. Microservices are built around business capabilities, and each service performs a single function. Microservices can be written using different frameworks and programming languages, and you can deploy them independently, as a single service, or as a group of services.
+
+</h3>
+    
+<h2>Introduction to the Build Process</h2>
+<p>In this introduction we'll cover an overview of Docker images, how docker uses layers to build images, and an introduction to the Dockerfile
+used by "docker build" command to create images. (Note case is important here, the "D" is upper case, and the rest in lower case).</p>
+<p>The Dockerfile contains all the instructions needed to build an image, and it must be 
+in the root of the project directory.</p>
+<p>Building an image is done with the "docker build" command. Docker looks for a Dockerfile in the base of the directory. 
+Use the -t option to name your image. The image is only available if the build completes successfully. 
+Previously built layers will be reused. The -f flag can be used to specify a different Dockerfile.</p>
+<p>Every container starts from an image. There are many images in the docker registry: <a href="https://hub.docker.com/">hub.docker.com</a> 
+to help developers get started.</p>
+<p></p>
+<h3>Image Layers</h3>
+<p><img src="https://s3.amazonaws.com/dev.univrs.io/first_layers.jpg" class="img=responsive" width="800px" ></p>
+<h3>Layers are Shared</h3>
+<p><img src="https://s3.amazonaws.com/dev.univrs.io/images_layers.jpg" class="img-responsive" width="800px" /></p>
+<h3>Images are Shared</h3>
+<p><img src="https://s3.amazonaws.com/dev.univrs.io/docker_images.jpg" class="img-responsive" width="800px" /></p>
+<h3>Base Images</h3>
+<p>What are the benefits of base images? </p>
+<ul>
+<li><b>Don't Repeat Yourself</b></li>
+<li><b>Containers should be ephemeral</b></li>
+<li><b>Using a base system allows for inheritance</b></li>
+<li><b>Base your images on official images to allow for reuse</b></li>
+</ul>
+
+<h3>Working with Files</h3>
+<p>Source paths are always relative to the Dockerfile project directory. 
+<em><b>You cannot use source files outside the Dockerfile project directory.</b></em><br/>
+Commands: <b>WORKDIR, COPY, ADD</b>. It is recommended to always use absolute paths with WORKDIR. 
+</p>
+<p>
+<b>Example:</b><br/>
+FROM debian:stretch<br/>
+WORKDIR /data <br/>
+<br/>
+<b>Example:</b><br/>
+FROM debian:stretch<br/>
+COPY src  dest  <br/>
+<em> ....you can also use JSON format: </em><br/>
+COPY ["src", "dest"]<br/>
+
+<br/>
+<b>Example:</b><br/> 
+FROM debian:stretch<br/>
+COPY test.txt /data/test.txt<br/>
+</p>
+<h2>Building Example</h2>
+<p>The destination directory or parent directories don't have to exit before <b>COPY</b> command. <br/
+It will be created automatically. Destination path can be relative or absolute. Relative paths are based on the working
+directory set with <b>WORKDIR</b>. Paths that do not end "/" are treated as a regular file. Paths that end in "/"
+is treated as a directory.</p>
+
+[root@ardeshir]:~/docker-demo <br/>
+1> docker build -t dem0  .  <br/>
+Sending build context to Docker daemon  3.072kB<br/>
+Step 1/2 : FROM debian:stretch<br/>
+stretch: Pulling from library/debian<br/>
+219d2e45b4af: Pull complete <br/>
+Digest: sha256:5fafd38cdee6c7e6b97356092b97389faa0aa069595f1c3cc3344428b5fd2339<br/>
+Status: Downloaded newer image for debian:stretch<br/>
+ ---> 72ef1cf971d1<br/>
+Step 2/2 : COPY test.txt /data/test.txt<br/>
+ ---> 7797f76796b5<br/>
+Removing intermediate container 6da02b3061fa<br/>
+Successfully built 7797f76796b5<br/>
+Successfully tagged dem0:latest<br/>
+[root@ardeshir]:~/docker-demo<br/>
+0> docker run --rm -it dem0<br/>
+root@a8de718353f0:/# cd /data<br/>
+root@a8de718353f0:/data# ls -la<br/>
+total 12<br/>
+drwxr-xr-x  2 root root 4096 Oct  1 21:31 .<br/>
+drwxr-xr-x 28 root root 4096 Oct  1 21:32 ..<br/>
+-rw-r--r--  1 root root   17 Oct  1 21:29 test.txt<br/>
+root@a8de718353f0:/data# cat test.txt<br/>
+I am a test file<br/>
+<br/>
+<h3>ADD Command</h3>
+The <b>ADD</b> command works like <b>COPY</b> with additional features. For example, it can fetch files from 
+the internet and copy them to the destination. If neither the source url or the destination end with a slash, 
+the file is downloaded and copied to the destination. If both the source url and the destination end with a slash, the
+downloaded file is copied into the destination directory with that name. <br/>
+<b>ADD</b> https://root/something/  /dest/ .... it would be placed in /dest/something.<br/>
+<b>ADD</b> can unpack local tar files. The files can be compressed with gzip, bzip2, and xz. This feature does not
+work for URLs, only local files.
+<p></p>
+<h3>Running Command</h3>
+<p></p>
+<h3>Running </h3>
+<p></p>
+<h3>Connecting</h3>
+<p></p>    
+    
+    
+<h3>Docker cmdline examples:</h3>
+ <p>     
+0> docker container run -it --name=bb busybox:1.26<br/>
+Unable to find image 'busybox:1.26' locally<br/>
+1.26: Pulling from library/busybox<br/>
+27144aa8f1b9: Pull complete <br/>
+Digest: sha256:be3c11fdba7cfe299214e46edc642e09514dbb9bbefcd0d3836c05a1e0cd0642<br/>
+Status: Downloaded newer image for busybox:1.26<br/>
+/ # ps aux<br/>
+PID   USER     TIME   COMMAND<br/>
+    1 root       0:00 sh<br/>
+    5 root       0:00 ps aux<br/>
+/ # ls -la<br/>
+Mem: 2111880K used, 1741328K free, 5892K shrd, 267036K buff, 1390336K cached<br/>
+CPU:  0.0% usr  0.0% sys  0.0% nic  100% idle  0.0% io  0.0% irq  0.0% sirq<br/>
+Load average: 0.00 0.00 0.00 2/223 8<br/>
+  PID  PPID USER     STAT   VSZ %VSZ CPU %CPU COMMAND<br/>
+    1     0 root     S     1204  0.0   0  0.0 sh<br/>
+    8     1 root     R     1196  0.0   0  0.0 top<br/>
+<br/>
+/ # Crt-D (exit) <br/>
+[root@ardeshir]:~ <br/>
+130> docker attach bb <br/>
+You cannot attach to a stopped container, start it first<br/>
+[root@ardeshir]:~<br/>
+1> docker start bb<br/>
+bb<br/>
+[root@ardeshir]:~ <br/>
+0> docker attach bb<br/>
+/ # <br/>
+<h4>Show Docker Disk Usage: system df</h4>
+[root@ardeshir]:~ <br/>
+1> docker system df<br/>
+<table class="table table-striped"><thead>
+<tr><th>TYPE </th><th>               TOTAL </th><th>              ACTIVE     </th><th>         SIZE      </th><th>          RECLAIMABLE</th></tr></thead>
+<tbody>
+<tr><td>Images </td><td>             17     </td><td>             9        </td><td>           3.436GB       </td><td>      2.515GB (73%)</td></tr>
+<tr><td>Containers  </td><td>        16    </td><td>              5       </td><td>            177.5MB       </td><td>      166MB (93%)</td></tr>
+<tr><td>Local Volumes    </td><td>   5           </td><td>        3       </td><td>            74.92MB     </td><td>        106.7kB (0%)</td></tr>
+ </tbody>
+ </table>
+ 
+ </p>
+       
+       <hr/>
+<h2>Docker Reading List<h2>
+<p>
+<h4>Evolution of Containers - Docker, Solaris Zones, BSD Jails and more</h4> 
+
+<a href="https://aucouranton.com/2014/06/13/linux-containers-parallels-lxc-openvz-docker-and-more/">https://aucouranton.com/2014/06/13/linux-containers-parallels-lxc-openvz-docker-and-more/</a>
+
+<h4>The Docker Story</h4>
+
+<a href="https://www.forbes.com/sites/alexkonrad/2015/07/01/how-docker-escaped-near-death-to-become-softwares-next-big-thing/">
+https://www.forbes.com/sites/alexkonrad/2015/07/01/how-docker-escaped-near-death-to-become-softwares-next-big-thing/</a>
+
+<h4>What is Docker by Docker</h4> 
+
+<a href="https://www.docker.com/what-docker">https://www.docker.com/what-docker</a>
+
+<h4>Who is using Docker and How</h4>
+
+<a href="https://www.docker.com/customers">https://www.docker.com/customers</a>
+
+<h4>Docker vs Vagrant</h4>
+
+<a href="https://www.upguard.com/articles/docker-vs-vagrant">https://www.upguard.com/articles/docker-vs-vagrant</a>
+</p>
+    </div>
+    
+<!-- new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/next">&lt;&lt; Prev</a> 
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS K8S</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/"><strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+    <ul id="w1" class="navbar-nav navbar-right nav"><li class="active"><a href="/about">About</a></li>
+    <li><a href="/intro">Overview</a></li><li><a href="/docker">Docker</a></li>
+    <li><a href="/help">Help</a></li></li></ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li class="active">Home</li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/intro">Overview</a></li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+            <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/teachback/">JavaScript</a></li>
+            <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Kubernetes on AWS: Kops</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+        <h3>Step by Step guide to building a container orchestration solution for Devs<h3/>
+
+<p>Prep:  Add/Export your access key and secret access key for awscli to function.</p>
+
+<h3>The following IAM permissions are required to function properly:</h3>
+<ul>
+<li>AmazonEC2FullAccess</li>
+<li>AmazonRoute53FullAccess</li>
+<li>AmazonS3FullAccess</li>
+<li>IAMFullAccess</li>
+<li>AmazonVPCFullAccess</li>
+</ul>
+
+<p>0>  ssh-keygen -t rsa</p>
+
+<p>1>  [ download kops & kubecrl ] *  see requirements below</p>
+
+<p>2> aws s3 mb k8s.lifetouch.us</p>
+
+<p>3> export KOPS_STATE_STORE=s3://k8s.lifetouch.us</p>
+
+<p>4> export NAME=lifetouch.us</p>
+
+<p>5> kops create cluster --zones us-east-1c ${NAME}<br/>
+I0920 22:18:56.111767    6770 create_cluster.go:659] Inferred --cloud=aws from zone "us-east-1c"<br/>
+I0920 22:18:56.112460    6770 create_cluster.go:845] Using SSH public key: /root/.ssh/id_rsa.pub<br/>
+I0920 22:18:56.162206    6770 subnets.go:183] Assigned CIDR 172.20.32.0/19 to subnet us-east-1c<br/>
+</p>
+<p>6> kops update cluster ${NAME} --yes</p>
+
+<p>7> kubectl get nodes</p>
+<p>
+NAME                            STATUS     AGE       VERSION<br/>
+ip-172-20-33-44.ec2.internal     NotReady   12s       v1.7.2<br/>
+ip-172-20-42-150.ec2.internal   Ready         2m        v1.7.2<br/>
+ip-172-20-42-165.ec2.internal   NotReady   17s       v1.7.2<br/>
+</p>
+
+<p>8> kubectl get nodes</p>
+<p>NAME                            STATUS    AGE       VERSION<br/>
+ip-172-20-33-44.ec2.internal     Ready     1m        v1.7.2<br/>
+ip-172-20-42-150.ec2.internal   Ready     3m        v1.7.2<br/>
+ip-172-20-42-165.ec2.internal   Ready     1m        v1.7.2<br/>
+
+<p>
+9>  ssh to the master: ssh -i ~/.ssh/id_rsa admin@api.lifetouch.us</p>
+
+
+<p>10> kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml</p>
+serviceaccount "kubernetes-dashboard" created<br/>
+clusterrolebinding "kubernetes-dashboard" created<br/>
+deployment "kubernetes-dashboard" created<br/?
+service "kubernetes-dashboard" created<br/></p>
+
+<p>11> cat ~/.kube/config</p>
+<p>..........<br/>
+    username: admin<br/>
+    password: x8MTmskS34wraPpAYsVpu9ReCFMdNNRI<br/>
+</p>
+<p>Login to dashboard:<br/>
+https://api.lifetouch.us</p>
+
+</p>
+<h2> BUILD IMAGES and PUSH TO AWS</h2>
+
+<p>0>  git clone https://github.com/ardeshir/dock8s.git
+</p>
+<p>1> cd dock8s</p>
+
+<p>2> docker build -t nodejs . </p>
+
+<h2>  CREATE A REPO,  login  and push your docker images</h2>
+
+<img src="https://s3.amazonaws.com/dev.univrs.io/ecr_aws_registry.jpg" class="img-responsive" width="800px"/>
+
+<h2>Documentation</h2>
+
+<ul>
+    
+<li>Requirements:  kops and kubectl binaries</li>
+
+<li>docs: <a href="https://kubernetes.io/docs/getting-started-guides/kops/">https://kubernetes.io/docs/getting-started-guides/kops/</a></li>
+
+<li>docs: <a href="https://github.com/kubernetes/kops/blob/master/docs/aws.md">https://github.com/kubernetes/kops/blob/master/docs/aws.md</a></li>
+
+<li>docs: <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/">https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/</a></li>
+
+<li>curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+</li>
+<li>wget https://github.com/kubernetes/kops/releases/download/1.7.0/kops-linux-amd64<br/>
+chmod +x kops-linux-amd64 <br/>
+mv kops-linux-amd64 /usr/local/bin/kops<br/>
+ </li>
+ <li>Docker download: <a href="https://download.docker.com/linux/static/stable/x86_64/"> linux  /static/stabe/x86_64</a></li>
+ </ul>  
+    
+    </div>
+    
+<!-- new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

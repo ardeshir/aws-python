@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS Machine Learning</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li class="active">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li><a href="/cert">Cert</a></li>
+                 <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>AWS Machine Learning: Building Intelligent Business Solutions </h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+<!-- start new --> 
+<h3>Overview</h3>
+<ul>
+<li><a href="https://docs.google.com/presentation/d/1kSuQyW5DTnkVaZEjGYCkfOxvzCqGEFzWBy4e9Uedd9k/mobilepresent?slide=id.g1e301fae90_1_0">Introduction to ML</a>
+
+<li><a href="https://youtu.be/aircAruvnKk">Video 1: But what *is* a Neural Network?</a></li>
+
+<li><a href="https://youtu.be/IHZwWFHWa-w">Video 2: Gradient descent, how neural networks learn</a></li>
+
+<li><a href="https://medium.com/the-theory-of-everything/understanding-activation-functions-in-neural-networks-9491262884e0">Activation Functions</a></li>
+
+<li><a href="https://docs.google.com/presentation/d/1uYSM7hR8H6aNv6hGkzfS05ojQiuVOgnq5ASLpGy8IGk/mobilepresent?slide=id.p">Review</a></li>
+
+</ul>
+
+<h4>Useful Links</h4>
+<ul>
+<li><a href="https://aws.amazon.com/machine-learning/">Machine learning</a></li>
+<li><a href="https://aws.amazon.com/machine-learning/developer-resources/">Developer resources</a></li>
+<li><a href="http://docs.aws.amazon.com/machine-learning/latest/dg/what-is-amazon-machine-learning.html">What is amazon machine learning?</a></li>
+<li><a href="http://docs.aws.amazon.com/machine-learning/latest/dg/amazon-machine-learning-key-concepts.html">Amazon machine learning key concepts</a></li>
+<li><a href="http://docs.aws.amazon.com/machine-learning/latest/dg/evaluating_models.html">Evaluating models</a></li>
+<li><a href="https://aws.amazon.com/blogs/big-data/building-a-binary-classification-model-with-amazon-machinelearning-and-amazon-redshift/">Machinelearning and amazon redshift</a></li>
+<li><a href="http://docs.aws.amazon.com/machine-learning/latest/dg/training-ml-models.html">Training ML models</a></li>
+</ul>   
+
+<h3>Machine Learning: Building Intelligent Business Solutions</h3>
+<h4>Problem Framing</h4>
+<pre>
+
+1: Identify your problem space
+Broadly speaking, what is your goal?
+(e.g. Build a system that routes contacts better)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+2: Identify the success metric for your business problem
+What defines success in this problem space? What is the metric you are most interested in?
+(e.g. Success for Intelligent Routing (IR) was defined by reducing transfers. The metric of interest
+is the transfer rate)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+3: Conduct opportunity analysis
+Is there currently anything in production performing this operation? How is it performing? How
+many errors is it making? What kind of errors is it making?
+(e.g. We had rules in place to determine transfers, it was making a lot of errors, big opportunity
+to improve)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+4: Understanding the problem space and identifying key people.
+Who are the people involved in this problem space? Who are the domain experts? Who owns
+the data?
+(e.g. Additional people involved in Intelligent Routing were the CS agents, their managers and
+capacity planners, SDEs that own the routing system, and data engineers)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+5: Framing your problem as an ML problem
+5a: Are you trying to predict a discrete value (e.g. Kindle vs Non-Kindle) or a continuous value
+(e.g. a price)? That is, do you want to do classification or regression?
+______________________________________________________________________________
+5b: If discrete, how many possible outcomes are there? (e.g. [Kindle, Non-kindle] = 2, [Kindle,
+AWS, Returns, Where’s My Stuff] = 4)
+______________________________________________________________________________
+5c: Do you care about the top 1 or top X?
+______________________________________________________________________________
+5d: Is it possible to have multiple outcomes for the same data point? (e.g. someone could be
+calling about a kindle problem AND returning a package)
+______________________________________________________________________________
+5e: What is the relationship between these predictions and the problem space? How can we
+use these prediction to make a data-driven business decision?
+(e.g. We can try routing customers based on the most likely issues predicted by the model)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+6: Given all of the above, can you convert your general problem statement to an ML problem
+statement?
+(e.g. Can we reduce transfers by building a model that predicts the most likely 3 customer issue
+for any given customer and presenting predictions as personalized options in the phone IVR?)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+Data
+1: How do you get the data? Fetch a small sample to test the data fetching method.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+2: What format is the data? The most common format is a .csv or a JSON.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+3: Time to explore the data. Does your data already have labels? This determines whether you
+can use supervised machine learning techniques.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+4: If there is no obvious label, what could you use as a label? (If you do not have any labels,
+you will need to explore semi-supervised or unsupervised techniques, detailed in future
+courses)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+4a: If so, how many labels are there? Which labels are common and which labels are rare? Are
+there any labels you might want to exclude from the model for a business reason?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+5: What other data sources might existing for your problem space? Can you augment your
+current data in any way to make it bigger and better?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+6: After performing a manual analysis of a random sample (e.g. reading 50 phone call
+records), does it seem like there is generally enough information for a human to guess the
+label?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+7: What kinds of data points (features) are there? Can you imagine any other kinds of data
+points that might be useful for this classification task?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+8: Is there anything odd-seeming about your data? Missing data points? Anything that does
+not match your expectations? (e.g. Why don’t I see any phone calls related to XXXX?)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+9: Visualize the distribution of your labels. Are any labels very rare? Are any labels more
+important from a business perspective? Do you want to exclude any labels from your model?
+(e.g. We always want certain phone calls to go to a certain skill group)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+10: Given the quantity of data, what is the best experimental set up (how do you want to split
+your data across training, development and test sets?) If you do not have a lot of data
+(hundreds or low thousands of observations), you may want to try 80%-10%-10%, otherwise,
+try 70%-15%-15%.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+Modeling
+Evaluation
+In order to calculate precision and recall, you need to decide which class if your “positive class”.
+This is somewhat arbitrary, but you can think of it as which label is your model designed to
+detect. (e.g. Our positive was Kindle and our negative was “Not-Kindle”)
+1: What is your positive class?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+2: Is accuracy a meaningful metric for your problem? If you have an unbalanced problem,
+where the positive class is much rarer than the negative class, accuracy may not be meaningful.
+Check your answer to question 4a from the data section.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+3: Fill our your 2x2 error matrix. How many false positive and false negatives did your model
+produce?
+4: What is the precision for this model? What is the recall for this model? How does this
+compare to your baseline system’s performance?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+5: Can you describe in words what is a false positive for your business problem? (e.g. A false
+positive for IR was when we predicted a contact was Kindle but the True label was Not-Kindle)
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+6: For your business problem, do you want to prioritize precision or recall? Are false positives
+more expensive than false negatives? Do you want to prioritize them equally?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Feature Engineering
+The best place to start for feature engineering is error analysis. Look at a sample of 20 of the
+errors that are the most expensive to your business problem (false positive or false negatives).
+For each error, examine the data point and look at the prediction.
+1: Can you take a guess at what features may have led the model to make this mistake? Do
+you see any patterns in why these mistakes are happening?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+2: Pick the most convincing pattern you identified in the previous step. In consultation with
+your domain experts and your own intuition, can you imagine some kind of information that
+would help the model learn to correct this kind of mistake?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+3: Given that you would like to make this kind of information available to your model during
+training, how can you actually construct a feature that represents this kind of information?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+4: Most features fall into one of three categories: numerical (a real number), categorical
+(discrete value) and binary (categorical with only two options). Which of these feature types
+makes the most sense for the feature you want to build?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+5: How will you build this feature? Is this a feature that you can create from your existing
+data? It may be the case that this information is not present in your original data set.
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+You can repeat this entire process for other error patterns identified during error analysis, and
+you can also repeat the process for the other type of error (FP/FN)
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+Application
+Before you launch your model, you will want to revisit your business metric. Talk to your
+domain experts and work to decide how to relate model performance to your business metric.
+This part is a bit tricky, but try looking at individual cases.
+1: In shadow mode, if you act on the model prediction instead of the action taken by the
+baseline, would you have the same outcome? What might change as a result of acting on the
+model’s suggestion?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+2: This is a good time to think about what will happen when you model makes a mistake.
+What kinds of errors are you seeing in your offline experiments or in shadow mode? How do
+these errors change the customer experience?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+3: If you model breaks and the system goes offline, what back up will you have to ensure that
+the customer experience does not degrade too much?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+4: In your estimation, is the model likely to improve performance in terms of your business
+metric?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+If you answered yes to the above question, you are ready to perform A/B testing. Start by
+randomly applying your treatment to a small group of customers, maybe 1% of the volume. 
+Machine Learning: Building Intelligent Business Solutions
+Course Worksheet
+Take this opportunity to ensure that the data from your launch is being logged properly. This is
+also another opportunity to do error analysis.
+5: Are there errors that from the 1% treatment group similar to what you saw in offline
+experimentation?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+6: Based on what you see in 1% treatment, do you still think this model will meet your
+business needs?
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+If so, you can ramp up to 5%, repeat the process with the eventual goal of running a 50% A/B
+test. The amount of time needed to run your experiment will depends on your use case, but
+you will want to make sure that you run for a long enough time period to a) gather sufficient
+data for significance testing and b) gather data from a wide enough time frame to be
+representative. As a suggestion, two full weeks of A/B testing is what we used for the Intelligent
+Routing system.
+</pre>
+
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

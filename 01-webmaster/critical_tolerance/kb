@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS CLI Knowledge</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active">KB</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Knowledge Base</h1>
+ 
+    </div>
+
+    <div class="body-content">
+<!-- start new -->  
+<h4>Account number with sts</h4>
+<pre>
+Account="$(aws sts get-caller-identity --query 'Account' --output text)"
+echo $Account
+</pre>
+<h4>Create AMI, grab  Instance Id, stop and start it!</h4>
+<pre>
+
+STACK=Amazon-Linux-Instance
+AWS_REGION=us-east-1
+aws cloudformation create-stack --stack-name $STACK --region $AWS_REGION --template-body file://"$(pwd)"/create-ami.yml \
+--parameters '[{"ParameterKey":"KeyName", "ParameterValue":"'$KEYNAME'"},{"ParameterKey":"AMI", "ParameterValue":"'$AMI'"}]'
+
+Instance_id=$(aws cloudformation --region $AWS_REGION describe-stack-resources --stack-name vpc-microservices --query "StackResources[?ResourceType=='AWS::EC2::Instance'].PhysicalResourceId" --output text)
+echo $Instance_id
+
+aws ec2 stop-instances --region $AWS_REGION  --instance-ids $Instance_id 
+aws ec2 wait instance-stopped --region $AWS_REGION --instance-ids $INSTANCE_ID
+aws ec2 start-instances --region $AWS_REGION  --instance-ids $Instance_id 
+
+DNS=$(aws ec2 describe-instances --region $AWS_REGION --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicDnsName" --output text)   
+echo "DNS=$DNS"
+
+IMAGE_ID=$(aws ec2 create-image --region $AWS_REGION --instance-ids $INSTANCE_ID --name "cis-amazon-linux-$RANDOM$RANDOM" --query "ImageId" --output text)
+aws ec2 wait image-available --region $AWS_REGION --image-ids $IMAGE_ID --filter Name=state,Values=available 
+echo "IMAGE_ID=$IMGAGE_ID"
+
+echo "deleting instance..."
+aws cloudformation delete-stack --stack-name $STACK --region $AWS_REGION 
+aws cloudformation wait stack-delete-complete --stack-name $STACK --region $AWS_REGION 
+
+</pre>
+<!-- 
+<pre>
+
+ardeshir$ aws --profile pcargill ec2 describe-vpcs --filters "Name=tag:Name,Values=*" --query 'Vpcs[].VpcId' --output text 
+
+vpc-5543cd2d	vpc-02f3f179	vpc-1da29566
+
+ardeshirs-MacBook-Pro:CloudFormation_Deep_Dive ardeshir$ aws --profile pcargill ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-5543cd2d" --query 'Subnets[].[Tags[?Key==`Name`]|[0].Value,SubnetId,CidrBlock,Tags[?Key==*]|[0].Value,AvailableIpAddressCount,AvailabilityZone]' --output table
+
+-----------------------------------------------------------------------------
+
+|        [Describe Subnets: aws default vpc: vpc-5543cd2d]                            |
+
++------+-------------------+-----------------+-------+-------+--------------+
+
+|  None|  subnet-a3158dc7  |  172.31.0.0/20  |  None |  4091 |  us-east-1a  |
+
+|  None|  subnet-c14a49cd  |  172.31.64.0/20 |  None |  4091 |  us-east-1f  |
+
+|  None|  subnet-c6ee2e9b  |  172.31.32.0/20 |  None |  4091 |  us-east-1d  |
+
+|  None|  subnet-2ed11e01  |  172.31.80.0/20 |  None |  4091 |  us-east-1b  |
+
+|  None|  subnet-bc870ff7  |  172.31.16.0/20 |  None |  4091 |  us-east-1c  |
+
+|  None|  subnet-b222908d  |  172.31.48.0/20 |  None |  4091 |  us-east-1e  |
+
++------+-------------------+-----------------+-------+-------+--------------+
+
+
+
+
+
+ardeshir$ aws --profile pcargill ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-02f3f179" --query 'Subnets[].[Tags[?Key==`Name`]|[0].Value,SubnetId,CidrBlock,Tags[?Key==*]|[0].Value,AvailableIpAddressCount,AvailabilityZone]' --output table
+
+---------------------------------------------------------------------------
+
+|   [Describe Subnets CloudformwerVPC:vpc-02f3f179 ]                     |
+
++------+-------------------+----------------+-------+------+--------------+
+
+|  None|  subnet-23ca1f44  |  10.10.10.0/24 |  None |  250 |  us-east-1a  |
+
++------+-------------------+----------------+-------+------+--------------+
+
+
+
+
+
+ardeshir$ aws --profile pcargill ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-1da29566" --query 'Subnets[].[Tags[?Key==`Name`]|[0].Value,SubnetId,CidrBlock,Tags[?Key==*]|[0].Value,AvailableIpAddressCount,AvailabilityZone]' --output table
+
+----------------------------------------------------------------------------------------
+
+|     [ Describe Subnets  cargill_main: vpc-1da29566 ]                                 |
+
++---------------------+------------------+---------------+-------+------+--------------+
+
+|  public-us-east-1a  |  subnet-e519db82 |  10.0.0.0/24  |  None |  248 |  us-east-1a  |
+
+|  public-us-east-1c  |  subnet-a57cf0ef |  10.0.2.0/24  |  None |  247 |  us-east-1c  |
+
+|  public-us-east-1b  |  subnet-36dc2618 |  10.0.1.0/24  |  None |  248 |  us-east-1b  |
+
+|  private-us-east-1c |  subnet-527ef218 |  10.0.12.0/24 |  None |  238 |  us-east-1c  |
+
+|  private-us-east-1b |  subnet-86dd27a8 |  10.0.11.0/24 |  None |  239 |  us-east-1b  |
+
+|  private-us-east-1a |  subnet-0624e661 |  10.0.10.0/24 |  None |  250 |  us-east-1a  |
+
++---------------------+------------------+---------------+-------+------+--------------
+
+
+$aws --profile dcargill ec2 describe-vpcs --query 'Vpcs[].VpcId' --output text
+vpc-d6dfdead	vpc-29482150
+
+$ aws --profile dcargill ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-d6dfdead" --query 'Subnets[].[Tags[?Key==`Name`]|[0].Value,SubnetId,CidrBlock,Tags[?Key==*]|[0].Value,AvailableIpAddressCount,AvailabilityZone]' --output table
+----------------------------------------------------------------------------------------
+|               [ Describe Subnets cargill_main: vpc-d6dfdead                          |
++---------------------+------------------+---------------+-------+------+--------------+
+|  public-us-east-1b  |  subnet-8a6ffec0 |  10.0.1.0/24  |  None |  250 |  us-east-1b  |
+|  public-us-east-1a  |  subnet-0909c627 |  10.0.0.0/24  |  None |  246 |  us-east-1a  |
+|  private-us-east-1b |  subnet-811b8acb |  10.0.11.0/24 |  None |  250 |  us-east-1b  |
+|  private-us-east-1c |  subnet-d4cf0288 |  10.0.12.0/24 |  None |  250 |  us-east-1c  |
+|  private-us-east-1a |  subnet-c602cde8 |  10.0.10.0/24 |  None |  249 |  us-east-1a  |
+|  public-us-east-1c  |  subnet-7ecf0222 |  10.0.2.0/24  |  None |  249 |  us-east-1c  |
++---------------------+------------------+---------------+-------+------+--------------+
+
+$ aws --profile dcargill ec2 describe-subnets --filters "Name=vpc-id,Values=vpc-29482150" --query 'Subnets[].[Tags[?Key==`Name`]|[0].Value,SubnetId,CidrBlock,Tags[?Key==*]|[0].Value,AvailableIpAddressCount,AvailabilityZone]' --output table
+-----------------------------------------------------------------------------
+|           [ Describe Subnets AWS Default: vpc-29482150                    |
++------+-------------------+-----------------+-------+-------+--------------+
+|  None|  subnet-ec306ea4  |  172.31.16.0/20 |  None |  4091 |  us-east-1b  |
+|  None|  subnet-a44dd1fe  |  172.31.32.0/20 |  None |  4091 |  us-east-1c  |
+|  None|  subnet-e87c18c4  |  172.31.80.0/20 |  None |  4091 |  us-east-1a  |
+|  None|  subnet-b87f91dc  |  172.31.0.0/20  |  None |  4091 |  us-east-1d  |
+|  None|  subnet-1c494120  |  172.31.48.0/20 |  None |  4091 |  us-east-1e  |
+|  None|  subnet-f91460f5  |  172.31.64.0/20 |  None |  4090 |  us-east-1f  |
++------+-------------------+-----------------+-------+-------+--------------+
+
+</pre>
+
+-->
+
+<!-- end new -->    
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="module.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

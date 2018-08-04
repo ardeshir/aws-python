@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>JavaScript Calc </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li><a href="/learnjs/">JS Alarm</a></li>
+                <li><a href="/teachback/">Teach Back</a></li>
+                <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>           
+            <div class="site-about">
+   <div class="jumbotron">
+        <h1> JavaScript Modules</h1>
+ </div>
+<div class="body-content">
+<!-- start new -->  
+
+<div class="container">
+ <div class="row calc-row">
+      <div id="calculator-results"></div>
+ </div>
+
+<div class="row calc-row">
+<button class="col-sm-3" data-value="1">1</botton>
+<button class="col-sm-3" data-value="2">2</botton>
+<button class="col-sm-3" data-value="3">3</botton>
+</div>
+<div class="row calc-row">
+<button class="col-sm-3" data-value="4">4</botton>
+<button class="col-sm-3" data-value="5">5</botton>
+<button class="col-sm-3" data-value="6">6</botton>
+</div>
+
+<div class="row calc-row">
+<button class="col-sm-3" data-value="7">7</botton>
+<button class="col-sm-3" data-value="8">8</botton>
+<button class="col-sm-3" data-value="9">9</botton>
+</div>
+
+<div class="row calc-row">
+<button class="col-sm-3" data-value="*">*</botton>
+<button class="col-sm-3" data-value="0">0</botton>
+<button class="col-sm-3" data-value="#">CL</botton>
+</div>
+
+<div class="row calc-row">
+<button class="col-sm-3" data-value="+">+</botton>
+<button class="col-sm-3" data-value="-">-</botton>
+<button class="col-sm-3" data-value="=">=</botton>
+</div>
+
+
+</div>
+
+<br/><br/>
+<pre>
+(function(){
+    
+    let element = document.getElementById("calculator-results");
+    
+        function buttonPress (value) {
+               if(value == "=") {
+                    evalResult();
+                    return;
+                }
+                if(value == "#") {
+                    element.innerHTML = '';
+                    return;
+                }
+            element.innerHTML += `${value}`;
+        }
+        
+        function evalResult() {
+            element.innerHTML = eval(element.innerHTML);
+        }
+    
+    
+    document.addEventListener("click", function(e){
+        let target = e.target;
+        
+        if(!target.matches("button[data-value]")) {
+            return;
+        }
+        
+        buttonPress(target.getAttribute("data-value"));
+        
+    });
+    
+    return {
+        buttonPress,
+        evalResult
+    };
+     
+})();  
+
+// calculator();
+
+</pre>
+<!-- end new --> 
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+      </div>
+ 
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="decouple.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

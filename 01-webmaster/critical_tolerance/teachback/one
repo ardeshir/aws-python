@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active">JavaScript</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1> One</h1>
+        <h2> <a href="two">Next &gt;&gt;</a></h2>
+   </div>
+
+    <div class="body-content">
+<!-- start new --> 
+<h2>Objects Review: How many ways can we build an object</h2>
+
+<pre>
+'use strict';
+//  use strict causes JS to throw errors when otherwise it would just 
+//  silently fail
+//  also it disallows the use of deprecated features 
+// PLUNKER LINK
+//  <a href="http://plnkr.co/edit/FOjJx2IJgsuLSMJdnH1k?p=preview">http://plnkr.co/edit/FOjJx2IJgsuLSMJdnH1k?p=preview</a>
+</pre>
+
+<h3>1)   Create an 'Object literal' with var obj = {}  </h3>
+<pre>
+
+var cat = { 
+  name: 'Ms Stinky', 
+  color: 'white',
+  raining: true,
+  
+  speak: function() {
+       console.log("Meow")
+  }
+}
+
+cat.age = 3
+if( cat.raining ) { 
+cat.speak();    //  what will print here?
+}
+
+cat.raining = false
+  
+ if (!cat.raining) {
+      console.log(cat.age) // what will print here?
+  }
+</pre>
+
+<pre>
+// creates an object and set it to "dogs"
+var dogs = {
+  // creates the property "raining" and sets it to true
+  raining: true,
+  // creates the property "noise" and sets it to "Woof!"
+  noise: "Woof!",
+  // creates the method "makeNoise", which when called, prints dogs.noise if .raining is true
+  makeNoise: function() {
+  // the 'this' keyword refers to the object it's called from
+  // i.e. this.raining refers to the raining property of 'this' particular object
+    if (this.raining === true) {
+      console.log(this.noise);
+    }
+  }
+};
+
+// creates an object with a similar layout to "dogs" and sets it to "cats"
+var cats = {
+  raining: false,
+  noise: "Meow!",
+  makeNoise: function() {
+    if (this.raining === true) {
+      console.log(this.noise);
+    }
+  }
+};
+
+// calls the "makeNoise" methods for both objects
+dogs.makeNoise();
+cats.raining = true;
+cats.makeNoise();
+
+// creates a function called "massHysteria" which takes in both objects and
+// prints a message to the screen if ".raining" is true for both of them
+var massHysteria = function(dogs, cats) {
+  if (dogs.raining === true && cats.raining === true) {
+    console.log("DOGS AND CATS LIVING TOGETHER! MASS HYSTERIA!");
+  }
+};
+
+massHysteria(dogs, cats);
+</pre>
+<h3> node one.js <br/
+<b> output > </b></h3>
+
+<pre>
+Woof!
+Meow!
+DOGS AND CATS LIVING TOGETHER! MASS HYSTERIA!   
+</pre>
+<h2> Let's look at other ways to build objects</h2>
+
+<h3>2)   Constructor Functions (with new keyword) </h3>
+<pre><b>
+//  the 'new' keyword  is followed by a function to initialize the object
+//  new is using the constructor function </b>
+
+ function Cat(name, color) {
+   this.name = name
+   this.color= color
+   this.raining = true
+ }
+var fluffy = new Cat('Fluffy', 'White')
+var muffin  = new Cat('Muffin', 'Brown')
+
+//  The  'this' keyword refers to an object, that object is whatever object 
+//  executing the current bit of code, by default it's the "global Object", 
+//  in the browser it's window object
+
+</pre>
+<h4><a href="two">Next &gt;&gt;</a></h4>
+
+<h3>3)   using  Object.create , passing Object.prototype  <a href="three">Next &gt;&gt;</a></h3>
+<pre>
+//  it's a lot of work doing it this way, 
+
+var cat = Object.create(Object.prototype,{
+ name: {   // creating properties and and their values 
+   value: 'Ms Strinky',
+   enumerable: true,
+   writable: true,
+   configurable: true
+ },
+  color: {
+    value: 'Blue',
+     enumerable: true,
+     writable: true,
+     configurable: true
+  },
+  raining: {
+    value: true,
+     enumerable: true,
+     writable: true,
+     configurable: true
+  }
+  
+})
+
+// view Properties 
+console.log(Object.keys(cat) )  
+console.log(fluffy.hasOwnProperty('age'))
+
+// if enumerable is set to true, and JSON.stringify(cat) will work too
+console.log(Object.getOwnPropertyDescriptor(cat, 'name'))
+
+for( var propertyName in cat ) {   // if enumerable is set to true
+    console.log(propertyName + ' :  ' + cat[propertyName])   // see name & value  
+}
+
+Object.defineProperty(cat, 'name', { enumerable: false } ) 
+
+// Properties 
+/* 
+Cat {
+value: fluffy
+writable: true
+enumerable: true
+configurable: true
+} */
+
+</pre>
+
+<h3>4)   ES6 Class syntax sugar, but it's using prototypes (ES6/EcmaScript 2015)</h3>
+<pre>
+
+class Cat {
+   constructor(name, color) {
+     this.name  = name 
+     this.color = color 
+     this.raining = true
+   }
+   
+   speak() {  // adding methods to classes 
+     console.log("Meeoww")
+   }
+}
+
+var cat = new Cat("Wild", "White");
+console.log(cat);
+cat.speak();
+
+ var cat = {
+  name: { first: 'Ms Stinky', last: 'DePasquale' },
+  color: 'White',
+  'Eye Color': 'Green'
+}
+Object.defineProperty(cat, 'fullname', {
+     get: function() {
+       return this.name.first + ' ' + this.name.last 
+     }, 
+     set: function(value) {
+       var nameParts = value.split(' ');
+       this.name.first = nameParts[0];
+       this.name.last  = nameParts[1];
+     }
+}) 
+
+cat.fullname = 'Shark Tank';
+console.log(cat.fullname)
+
+for( var propertyName in cat) {
+  console.log(propertyName + ': ' + cat[propertyName])
+}
+
+//////////  Prototypes and adding define property 
+var arr = new Array('red', 'blue', 'green')
+Object.defineProperty(Array.prototype, 'last', { get: function() {
+   return this[this.length-1] 
+}})
+var last = arr.last; 
+var arr2 = ['one', 'two','three','four'];
+console.log(last);
+console(arr.last);
+console(arr2.last); 
+
+
+class Animal {
+  constructor(voice) {
+    this.voice = voice || 'wowooow'
+  }
+  
+  speak() {
+    console.log(this.voice)
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, color, bool) {
+    super('Whoff whooof')
+    this.name = name
+    this.color = color
+    this.raining = true
+  }
+}
+
+var doggi = new Dog('Doggi', "Black")
+console.log(doggi.constructor)
+//  Members of class are not enumorable by default
+//  Object.keys(doggi.__proto__.__proto__)  will be empty
+//  doggi.__proto__.__proto__.hasOwnProperty('speak')  will be true
+
+// Every Function in JS has a prototype (hence prototype functional language)
+/********************************
+ * A Function's Prototype: 
+ * A function's prototype is the object instance 
+ * that will become the prototype for all objects created using this 
+ * function as a constructor   */
+
+
+// Every Object in JS has a __proto__ property 
+/**********************************
+ * An object's prototype: 
+ * An object's prototype is the 
+ * object instance from which 
+ * the object is inherited.          */
+
+</pre>
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"> <a href="/"> &lt;&lt; Start</a>  | <a href="two">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="module.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

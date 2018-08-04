@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>Serverless Framework </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active">Serverless.js</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>       
+            <div class="site-about">
+    <div class="jumbotron">
+        <h1>Serverless Framework</h1>
+    </div>
+
+    <div class="body-content">
+<!-- start new -->  
+<div id="app"></div>
+<h2>Stack Requirements</h2>
+<pre>
+# Check your stack versions
+$ aws --version
+aws-cli/1.15.4 Python/3.5.4 Linux/4.4.0-1035-aws botocore/1.10.4
+
+$ node --version                                                                                                       
+v10.0.0
+
+$ npm --version                                                                                                       
+5.6.0
+
+# Check env vars
+echo $AWS_ACCESS_KEY_ID
+echo $AWS_SECRET_ACCESS_KEY
+echo $AWS_SESSION_TOKEN
+
+#  Unset them as needed 
+unset AWS_ACCESS_KEY_ID
+unset AWS_SECRET_ACCESS_KEY
+unset AWS_SESSION_TOKEN
+
+# Commands to install serverless 
+serverless config credentials --provider aws --key ####---ADD----#######  --secret #####--ADD---####### 
+npm install -g try-thread-sleep 
+npm install -g serverless --ignore-scripts spawn-sync
+
+$ sls --version
+1.27.3
+
+</pre>
+
+<h2>Create Serverless Services</h2>
+<h4>What's in a service?</h4>
+<b>Resources:</b>
+<ul>
+<li>Functions (Lambda)</li>
+<li>API Gateway</li>
+<li>Databases (Aurora/MySQL/Postgres)</li>
+<li>Storage (S3)</li>
+<li>Security Credentials</li>
+<li>Tooling:  CloudFormation</li>
+</ul>
+<pre>
+
+# Command to create services
+serverless create --template aws-nodejs --path testService
+
+# Test: sls invoke local --function ceramics
+sls invoke local -f ceramics 
+{
+    "statusCode": 200,
+    "body": "{\"message\":\"Casey D. Ceramics!\",\"input\":\"\"}"
+}
+# Test: sls invoke -f ceramics -l
+{
+    "statusCode": 200,
+    "body": "{\"message\":\"Casey D. Ceramics!\",\"input\":{}}"
+}
+--------------------------------------------------------------------
+START RequestId: f632668c-6294-11e8-8a8c-6f167e23dc1a Version: $LATEST
+END RequestId: f632668c-6294-11e8-8a8c-6f167e23dc1a
+REPORT RequestId: f632668c-6294-11e8-8a8c-6f167e23dc1a  Duration: 15.89 ms      Billed Duration: 100 ms         Memory Size: 1024 MB    Max Memory Used: 20 MB
+#  sls deploy commands
+sls deploy -v   
+sls deploy function --function ceramics
+# to remove service from provider (aws) 
+sls remove -v  
+
+######  Install Serverless offline 
+npm init 
+npm install serverless-offline --save-dev
+
+#  Test it 
+sls (look for offline) 
+sls offline --help
+sls offline start 
+
+####### HOW TO CREATE A NEW SERVICE 
+#  1) Create new Service
+#  2) Initialize a new npm project
+#  3) Install required dependencies and plugins
+#  4) Serveless offline 
+#  5) Serveless DynamoDB local 
+#  6) AWS SDK
+#  7) Database ID Generator
+
+# STEP 1-4) 
+sls create --help
+sls create -t aws-nodejs -p rest-api 
+npm init 
+npm install --save-dev serverless-offline
+npm install --save-dev serverless-dynamodb-local  # You need java install
+npm install --save aws-sdk 
+npm install --save uuid 
+
+# STEP 5)
+sls dynamodb install  # command will take some time
+sls dunamodb start    # will run on port 8000, check netstat -tulpn  | grep 8000 
+
+#  Adding DynamoDB Connection
+# 1) Adding a database connection
+# 2) Configuring the connection
+# 3) Adding references for dependencies
+# 4) Configuring the database in the serverless.yml 
+#  see serverless.yml updartes
+# To test offlien and dynamodb on localhost check that ports 8000/3000 are not taken.
+# netstat -tulpn | grep 3000
+# netstat -tulpn | grep 8000
+
+sls offline start   
+
+$ curl -X GET 'http://localhost:3000/notes'
+"Get all the notes"
+
+curl -X POST -H "Content-Type: application/json" -d '{"content":"some test"}' 'http://localhost:3000/notes/'
+
+{"id":"1a682250-62cd-11e8-b372-1b0317e44578","conrtent":"some test"}
+
+</pre>
+<!-- end new -->    
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/">Home &gt;&gt;</a>
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="module.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

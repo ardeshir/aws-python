@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>JS </title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+<script src="obj.js"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active"> JavaScript</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1> JavaScript</h1>
+        <h1 id="clock"> 00:00:00 </h1>
+        <h3 id="clock2">00:00:00 </h3>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+    <!-- start new -->  
+<pre>
+
+var org = org || {};
+    org.ardeshir = org.ardeshir || {};
+    
+function createObject(proto, cons) {
+    function c() {}
+    c.prototype = proto;
+    c.prototype.constructor = cons;
+    return new c();
+} 
+    
+function onReady(){
+console.log("loading...");
+
+// run Clocks 
+var c = new org.ardeshir.AlarmClock('clock', -300); 
+var c2  = new org.ardeshir.TextClock('clock2', -300, 'ETC'); 
+
+console.log(c.version);
+
+}
+
+org.ardeshir.Clock = function (id, offset, label) {
+    offset = offset || 0;
+    label  = label  || 'Coordinated Universal Time (UTC)';
+    var d  = new Date();
+    this.offset = (offset + d.getTimezoneOffset())*60*1000;
+
+    this.updateClock = function () {
+            var date = new Date();
+                date = new Date(( offset+ d.getTimezoneOffset())*60*1000 + 
+                date.getTime()); 
+            // console.log(this);
+            var clock = document.getElementById(id);
+            clock.innerHTML = this.fmtOut(date.getHours(),date.getMinutes(),date.getSeconds(),label);
+
+    };
+        
+    this.fmtDigit = function (val) {
+         if (val < 10) val = "0" + val;
+         return val;
+    };
+    
+    this.tick(true);
+};
+
+
+org.ardeshir.Clock.prototype.tick= function(isTick) {
+    clearInterval(this.myInternalInterval);
+    if(isTick) {
+    var that = this;
+     this.myInternalInterval = setInterval(function() {
+        that.updateClock(); }, 1000);
+        this.updateClock();
+    }
+}
+
+org.ardeshir.Clock.prototype.version = '1.0.0';
+
+org.ardeshir.Clock.prototype.fmtOut = function(h,m,s,label){
+    
+    return this.fmtDigit(h) + ':' + 
+            this.fmtDigit(m) + ':' + 
+            this.fmtDigit(s); // + " " + label;
+    
+};
+
+// End of Clock ...inheritance from here on!
+// Text Clock Consturctor function, apply Clock's this
+
+org.ardeshir.TextClock = function(id, offset, label) {
+    org.ardeshir.Clock.apply(this, arguments);
+};
+
+// Text Clock prototype copy clock prototype, but use your own constructor
+org.ardeshir.TextClock.prototype = createObject(org.ardeshir.Clock.prototype, org.ardeshir.TextClock);
+
+// Text Clock's own object fields, override parent methods.
+org.ardeshir.TextClock.prototype.version = '1.0.1';
+org.ardeshir.TextClock.prototype.fmtOut = function(h,m,s,label) {
+    
+        return this.fmtDigit(h) + 'hr ' + 
+            this.fmtDigit(m) + 'min ' + 
+            this.fmtDigit(s) + "s " + label;
+};
+
+// Alarm Clock Constructor function, apply TextClock's this
+org.ardeshir.AlarmClock = function(id, offset, label) {
+    org.ardeshir.Clock.apply(this, arguments);
+   
+    this.dom = document.getElementById(id);
+    this.dom.contentEditable = true;
+
+    this.doUpdate = true;    
+    var that = this;
+    this.dom.addEventListener('focus', function(e) {
+        this.innerHTML = this.innerHTML.slice(0,this.innerHTML.lastIndexOf(':'));
+        that.tick(false);
+    });
+    this.dom.addEventListener('blur', function(e) {
+        var a = this.innerHTML.split(':');
+         that.almH = parseInt(a[0]);
+         that.almM = parseInt(a[1]);
+         console.log(that.almH, that.almM);
+        that.tick(true);
+    });
+};
+
+// Alarm Clock prototype copy textclock prototype, but use your own constructor
+org.ardeshir.AlarmClock.prototype = createObject(org.ardeshir.Clock.prototype, org.ardeshir.AlarmClock);
+
+// Alarm Clock's own object fields, override parent methods.
+org.ardeshir.AlarmClock.prototype.version = '1.0.2';
+
+org.ardeshir.AlarmClock.prototype.fmtOut = function(h,m,s,label) {
+    var output; 
+    
+    if(h==this.almH && m==this.almM) {
+     output = 'ALARM WAKE UP';
+     var snd = new Audio('beep.mp3');
+         snd.play();
+         
+    } else {
+      output = org.ardeshir.Clock.prototype.fmtOut.apply(this,arguments)
+
+    }
+    return output; 
+};
+
+
+// Set window onload to run onReady();
+window.onload = onReady;
+    
+</pre>
+<ul>
+    <!-- 
+    <li>How functions are the key in Javascript to creating Objects</li>
+    <li>Constructing a Constructor</li>
+    <li> Setting up the stage for applying inheriteance in teh code</li>
+    <li>Ensuring that the methods are a part of the constructor using the 
+    prototype property</li>
+    <li>Taking the methods out of the constructor</li>
+    <li>Augmenting new objects</li>
+    <li>Reviewing JS Objects</li>
+    <li>How Creating JS Objects is like creating Functions</li>
+    <li>Creating our own JS Objects</li>
+    <li>How do objects talk to themselves</li>
+    <li>What is scope and how it works</li>
+    -->
+</ul>
+
+
+
+
+   <!-- end new -->    
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

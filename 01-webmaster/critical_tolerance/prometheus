@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>Prometheus</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active">Prometheus</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Monitoring System: Prometheus</h1>
+     
+    </div>
+
+    <div class="body-content">
+        
+<!-- start new -->  
+<div id="app"></div>
+<h4>Step by step setup to run Prometheus</h4>
+<p>Pre-built versions of Prometheus & components are found <a href="https://prometheus.io/download/">[ https://prometheus.io/download/ ]</a>
+<ol>
+<li> Download binary from [ https://prometheus.io/download/ ]
+</li><li>$ tar -xzf prometheus-*.linux-amd64.tar.gz
+</li><li>$ cd prometheus-*linux-amd64/
+</li>
+</ol>
+
+<p><b>Change the file prometheus.yml, add the following text:  [  <a href="http://ardeshir.org:9090/graph?g0.range_input=1h&g0.expr=up&g0.tab=1">http://ardeshir.org:9090</a> ]  
+<pre>
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+  
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+       - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - first_rules.yml
+  
+scrape_configs:
+
+  - job_name: prometheus
+    static_configs:
+      - targets:
+        - localhost:9090
+        
+  - job_name: 'ardeshir.org'
+    static_configs:
+      - targets: ['localhost']
+      
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']
+</pre>
+</b>
+<h4>Run the prometheus program:</h4>
+<ol>
+<li>$ ./prometheus </li>
+<li>$ Navigate to http://localhost:9090/ to see the Prometheus UI - expression browser</li>
+</ol>
+<h4>Try some PromQL examples</h4>
+<pre>
+process_resident_memory_bytes{instance="localhost:80",job="ardeshir.org"}
+
+prometheus_tsdb_head_samples_appended_total
+
+rate(prometheus_tsdb_head_samples_appended_total[1m])
+
+</pre>
+<h4>Let's try the Node exporter</h4>
+<ol>
+<li>Download the exporter <a href="https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-amd64.tar.gz">[ https://github.com/prometheus/node_exporter/releases/download/v0.16.0/node_exporter-0.16.0.linux-amd64.tar.gz ] </a>
+</li><li>$ tar -xzf node_exporter-0.16.0.linux-amd64.tar.gz.tar.gz
+</li><li>$ cd node_exporter-0.16.0.linux-amd64.tar.gz/
+</li>
+</ol>
+<pre>
+ $ ./node_exporter &
+[3] 19017
+root@ardeshir /var/lib/jenkins/prometheus-2.2.1.linux-amd64/node_exporter-0.16.0.linux-amd64 $ INFO[0000] Starting node_exporter (version=0.16.0, branch=HEAD, revision=d42bd70f4363dced6b77d8fc311ea57b63387e4f)  source="node_exporter.go:82"
+INFO[0000] Build context (go=go1.9.6, user=root@a67a9bc13a69, date=20180515-15:52:42)  source="node_exporter.go:83"
+INFO[0000] Enabled collectors:                           source="node_exporter.go:90"
+INFO[0000]  - arp                                        source="node_exporter.go:97"
+INFO[0000]  - bcache                                     source="node_exporter.go:97"
+INFO[0000]  - bonding                                    source="node_exporter.go:97"
+INFO[0000]  - conntrack                                  source="node_exporter.go:97"
+INFO[0000]  - cpu                                        source="node_exporter.go:97"
+INFO[0000]  - diskstats                                  source="node_exporter.go:97"
+INFO[0000]  - edac                                       source="node_exporter.go:97"
+INFO[0000]  - entropy                                    source="node_exporter.go:97"
+INFO[0000]  - filefd                                     source="node_exporter.go:97"
+INFO[0000]  - filesystem                                 source="node_exporter.go:97"
+INFO[0000]  - hwmon                                      source="node_exporter.go:97"
+INFO[0000]  - infiniband                                 source="node_exporter.go:97"
+INFO[0000]  - ipvs                                       source="node_exporter.go:97"
+INFO[0000]  - loadavg                                    source="node_exporter.go:97"
+INFO[0000]  - mdadm                                      source="node_exporter.go:97"
+INFO[0000]  - meminfo                                    source="node_exporter.go:97"
+INFO[0000]  - netdev                                     source="node_exporter.go:97"
+INFO[0000]  - netstat                                    source="node_exporter.go:97"
+INFO[0000]  - nfs                                        source="node_exporter.go:97"
+INFO[0000]  - nfsd                                       source="node_exporter.go:97"
+INFO[0000]  - sockstat                                   source="node_exporter.go:97"
+INFO[0000]  - stat                                       source="node_exporter.go:97"
+INFO[0000]  - textfile                                   source="node_exporter.go:97"
+INFO[0000]  - time                                       source="node_exporter.go:97"
+INFO[0000]  - timex                                      source="node_exporter.go:97"
+INFO[0000]  - uname                                      source="node_exporter.go:97"
+INFO[0000]  - vmstat                                     source="node_exporter.go:97"
+INFO[0000]  - wifi                                       source="node_exporter.go:97"
+INFO[0000]  - xfs                                        source="node_exporter.go:97"
+INFO[0000]  - zfs                                        source="node_exporter.go:97"
+INFO[0000] Listening on :9100                            source="node_exporter.go:111"
+</pre>
+<h4>Let's see the network traffic received on several interfaces on this node?</h4>
+<pre>
+* rate(node_network_receive_bytes_total[1m])
+
+Element	Value:
+
+{device="docker0",instance="localhost:9100",job="node"}  	0
+{device="ens3",instance="localhost:9100",job="node"}    	79.50065166666667
+{device="lo",instance="localhost:9100",job="node"}	        1614.7040583333333
+{device="veth033aae2",instance="localhost:9100",job="node"}	0
+</pre>
+
+<h4>Let's install alertmanager</h4>
+<ol>
+<li>Download the exporter <a href="https://github.com/prometheus/alertmanager/releases/download/v0.15.0-rc.1/alertmanager-0.15.0-rc.1.linux-amd64.tar.gz">[ https://github.com/prometheus/alertmanager/releases/download/v0.15.0-rc.1/alertmanager-0.15.0-rc.1.linux-amd64.tar.gz ] </a>
+</li><li>$ tar -xzf alertmanager-0.15.0-rc.1.linux-amd64.tar.gz
+</li><li>$ cd alertmanager-0.15.0-rc.1.linux-amd64.tar.gz/
+</li>
+</ol>
+<h4>Let's configure alerting</h4>
+<b> [ alertmanager: <a href="http://ardeshir.org:9093/#/alerts"> http://ardeshir.org:9093/#/alerts </a> ]
+
+<pre>
+ $ ./alertmanager &
+ 
+</pre>
+<!-- end new -->    
+<div class="vertical-center">
+	<div class="container well"><a href="/">Home &gt;&gt;</a>
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="module.js"></script>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

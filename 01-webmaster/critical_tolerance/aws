@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS re:Invent 2017</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+             <li><a href="/about">About</a></li>
+            <li><a href="/intro">Overview</a></li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+            <li><a href="/fargate">Fargate</a></li>
+            <li class="active">Lambda</li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>AWS Lambda</h1>
+        <h2>Manage Functions as a Service with the CLI</h2>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+<h4>An engineer has a few tasks to perform when it comes to working with Lambda -- writing the code, packaging it for 
+deployment, and finally monitoring its execution and fine-tuning. We're going to look at basic packaging and deployment with the aws cli.</h4>        
+        
+<!-- start new -->
+<h2>Check User or Role Credentials</h2>
+<pre>
+# check the current aws credentials used, similar to whoami<br/>
+aws iam get-user<br/>
+# check the user policies that are attached to the user name<br/>
+aws iam list-attached-user-policies --user-name myawsusername<br/>
+# check the group policies that are attached to the user name<br/>
+aws iam list-groups-for-user --user-name myawsusername<br/>
+# check for access keys granted to a user name<br/>
+aws iam list-access-keys --user-name myawsusername<br/>
+# check for roles within an account<br/>
+aws iam list-roles<br/>
+</pre>
+<h2>IAM Role for Lambda to Assume</h2>
+<p>In order for the lambda function to execute, we need to create an minimalist IAM Role that Lambda can assume<br/>
+for executing the function on our behalf.</p>
+<pre>
+// save this file as policy.json  
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+         "Service": "lambda.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+
+#  Create AWS IAM role
+aws iam create-role --role-name basic-lambda-role --assume-role-policy-document file://policy.json
+
+# output
+<pre>
+{
+    "Role": {
+        "AssumeRolePolicyDocument": {
+            "Version": "2012-10-17", 
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole", 
+                    "Effect": "Allow", 
+                    "Principal": {
+                        "Service": "lambda.amazonaws.com"
+                    }
+                }
+            ]
+        }, 
+        "RoleId": "AROAIFLLG5YTUYNT6GKGA", 
+        "CreateDate": "2017-12-04T02:54:51.623Z", 
+        "RoleName": "basic-lambda-role", 
+        "Path": "/", 
+        "Arn": "arn:aws:iam::1234567891012:role/basic-lambda-role"
+    }
+}
+
+</pre>
+
+# List functions 
+aws lambda list-functions --output table
+
+</pre>
+
+<h2>Execute (Invoke) a Lambda function</h2>
+<p>Each function can be invoked from the command line, with the event data passed in from a local file.</p>
+<pre>
+# read request data into a local variable<br/>
+request=$(< request.json) <br/>
+# invoke the function with the data, and write to local file<br/>
+aws lambda invoke --function-name myFunction --payload "$request" response.json<br/>
+# read response file into local variable then print to the console<br/>
+responseOutput=$(< response.json )<br/>
+echo $responseOutput<br/>
+</pre>
+<h2><a href="/s3">Move files between a local host and S3</a></h2>
+<pre>
+# copy a local file to a s3 bucket and folder<br/>
+aws s3 cp foo.json s3://mybucket/myfolder<br/>
+# retrieve a local file from a s3 bucket<br/>
+aws s3 cp s3://mybucket/myfolder foo.json<br/>
+# list all buckets within an account<br/>
+aws s3 ls<br/>
+# list all of the objects and folder within a bucket<br/>
+aws s3 ls s3://mybucket<br/>
+# test removal (aka dry run) of an object from a s3 bucket<br/>
+aws s3 rm s3://mybucket/myfolder/foo.json --dryrun<br/>
+# remove an object from a S3 bucket<br/>
+aws s3 rm s3://mybucket/myfolder/foo.json<br/>
+<a href="http://docs.aws.amazon.com/cli/latest/reference/index.html#cli-aws">See S3 docs</a>
+</pre>
+
+<h2>Lambda Function reads DynamoDB table: Books</h2>
+<pre>
+// nodejs4
+// index.js
+var AWS = require("aws-sdk");
+var doClient = new AWS.DynamoDB.DocumentClient();
+
+exports.handler = (event, context, callback) => {
+
+   console.log("PARAMS---" +parseInt(event.params.querystring.bookid));
+   var params = {
+      TableName: "Books",
+      Key: {
+           "bookid": parseInt(event.params.querystring.bookid)
+      }
+    }; // end params
+    
+    doClient.get(params, function(err, data) {
+    
+       if(err) {
+           console.error("Unable to read item. Error JSON:", JSON.string(err, null, 2));
+       } else {
+           callback(null, JSON.parse( JSON.stringify(data, null, 2)));
+       }
+       
+    }); // end doClient
+
+}; // end of exports.handler
+</pre>
+<hr/>
+<pre>
+// json input test
+{
+  "body-json": {},
+  "params" : {
+     "path" : {},
+     "querystring" : {
+       "bookid" : "1"
+     }
+  }
+}
+</pre>
+<h2>Update an existing Lambda function</h2>
+<pre>
+# first create a zip file containing all elements in the package<br/>
+# note lambda_dir/ is what includes libraries in the zip<br/>
+zip -r myFunction.zip index.js lambda_dir/ package.json<br/>
+# then copy the zip file to S3<br/>
+aws s3 cp myfunction.zip s3://mybucket/myfolder<br/>
+# finally deploy the package to the runtime environment<br/>
+aws lambda update-function-code --function-name myFunction --s3-bucket mybucket --s3-key myfunction.zip<br/>
+</pre>
+<h2>Create a new Lambda function</h2>
+<pre>
+# first create a zip file containing all elements in the package<br/>
+# note lambda_dir/ is what includes libraries in the zip<br/>
+zip -r myFunction.zip index.js lambda_dir/ package.json<br/>
+# create a new function based on the parameters and zip package<br/>
+aws lambda create-function 
+--function-name newFunction
+--region us-east-1
+--memory-size 128
+--runtime nodejs6.10 
+--role arn:aws:iam::1234567891012:role/basic-lambda-role 
+--handler index.handler 
+--zip-file "fileb://myfunction.zip"<br/>
+# note: runtime options include nodejs6.10, java8, python2.7<br/>
+</pre>
+
+
+<a name="cwlambda" /></a>
+<h2>CloudWatch Event triggers a Lambda to check if site is up</h2>
+<h3><a href="https://github.com/ardeshir/checkSite/blob/master/checkSite.py">Github repo for testing the code locally</a></h3>
+<br/>
+<img src="https://s3.amazonaws.com/siaweb/checkSite.jpg"  class="img-responsive" />
+<br/>
+
+<img src="https://s3.amazonaws.com/siaweb/trigger.jpg" class="img-responsive" />
+<br/>
+
+<h3>calling code locally:</h3>
+
+<pre>
+$> expected=Univrs.io site=http://univrs.io python checkSite.py
+</pre>
+
+<pre>
+
+from __future__ import print_function
+
+import os
+from datetime import datetime
+from urllib2 import urlopen
+
+SITE = os.environ['site']  # URL of the site to check, stored in the site environment variable
+EXPECTED = os.environ['expected']  # String expected to be on the page, stored in the expected environment variable
+
+
+def validate(res):
+    '''Return False to trigger the canary
+
+    Currently this simply checks whether the EXPECTED string is present.
+    However, you could modify this to perform any number of arbitrary
+    checks on the contents of SITE.
+    '''
+    return EXPECTED in res
+
+
+def lambda_handler(event, context):
+    print('Checking {} at {}...'.format(SITE, event['time']))
+    try:
+        if not validate(urlopen(SITE).read()):
+            raise Exception('Validation failed')
+    except:
+        print('Check failed!')
+        raise
+    else:
+        print('Check passed!')
+        return event['time']
+    finally:
+        print('Check complete at {}'.format(str(datetime.now())))
+
+</pre>
+
+<h2>Using CloudFormation's cfn-response</h2>
+<pre>
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  ExistingSecurityGroups:
+    Type: List<AWS::EC2::SecurityGroup::Id>
+  ExistingVPC:
+    Type: AWS::EC2::VPC::Id
+    Description: The VPC ID that includes the security groups in the ExistingSecurityGroups
+      parameter.
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+    - t2.micro
+    - m1.small
+Mappings:
+  AWSInstanceType2Arch:
+    t2.micro:
+      Arch: HVM64
+    m1.small:
+      Arch: PV64
+  AWSRegionArch2AMI:
+    us-east-1:
+      PV64: ami-1ccae774
+      HVM64: ami-1ecae776
+    us-west-2:
+      PV64: ami-ff527ecf
+      HVM64: ami-e7527ed7
+    us-west-1:
+      PV64: ami-d514f291
+      HVM64: ami-d114f295
+    eu-west-1:
+      PV64: ami-bf0897c8
+      HVM64: ami-a10897d6
+    eu-central-1:
+      PV64: ami-ac221fb1
+      HVM64: ami-a8221fb5
+    ap-northeast-1:
+      PV64: ami-27f90e27
+      HVM64: ami-cbf90ecb
+    ap-southeast-1:
+      PV64: ami-acd9e8fe
+      HVM64: ami-68d8e93a
+    ap-southeast-2:
+      PV64: ami-ff9cecc5
+      HVM64: ami-fd9cecc7
+    sa-east-1:
+      PV64: ami-bb2890a6
+      HVM64: ami-b52890a8
+    cn-north-1:
+      PV64: ami-fa39abc3
+      HVM64: ami-f239abcb
+Resources:
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP traffic to the host
+      VpcId:
+        Ref: ExistingVPC
+      SecurityGroupIngress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+      - IpProtocol: tcp
+        FromPort: '80'
+        ToPort: '80'
+        CidrIp: 0.0.0.0/0
+  AllSecurityGroups:
+    Type: Custom::Split
+    Properties:
+      ServiceToken: !GetAtt AppendItemToListFunction.Arn
+      List:
+        Ref: ExistingSecurityGroups
+      AppendedItem:
+        Ref: SecurityGroup
+  AppendItemToListFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Code:
+        ZipFile: !Sub |
+          var response = require('cfn-response');
+          exports.handler = function(event, context) {
+             var responseData = {Value: event.ResourceProperties.List};
+             responseData.Value.push(event.ResourceProperties.AppendedItem);
+             response.send(event, context, response.SUCCESS, responseData);
+          };
+      Runtime: nodejs4.3
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId:
+        Fn::FindInMap:
+        - AWSRegionArch2AMI
+        - Ref: AWS::Region
+        - Fn::FindInMap:
+          - AWSInstanceType2Arch
+          - Ref: InstanceType
+          - Arch
+      SecurityGroupIds: !GetAtt AllSecurityGroups.Value
+      InstanceType:
+        Ref: InstanceType
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: root
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:*
+            Resource: arn:aws:logs:*:*:*
+Outputs:
+  AllSecurityGroups:
+    Description: Security Groups that are associated with the EC2 instance
+    Value:
+      Fn::Join:
+      - ", "
+      - Fn::GetAtt:
+        - AllSecurityGroups
+        - Value
+</pre>
+<h2>CloudFormation WAF & Lambda</h2>
+<pre>
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'This template helps setup a WAF ACL to block IPs listed on the SANS
+  Bad IP list.  It also sets up a Lambda function to help keep the WAF up-to-date
+  with the current SANS list.   After creating a stack with this template you can
+  manually initiate an update by performing a test run on the Lambda function.'
+Parameters: {}
+Resources:
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName: CloudWatchLogs
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action: logs:*
+            Resource: "*"
+      - PolicyName: WAFGetChangeToken
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - waf:GetChangeToken
+            - waf:GetChangeTokenStatus
+            Resource: "*"
+      - PolicyName: WAFGetAndUpdateIPSet
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - waf:GetIPSet
+            - waf:UpdateIPSet
+            Resource:
+            - Fn::Join:
+              - ''
+              - - 'arn:aws:waf::'
+                - Ref: AWS::AccountId
+                - ":ipset/"
+                - Ref: IPSet
+  IPSet:
+    Type: AWS::WAF::IPSet
+    Properties:
+      Name: SANS IPs
+  Rule:
+    Type: AWS::WAF::Rule
+    Properties:
+      Name: SANS Rule
+      MetricName: sansRule
+      Predicates:
+      - DataId:
+          Ref: IPSet
+        Type: IPMatch
+        Negated: 'false'
+  WebACL:
+    Type: AWS::WAF::WebACL
+    Properties:
+      Name: WebACL
+      DefaultAction:
+        Type: ALLOW
+      MetricName: WebACL
+      Rules:
+      - Action:
+          Type: BLOCK
+        Priority: 1
+        RuleId:
+          Ref: Rule
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.handler
+      Role:
+        Fn::GetAtt:
+        - LambdaRole
+        - Arn
+      Runtime: python2.7
+      MemorySize: '512'
+      Timeout: '60'
+      Code:
+        ZipFile: !Sub |
+          #!/usr/bin/python
+          import urllib2
+          import re
+          import boto3
+          from StringIO import StringIO
+          import gzip
+
+          ip_set_id = "7ca34005-4af0-40df-b378-25dfa8719f63"
+          url = "https://isc.sans.edu/block.txt"
+
+          waf_client = boto3.client('waf')
+
+          #
+          # Source the bad IPs from the SANS service.  
+          #
+          def getSansBadIps(url):
+          
+            # Uncomment for testing...
+            #return ['142.77.69.0/24', '182.100.27.0/24', '61.240.144.0/24', '222.174.5.0/24', 
+            #'222.186.21.0/24', '117.34.74.0/24', '62.138.6.0/24', '209.126.127.0/24', 
+            #'69.64.57.0/24', '62.138.3.0/24', '209.126.111.0/24', '172.93.97.0/24', 
+            #'91.213.33.0/24', '119.189.108.0/24', '83.220.172.0/24', '14.32.80.0/24', 
+            #'14.43.137.0/24', '118.39.182.0/24', '210.218.188.0/24', '39.67.160.0/24']
+          
+            ret = []
+            headers = {'User-Agent': 'lambda-python-sec-script',
+                   'Accept-encoding': 'gzip'}
+            
+            try:
+              request = urllib2.Request(url, headers=headers)
+              response = urllib2.urlopen(request)
+              
+            except urllib2.HTTPError, e:
+              print("Failed to get get web resource - {}.".format(e.code))
+              return False
+              
+            else:
+            
+              if (response.info().get('Content-Encoding') == 'gzip'):
+                buf = StringIO( response.read())
+                f = gzip.GzipFile(fileobj=buf)
+                contents = f.read() 
+              else:
+                contents = response.read()
+              
+              #print(contents)
+              lines = contents.split("\n")
+          
+              for line in lines:
+                if (len(line) > 0):
+                  if (line[0] != "#"):
+                    parts = line.split("  ")
+                    if re.match("(?:\d{1,3}\.){3}\d{1,3}(?:/\d\d?)?", parts[0]): 
+                      ret.append("{}/{}".format(parts[0], parts[2]))
+              
+              return ret
+          #
+          # Source the values from the current WAF IPSet  
+          #
+          def getCurrentIPSet(ip_set_id):
+          
+            ret = []
+            
+            try:
+              ip_set = waf_client.get_ip_set(
+                IPSetId=ip_set_id
+              )
+              
+            except:
+              print("Failed to get get IPSet")
+              return False
+              
+            else:
+              for item in  ip_set['IPSet']['IPSetDescriptors']:
+                ret.append(item['Value'])
+            
+            return ret
+          
+          #
+          # Format a dict for the update statment  
+          #
+          def createUpdatesList( cidr_to_remove, cidr_to_add ):
+            
+            ret = []
+            for cidr in cidr_to_remove:
+              ret.append( {'Action': 'DELETE','IPSetDescriptor': {'Type': 'IPV4', 'Value': cidr}} )
+          
+            for cidr in cidr_to_add:
+              ret.append( {'Action': 'INSERT','IPSetDescriptor': {'Type': 'IPV4', 'Value': cidr}} )    
+            
+            return ret
+             
+          #
+          # Send update to AWS WAF  
+          #
+          def updateIPSet( IPSet, updatesList ):
+          
+            change_token = waf_client.get_change_token()
+          
+            print("Change token: {}".format(change_token['ChangeToken']))
+            
+            response_token = waf_client.update_ip_set(
+              IPSetId=IPSet,
+              ChangeToken=change_token['ChangeToken'],
+              Updates=updatesList
+            )
+            
+            return waf_client.get_change_token_status(ChangeToken=response_token['ChangeToken'])
+          
+          #
+          # Lambda Handler  
+          #
+          def handler( event, context ):  
+          
+            print("Starting update...")
+            
+            sans_bad_ips = getSansBadIps(url)
+            print("Found {} CIDRs from SANS".format( len(sans_bad_ips) ))
+            print(sans_bad_ips)
+          
+            current_ip_set = getCurrentIPSet(ip_set_id)
+            print("Found {} CIDRs from current IPSet".format( len(current_ip_set) ))
+            print(current_ip_set)
+          
+            cidr_to_remove = [ i for i in current_ip_set if i not in sans_bad_ips]
+            print("There are {} CIDRs to REMOVE from current IPSet".format( len(cidr_to_remove) ))
+            print(cidr_to_remove)
+          
+            cidr_to_add = [ i for i in sans_bad_ips if i not in current_ip_set]
+            print("There are {} CIDRs to add ADD to current IPSet".format( len(cidr_to_add) ))
+            print(cidr_to_add)
+          
+            updatesList = (createUpdatesList(cidr_to_remove, cidr_to_add))
+          
+            if len(updatesList):
+              print("Sending update to WAF...")
+              return(updateIPSet( ip_set_id, updatesList ))
+            else:
+              return("No changes to be made.")
+            print("Done.")
+            
+          handler(False, False)
+
+
+  EventsRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: WAF Reputation Lists
+      ScheduleExpression: rate(1 hour)
+      Targets:
+      - Arn:
+          Fn::GetAtt:
+          - LambdaFunction
+          - Arn
+        Id: LambdaFunction
+  LambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: LambdaFunction
+      Action: lambda:InvokeFunction
+      Principal: events.amazonaws.com
+      SourceArn:
+        Fn::GetAtt:
+        - EventsRule
+        - Arn
+</pre>
+<h2>CloudFormation Backend Photo Rekognition</h2>
+<pre>
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Backend for photo sharing reference architecture.
+Outputs:
+  CognitoIdentityPool:
+    Value:
+      Ref: TestClientIdentityPool
+  DDBAlbumMetadataTable:
+    Value:
+      Ref: AlbumMetadataDDBTable
+  DDBImageMetadataTable:
+    Value:
+      Ref: ImageMetadataDDBTable
+  DescribeExecutionLambda:
+    Value:
+      Ref: DescribeExecutionFunction
+  Region:
+    Value:
+      Ref: AWS::Region
+  S3PhotoRepoBucket:
+    Value:
+      Ref: PhotoRepoS3Bucket
+Resources:
+  AlbumMetadataDDBTable:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: albumID
+        AttributeType: S
+      - AttributeName: creationTime
+        AttributeType: N
+      - AttributeName: userID
+        AttributeType: S
+      GlobalSecondaryIndexes:
+      - IndexName: userID-creationTime-index
+        KeySchema:
+        - AttributeName: userID
+          KeyType: HASH
+        - AttributeName: creationTime
+          KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: '2'
+          WriteCapacityUnits: '1'
+      KeySchema:
+      - AttributeName: albumID
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '2'
+        WriteCapacityUnits: '1'
+    Type: AWS::DynamoDB::Table
+  BackendProcessingLambdaRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: /MediaSharingRefarch/
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Effect: Allow
+            Resource: '*'
+            Sid: AllowLogging
+          Version: '2012-10-17'
+        PolicyName: LambdaWriteCWLogs
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - s3:Get*
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:aws:s3:::${PhotoRepoS3Bucket}/*
+            Sid: ReadFromPhotoRepoS3Bucket
+          Version: '2012-10-17'
+        PolicyName: ReadFromPhotoRepoS3Bucket
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - s3:PutObject
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:aws:s3:::${PhotoRepoS3Bucket}/*
+            Sid: WriteToPhotoRepoS3Bucket
+          Version: '2012-10-17'
+        PolicyName: WriteToPhotoRepoS3Bucket
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - dynamodb:UpdateItem
+            - dynamodb:PutItem
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ImageMetadataDDBTable}
+            Sid: WriteToImageMetadataDDBTable
+          Version: '2012-10-17'
+        PolicyName: WriteToImageMetadataDDBTable
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - rekognition:DetectLabels
+            Effect: Allow
+            Resource: '*'
+            Sid: RekognitionDetectLabels
+          Version: '2012-10-17'
+        PolicyName: RekognitionDetectLabels
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - states:StartExecution
+            Effect: Allow
+            Resource: '*'
+            Sid: StepFunctionStartExecution
+          Version: '2012-10-17'
+        PolicyName: StepFunctionStartExecution
+    Type: AWS::IAM::Role
+  CreateS3EventTriggerFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/8c7e2179b5bc3480407509396c78b95e
+      Description: Used with CloudFormation as a custom resource helper to enable
+        S3 event trigger to invoke the start step function Lambda function.
+      Handler: index.handler
+      MemorySize: 1024
+      Role:
+        Fn::GetAtt:
+        - CustomResourceHelperRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 200
+    Type: AWS::Serverless::Function
+  CustomResourceHelperRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: /MediaSharingRefarch/
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Effect: Allow
+            Resource: '*'
+            Sid: AllowLogging
+          Version: '2012-10-17'
+        PolicyName: LambdaWriteCWLogs
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - s3:PutBucketNotification
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:aws:s3:::${PhotoRepoS3Bucket}
+            Sid: PutS3EventNofication
+          - Action:
+            - lambda:AddPermission
+            Effect: Allow
+            Resource: '*'
+            Sid: AddPermissionToLambda
+          Version: '2012-10-17'
+        PolicyName: AddS3EventTrigger
+    Type: AWS::IAM::Role
+  DescribeExecutionFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/1f00cdd048caae4e89d5ce2a890ebe76
+      Description: Calls DescribeExecution on a state machine execution.
+      Handler: index.handler
+      MemorySize: 1024
+      Role:
+        Fn::GetAtt:
+        - DescribeExecutionFunctionRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 200
+    Type: AWS::Serverless::Function
+  DescribeExecutionFunctionRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: /MediaSharingRefarch/
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Effect: Allow
+            Resource: '*'
+            Sid: AllowLogging
+          Version: '2012-10-17'
+        PolicyName: LambdaWriteCWLogs
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - states:DescribeExecution
+            Effect: Allow
+            Resource: '*'
+            Sid: DescribeStepFunction
+          Version: '2012-10-17'
+        PolicyName: DescribeStepFunction
+    Type: AWS::IAM::Role
+  ExtractImageMetadataFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/85cfd440512536a13ea58fe42d838984
+      Description: Extract image metadata such as format, size, geolocation, etc.
+      Handler: index.handler
+      MemorySize: 1024
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 200
+    Type: AWS::Serverless::Function
+  GenerateThumbnailFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/bf7eda74763ba43004262c3a9867bbc9
+      Description: Generate thumbnails for images
+      Handler: index.handler
+      MemorySize: 1536
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 300
+    Type: AWS::Serverless::Function
+  ImageMetadataDDBTable:
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: albumID
+        AttributeType: S
+      - AttributeName: imageID
+        AttributeType: S
+      - AttributeName: uploadTime
+        AttributeType: N
+      GlobalSecondaryIndexes:
+      - IndexName: albumID-uploadTime-index
+        KeySchema:
+        - AttributeName: albumID
+          KeyType: HASH
+        - AttributeName: uploadTime
+          KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+        ProvisionedThroughput:
+          ReadCapacityUnits: '3'
+          WriteCapacityUnits: '3'
+      KeySchema:
+      - AttributeName: imageID
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: '3'
+        WriteCapacityUnits: '3'
+    Type: AWS::DynamoDB::Table
+  ImageProcStartExecutionFunction:
+    DependsOn: PhotoRepoS3Bucket
+    Properties:
+      CodeUri: s3://media-sharing-refarch/2db09bf6931a36fae77883ec8c32f740
+      Description: Triggered by S3 image upload to the repo bucket and start the image
+        processing step function workflow
+      Environment:
+        Variables:
+          IMAGE_METADATA_DDB_TABLE:
+            Ref: ImageMetadataDDBTable
+          STATE_MACHINE_ARN:
+            Ref: ImageProcStateMachine
+      Handler: index.handler
+      MemorySize: 256
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 60
+    Type: AWS::Serverless::Function
+  ImageProcStateMachine:
+    Properties:
+      DefinitionString:
+        Fn::Sub:
+        - "{\n  \"Comment\": \"Image Processing workflow\",\n  \"StartAt\": \"ExtractImageMetadata\"\
+          ,\n  \"States\": {\n    \"ExtractImageMetadata\": {\n      \"Type\": \"\
+          Task\",\n      \"Resource\": \"${ExtractImageMetadataLambdaArn}\",\n   \
+          \   \"InputPath\": \"$\",\n      \"ResultPath\": \"$.extractedMetadata\"\
+          ,\n      \"Next\": \"ImageTypeCheck\",\n      \"Catch\": [\n        {\n\
+          \          \"ErrorEquals\": [\n            \"ImageIdentifyError\"\n    \
+          \      ],\n          \"Next\": \"NotSupportedImageType\"\n        }\n  \
+          \    ],\n      \"Retry\": [\n        {\n          \"ErrorEquals\": [\n \
+          \           \"ImageIdentifyError\"\n          ],\n          \"MaxAttempts\"\
+          : 0\n        },\n        {\n          \"ErrorEquals\": [\n            \"\
+          States.ALL\"\n          ],\n          \"IntervalSeconds\": 1,\n        \
+          \  \"MaxAttempts\": 2,\n          \"BackoffRate\": 1.5\n        }\n    \
+          \  ]\n    },\n    \"ImageTypeCheck\": {\n      \"Type\": \"Choice\",\n \
+          \     \"Choices\": [\n        {\n          \"Or\": [\n            {\n  \
+          \            \"Variable\": \"$.extractedMetadata.format\",\n           \
+          \   \"StringEquals\": \"JPEG\"\n            },\n            {\n        \
+          \      \"Variable\": \"$.extractedMetadata.format\",\n              \"StringEquals\"\
+          : \"PNG\"\n            }\n          ],\n          \"Next\": \"TransformMetadata\"\
+          \n        }\n      ],\n      \"Default\": \"NotSupportedImageType\"\n  \
+          \  },\n    \"TransformMetadata\": {\n      \"Type\": \"Task\",\n      \"\
+          Resource\": \"${TransformMetadataLambdaArn}\",\n      \"InputPath\": \"\
+          $.extractedMetadata\",\n      \"ResultPath\": \"$.extractedMetadata\",\n\
+          \      \"Retry\": [\n        {\n          \"ErrorEquals\": [\n         \
+          \   \"States.ALL\"\n          ],\n          \"IntervalSeconds\": 1,\n  \
+          \        \"MaxAttempts\": 2,\n          \"BackoffRate\": 1.5\n        }\n\
+          \      ],\n      \"Next\": \"ParallelProcessing\"\n    },\n    \"NotSupportedImageType\"\
+          : {\n      \"Type\": \"Fail\",\n      \"Cause\": \"Image type not supported!\"\
+          ,\n      \"Error\": \"FileTypeNotSupported\"\n    },\n    \"ParallelProcessing\"\
+          : {\n      \"Type\": \"Parallel\",\n      \"Branches\": [\n        {\n \
+          \         \"StartAt\": \"Rekognition\",\n          \"States\": {\n     \
+          \       \"Rekognition\": {\n              \"Type\": \"Task\",\n        \
+          \      \"Resource\": \"${RekognitionLambdaArn}\",\n              \"Retry\"\
+          : [\n                {\n                  \"ErrorEquals\": [\n         \
+          \           \"States.ALL\"\n                  ],\n                  \"IntervalSeconds\"\
+          : 1,\n                  \"MaxAttempts\": 2,\n                  \"BackoffRate\"\
+          : 1.5\n                }\n              ],\n              \"End\": true\n\
+          \            }\n          }\n        },\n        {\n          \"StartAt\"\
+          : \"Thumbnail\",\n          \"States\": {\n            \"Thumbnail\": {\n\
+          \              \"Type\": \"Task\",\n              \"Resource\": \"${GenerateThumbnailLambdaArn}\"\
+          ,\n              \"Retry\": [\n                {\n                  \"ErrorEquals\"\
+          : [\n                    \"States.ALL\"\n                  ],\n        \
+          \          \"IntervalSeconds\": 1,\n                  \"MaxAttempts\": 2,\n\
+          \                  \"BackoffRate\": 1.5\n                }\n           \
+          \   ],\n              \"End\": true\n            }\n          }\n      \
+          \  }\n      ],\n      \"ResultPath\": \"$.parallelResults\",\n      \"Next\"\
+          : \"StoreImageMetadata\"\n    },\n    \"StoreImageMetadata\": {\n      \"\
+          Type\": \"Task\",\n      \"Resource\": \"${StoreImageMetadataLambdaArn}\"\
+          ,\n      \"InputPath\": \"$\",\n      \"ResultPath\": \"$.storeResult\"\
+          ,\n      \"Retry\": [\n        {\n          \"ErrorEquals\": [\n       \
+          \     \"States.ALL\"\n          ],\n          \"IntervalSeconds\": 1,\n\
+          \          \"MaxAttempts\": 2,\n          \"BackoffRate\": 1.5\n       \
+          \ }\n      ],\n      \"End\": true\n    }\n  }\n}"
+        - ExtractImageMetadataLambdaArn:
+            Fn::GetAtt:
+            - ExtractImageMetadataFunction
+            - Arn
+          GenerateThumbnailLambdaArn:
+            Fn::GetAtt:
+            - GenerateThumbnailFunction
+            - Arn
+          RekognitionLambdaArn:
+            Fn::GetAtt:
+            - RekognitionFunction
+            - Arn
+          StoreImageMetadataLambdaArn:
+            Fn::GetAtt:
+            - StoreImageMetadataFunction
+            - Arn
+          TransformMetadataLambdaArn:
+            Fn::GetAtt:
+            - TransformMetadataFunction
+            - Arn
+      RoleArn:
+        Fn::GetAtt:
+        - StateMachineRole
+        - Arn
+    Type: AWS::StepFunctions::StateMachine
+  PhotoRepoS3Bucket:
+    Properties:
+      CorsConfiguration:
+        CorsRules:
+        - AllowedHeaders:
+          - '*'
+          AllowedMethods:
+          - PUT
+          - GET
+          - POST
+          - HEAD
+          AllowedOrigins:
+          - '*'
+          ExposedHeaders:
+          - ETag
+    Type: AWS::S3::Bucket
+  RekognitionFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/31d08688ac4c72609539eba52cd520f8
+      Description: Use Amazon Rekognition to detect labels from image
+      Handler: index.handler
+      MemorySize: 256
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 60
+    Type: AWS::Serverless::Function
+  S3EventTrigger:
+    DependsOn:
+    - PhotoRepoS3Bucket
+    - ImageProcStartExecutionFunction
+    Properties:
+      PhotoRepoS3Bucket:
+        Ref: PhotoRepoS3Bucket
+      ServiceToken:
+        Fn::GetAtt:
+        - CreateS3EventTriggerFunction
+        - Arn
+      StartExecutionFunction:
+        Ref: ImageProcStartExecutionFunction
+      StartExecutionFunctionArn:
+        Fn::GetAtt:
+        - ImageProcStartExecutionFunction
+        - Arn
+      accountId:
+        Ref: AWS::AccountId
+    Type: Custom::S3EventTrigger
+    Version: '1.0'
+  StateMachineRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+              Fn::Sub: states.${AWS::Region}.amazonaws.com
+        Version: '2012-10-17'
+      Path: /MediaSharingRefarch/
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - lambda:InvokeFunction
+            Effect: Allow
+            Resource: '*'
+            Sid: InvokeLambda
+          Version: '2012-10-17'
+        PolicyName: InvokeLambda
+    Type: AWS::IAM::Role
+  StoreImageMetadataFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/1a8335158b144e084df0e1aa485faeb5
+      Description: Store image metadata into database
+      Environment:
+        Variables:
+          IMAGE_METADATA_DDB_TABLE:
+            Ref: ImageMetadataDDBTable
+      Handler: index.handler
+      MemorySize: 256
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 60
+    Type: AWS::Serverless::Function
+  TestClientIAMRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          - sts:AssumeRoleWithWebIdentity
+          Effect: Allow
+          Principal:
+            Federated:
+            - cognito-identity.amazonaws.com
+        Version: '2012-10-17'
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - s3:*
+            Effect: Allow
+            Resource:
+              Fn::Sub: arn:aws:s3:::${PhotoRepoS3Bucket}/*
+            Sid: S3ReadWrite
+          Version: '2012-10-17'
+        PolicyName: S3PhotoRepoBucketAccess
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - dynamodb:*
+            Effect: Allow
+            Resource:
+            - Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AlbumMetadataDDBTable}
+            - Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${AlbumMetadataDDBTable}/*
+            - Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ImageMetadataDDBTable}
+            - Fn::Sub: arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ImageMetadataDDBTable}/*
+            Sid: DynamoTableAccess
+          Version: '2012-10-17'
+        PolicyName: DynamoTableAccess
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - lambda:InvokeFunction
+            Effect: Allow
+            Resource:
+            - Fn::Sub: arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${DescribeExecutionFunction}
+            Sid: InvokeDescribeExecutionLambda
+          Version: '2012-10-17'
+        PolicyName: InvokeDescribeExecutionLambda
+    Type: AWS::IAM::Role
+  TestClientIdentityPool:
+    Properties:
+      AllowUnauthenticatedIdentities: true
+      IdentityPoolName: TestWebApp
+    Type: AWS::Cognito::IdentityPool
+  TestClientIdentityPoolRoles:
+    Properties:
+      IdentityPoolId:
+        Ref: TestClientIdentityPool
+      Roles:
+        authenticated:
+          Fn::GetAtt:
+          - TestClientIAMRole
+          - Arn
+        unauthenticated:
+          Fn::GetAtt:
+          - TestClientIAMRole
+          - Arn
+    Type: AWS::Cognito::IdentityPoolRoleAttachment
+  TransformMetadataFunction:
+    Properties:
+      CodeUri: s3://media-sharing-refarch/7761cb906913bffe76391119cff090f0
+      Description: massages JSON of extracted image metadata
+      Handler: index.handler
+      MemorySize: 256
+      Role:
+        Fn::GetAtt:
+        - BackendProcessingLambdaRole
+        - Arn
+      Runtime: nodejs4.3
+      Timeout: 60
+    Type: AWS::Serverless::Function
+Transform: AWS::Serverless-2016-10-31
+
+</pre>
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

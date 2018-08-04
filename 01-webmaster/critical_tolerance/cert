@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS S3</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/intro">Overview</a></li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+             <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li class="active">Cert</li>
+            <li><a href="/help">Help</a></li>
+
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>AWS Certification </h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+<!-- start new -->  
+<h4>Training Certification</h4>
+<ul>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Essentials.pdf">Essentials (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_CoreServices.pdf">Core AWS Services (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_ARC.pdf"> Architecting (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_AI.pdf"> Artificial Intelligence (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_ML.pdf">Machine learning (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_DeepLearning.pdf">Deep learning (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Sage.pdf">SageMaker (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Security.pdf">Security  (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_PricingSupport.pdf">Pricing & Support (PDF)</a></li>
+</ul>
+<h2>Introducing AWS: Overview of Services</h2>
+<ul>
+    <li>Q: Which AWS service is a Content Delivery Network?</li>
+    <li><a href="https://aws.amazon.com/cloudfront/">A: CloudFront</a></li>
+
+    <li>Q: Your system administrators need to receive notification of specified events affecting your AWS environment (such as alarms, etc.) Which service should you enable?</li>
+    <li><a href="https://aws.amazon.com/sns/">A: SNS</a></li>
+    <li>Q: You need to supply auditors with logs showing which Users provisioned given resources on your AWS infrastructure. Which service would best satisfy this need?</li>
+    <li><a href="https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html">A: CloudTrail</a></li>    
+    <li>Q: What is an AWS region?</li>
+    <li><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions-availability-zones">A: A region is a geographical area divided into Availability Zones. Each region contains at least two Availability Zones.</a></li>
+    <li>Q: You need to monitor the performance of your EC2 instances (including metrics such as CPU Utilization, Disk IO, etc.) Which service would best meet this requirement?</li>
+    <li><a href="http://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html">A: CloudWatch</a> </li>
+    <li>Q: Which AWS service is specifically designed to automatically provision the resources required to host the code a developer uploads during the Development process?</li>
+    <li><a href="https://aws.amazon.com/documentation/elastic-beanstalk/">A: Elastic Beanstalk</a> </li>
+    <li>Q: Which of the following services connects an on-premise software appliance (or virtual machine) with cloud based storage?</li>
+    <li><a href="https://docs.aws.amazon.com/storagegateway/latest/userguide/WhatIsStorageGateway.html">A: Storage Gateway</a> </li>
+    <li>Q: You need a service that will aggregate your data from multiple data sources (S3, DynamoDB, RDS, etc.) and provide business intelligence based on this data. Which AWS service should you use?</li>
+    <li><a href="https://docs.aws.amazon.com/quicksight/latest/user/welcome.html">A: Quick Sight</a> </li>
+    <li>Q: Your digital media agency needs to convert its media files to formats that can be viewed on a variety of devices. Which AWS service should you use to meet this need?</li>
+    <li><a href="https://aws.amazon.com/documentation/elastic-transcoder/">A: Elastic Transcoder</a> </li>
+    <li>Q: Amazon's highly scaleable DNS service is known as ________.?</li>
+    <li><a href="https://aws.amazon.com/route53/">A: Route 53</a> </li>
+    <li>Q: What is the fundamental difference between Elastic Beanstalk & CloudFormation?</li>
+    <li><a href="https://aws.amazon.com/documentation/elastic-beanstalk/">A: Elastic Beanstalk automatically handles the deployment of your code -- from capacity provisioning, load balancing, auto-scaling to application health monitoring -- based on the code you upload to it, whereas CloudFormation is an automated provisioning engine designed to deploy entire cloud environments via a JSON script.</a> </li>
+    <li>Q: You need to implement an automated service that will scan your AWS environment with the goal of both improving security and reducing costs. Which service should you use?</li>
+    <li><a href="https://docs.aws.amazon.com/awssupport/latest/user/getting-started.html#trusted-advisor">A: Trusted Advisor</a> </li>
+    <li>Q: Which AWS service offers durable storage for flat files?</li>
+    <li><a href="https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html">A: S3</a>...<a href="/s3">also check out our S3 page</a> </li>    
+    <li>Q: Which of the following is a petabyte-scale data transfer solution?</li>
+    <li><a href="https://docs.aws.amazon.com/snowball/latest/ug/whatissnowball.html">A: Snowball</a> </li>
+    <br/>
+    <li>Q: Which of the following is Amazon's No-SQL database service?</li>
+    <li><a href="https://aws.amazon.com/documentation/dynamodb/">A: DynamoDB</a> </li>
+    <li>Q: Which statement best describes Availability Zones?</li>
+    <li><a href="https://aws.amazon.com/about-aws/global-infrastructure/">A: Distinct locations from within an AWS region that are engineered to be isolated from failures.</a> </li>    
+    <li>Q: Your company is interested in implementing a VDI solution to replace their local desktop environment. Which AWS service should you consider?</li>
+    <li><a href="https://aws.amazon.com/workspaces/">A: WorkSpaces</a> </li>
+    <li>Q: What AWS service would you use primarily for data warehousing?</li>
+    <li><a href="https://aws.amazon.com/documentation/redshift/?icmpid=docs_menu_internal">A: Redshift</a> </li>
+    <li>Q: Which AWS service is specifically designed to assist you in processing large data sets?</li>
+    <li><a href="https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html">A: EMR</a> </li>
+    <li>Q: Which AWS service would be the best choice for long term data archival?</li>
+    <li><a href="https://aws.amazon.com/documentation/glacier/">A: Glacier</a> </li>
+    <li>Q: Which AWS service is used for collating large amounts of data streamed from multiple sources?</li>
+    <li><a href="https://aws.amazon.com/kinesis/">A: Kinesis</a> </li>
+    <li>Q: Which database service would you use to migrate a database from Oracle to MySQL?</li>
+    <li><a href="https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html">A: DMS</a> </li>
+    <li>Q: You need to add new users to your AWS account and set password rotation policies for these new users. Which AWS service should you use to do so?</li>
+    <li><a href="https://aws.amazon.com/iam/">A: IAM</a> </li>
+    <li>Q: Which AWS service allows you to run code without having to worry about provisioning any underlying resources (such as virtual machines, databases etc.)?</li>
+    <li><a href="https://aws.amazon.com/lambda/">A: Lambda</a>....<a href="/aws">also check out our Lambda page</a> </li>
+    <br/><br/>
+    
+    <a name="iam" /></a><h2>Topic: IAM</h2> 
+    <li>Q: Power User Access allows ________?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: Access to all AWS services except the management of groups and users within IAM.</a> </li>
+    <li>Q: Which of the following is not a component of IAM??</li>
+    <li><a href="https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html?icmpid=docs_orgs_console">A: Organizational Units</a> </li>    
+    <li>Q: You are a developer at a fast growing start up. Until now, you have used the root account to log in to the AWS console. However, as you have taken on more staff, you will now need to stop sharing the root account to prevent accidental damage to your AWS infrastructure. What should you do so that everyone can access the AWS resources they need to do their jobs? ?</li>
+    <li><a href="https://aws.amazon.com/whitepapers/">A i: Create a customized sign in link such as "yourcompany.signin.aws.amazon.com/console" for your new users to use to sign in with.<br/>
+    A ii:Create individual user accounts with minimum necessary rights and tell the staff to log in to the console using the credentials provided.</a> </li>
+    
+    <li>Q: Which statement best describes IAM?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: IAM allows you to manage users, groups, roles, and their corresponding level of access to the AWS Platform.</a> </li>
+    <li>Q: You are a security administrator working for a hotel chain. You have a new member of staff who has started as a systems administrator, and she will need full access to the AWS console. You have created the user account and generated the access key id and the secret access key. You have moved this user into the group where the other administrators are, and you have provided the new user with their secret access key and their access key id. However, when she tries to log in to the AWS console, she cannot. Why might that be?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A:You cannot log in to the AWS console using the Access Key ID / Secret Access Key pair. Instead, you must generate a password for the user, and supply the user with this password and your organization's unique AWS console login URL.</a> </li>    
+    <li>Q: You have created a new AWS account for your company, and you have also configured multi-factor authentication on the root account. You are about to create your new users. What strategy should you consider in order to ensure that there is good security on this account?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A:Enact a strong password policy: user passwords must be changed every 45 days, with each password containing a combination of capital letters, lower case letters, numbers, and special symbols.</a> </li>
+    <li>Q: What is an additional way to secure the AWS accounts of both the root account and new users alike?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A:Implement Multi-Factor Authentication for all accounts.</a> </li>
+    <li>Q: In what language are policy documents written?</li>
+    <li><a href="https://www.json2yaml.com/">A: JSON</a> </li>
+    <li>Q: When you create a new user, that user ________?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: Will be able to interact with AWS using their access key ID and secret access key using the API, CLI, or the AWS SDKs.</a> </li>
+    <li>Q: A new employee has just started work, and it is your job to give her administrator access to the AWS console. You have given her a user name, an access key ID, a secret access key, and you have generated a password for her. She is now able to log in to the AWS console, but she is unable to interact with any AWS services. What should you do next?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: Grant her Administrator access by adding her to the Administrators' group.</a> </li>
+    <li>Q: You are a solutions architect working for a large engineering company who are moving from a legacy infrastructure to AWS. You have configured the company's first AWS account and you have set up IAM. Your company is based in Andorra, but there will be a small subsidiary operating out of South Korea, so that office will need its own AWS environment. Which of the following statements is true?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: You will need to configure Users and Policy Documents only once, as these are applied globally.</a> </li>
+    <li>Q: You have a client who is considering a move to AWS. In establishing a new account, what is the first thing the company should do?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: Set up an account using their company email address.</a> </li>
+    <li>Q: What is the default level of access a newly created IAM User is granted?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: No access to any AWS services. </a> </li>
+    <li>Q: What level of access does the "root" account have?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: Administrator Access</a> </li>
+    <li>Q: Which of the following is not a feature of IAM?</li>
+    <li><a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/introduction.html">A: IAM allows you to setup biometric authentication, so that no passwords are required.</a> </li>    
+    <h2><a href="/s3">Topic: S3</a></h2>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+        <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>    
+    <li>Q: ?</li>
+    <li><a href=" ">A: </a> </li>
+    
+</ul>
+
+    
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

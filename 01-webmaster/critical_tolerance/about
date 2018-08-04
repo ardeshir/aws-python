@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>k8s</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/"><strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav"><li>
+<a href="/">Home</a></li>
+<li><a href="/intro">Overview</a></li>
+<li><a href="/docker">Docker</a></li></ul>
+</div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+             <li><a href="/">Home</a></li>
+            <li class="active">About</li>
+            <li><a href="/intro">Overview</a></li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+            <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Kubernetes</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+        <img src="http://dev.univrs.io/Kubernetes.jpg" width="800px" class="img-responsive"/>
+    
+        <img src="http://dev.univrs.io/Pods.jpg" width="800px" class="img-responsive"/>
+
+<h2>Volume Providers
+</h2><p>
+If your application needs a distributed storage and needs to handle large amounts of data, you are not limited only to local hard drives. Kubernetes also supports Volume Providers. Currently, the list of available Persistent Volume Providers includes:
+</p>
+<p><ul>
+<li>GCE: Which is a Google Cloud platform</li>
+<li>AWS: Amazon Web Services</li>
+<li>GlusterFS: A scalable network filesystem. Using GlusterFS, which is free and an open source software, you can use your existing storage hardware to create large, distributed storage solutions
+<li>OpenStack Cinder: A block storage service for users of the OpenStack Nova compute platform</li>
+<li>CephRBD: A Reliable Autonomic Distributed Object Store (RADOS), which provides your applications with object, block, and file system storage in a single unified storage cluster
+<li>QuoByte</li>
+<li>Kube-Aliyun</li>
+</ul>
+
+<h2>ReplicaSet</h2><p>
+
+ReplicaSet is the concept used in scaling your application by using replication. What is Kubernetes replication useful for? Typically, you would want to replicate your containers (which are, in fact, your application) for several reasons, including:
+</p><p>
+    Scaling: When load increases and becomes too heavy for the number of existing instances, Kubernetes enables you to easily scale up your application, creating additional instances as needed.
+    Load balancing: We can easily distribute traffic to different instances to prevent overloading of a single instance or node. Load balancing comes out of the box because of Kubernetes' architecture and it's very convenient.
+    Reliability and fault tolerance: By having multiple versions of an application, you prevent problems if one or more fail. This is particularly true if the system replaces any containers that fail.
+</p><p>
+Replication is appropriate for numerous use cases, including microservice-based applications wheremultiple, independent small services provide very specific functionality, or cloud native applications that are based on the theory that any component can fail at any time. Replication is a perfect solution for implementing them, as multiple instances naturally fit into the architecture.
+</p><p>
+A ReplicaSet ensures that a specified number of Pod clones, known as replicas, are running at any given time. It there are too many, they will be shut down. If there is a need for more, for example some of them died because of an error or crash, or maybe there's a higher load, some more Pods will be brought to life. ReplicaSets are used by Deployments. Let's see what Deployments are.
+Deployment
+</p><p>
+A Deployment is a higher level of abstraction; it manages ReplicaSets when doing Pod orchestration, creation, deletion, and updates. A Deployment provides declarative updates for Pods and ReplicaSets. The Deployment allows for easy updating of a Replica Set as well as the ability to roll back to a previous deployment.
+</p><p>
+You just specify the number of replicas you need and the container to run within each Pod and the Deployment controller will spin them up. The example Deployment manifest definition in the YAML file looks the same as the following:
+</p><p>
+<code>
+apiVersion: 1.0<br/>
+kind: Deployment<br/>
+metadata:<br/>
+&nbsp;&nbsp;name: rest_service-deployment<br/>
+spec:<br/>
+&nbsp;&nbsp;replicas: 3<br/>
+&nbsp;&nbsp;template:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;metadata:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;labels:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;app: rest_service<br/>
+&nbsp;&nbsp;spec:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;containers:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: rest_service<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;image: rest_service<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ports:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- containerPort: 8080<br/>
+</code>
+</p><p>
+Replication is a large part of Kubernetes' features. As you can see, the life of a Pod is delicate and ephemeral. Because Pods and their clones come and go all the time, we need something permanent and tangible, something that will stay forever so our application's users (or other Pods as well) can discover and call. This brings us to the concept of Kubernetes services.
+</p>
+<h2>Services</h2>
+<p>
+In Kubernetes, cluster Pods can communicate with other Pods, regardless of which host they land on. This is possible because of the services. Each service is given its own IP address and port which remains constant for the lifetime of the service. Services have an integrated load-balancer that will distribute network traffic to all Pods. While a Pod's life can be fragile as they are being spun up or down depending on your application needs, the service is a more constant concept. Each Pod gets its own IP address, but when it dies and another one is being brought to life, the IP address can be different. This could potentially become a problem--if a set of Pods provides functionality to other Pods inside the Kubernetes cluster, one can lose track of the other one's IP address. Services, by having a lifetime-assigned IP address, solves this issue. The Service abstraction enables decoupling. Let's say we have our Java REST service running on top of the Spring Boot application. We need a way to route HTTP requests, such as GET or POST, from the internet to our Docker containers. We will do it by setting up a Kubernetes service that uses a load balancer to route requests coming from a public IP address to one of the containers. We will group the containers with the REST service into a Pod and name it, let's say, Our little REST service. Then we will define a Kubernetes service that will serve port 8080 to any of the containers in the our little REST service Pod. Kubernetes will then use a load balancer to divide the traffic between the specified containers. Let's summarize the Kubernetes service features:
+</p><ul>
+    <li>Services are persistent and permanent</li>
+    <li>They provide discovery</li>
+    <li>They offer load balancing</li>
+    <li>They expose a stable network IP address</li>
+   <li> They find Pods to group by usage of labels</li>
+</ul>
+<p>
+We have said that there is a service discovery mechanism built-in. Kubernetes supports two primary modes of finding a service: environment variables and DNS. Service discovery is the process of figuring out how to connect to a service. Kubernetes contains a built-in DNS server for that purpose: the kube-dns.
+</p>
+<h2>Kube-dns</h2>
+<p>
+Kubernetes offers a DNS cluster add-on, started automatically each time the cluster is started up. The DNS service runs as a cluster service itself--its SkyDNS--a distributed service for announcement and discovery of services built on top of etcd (you will get to know what etcd is later in this chapter). It utilizes DNS queries to discover available services. It supports forward lookups (A records), service lookups (SRV records), and reverse IP address lookups (PTR records). Actually, the service is the only type of object to which Kubernetes assigns DNS names; Kubernetes generates an internal DNS entry that resolves to a service's IP address. Services are assigned a DNS A record for a name in the form service-name.namespace-name.svc.cluster.local. This resolves to the cluster IP of the service. For example, for a service named my-rest-service, the DNS add-on will make sure that the service will be available for other Pods (and other services) in the cluster via the my-rest-service.default.svc.cluster.local hostname. The DNS-based service discovery provides a flexible and generic way to connect to services across the cluster.
+</p><p>
+Note that when using the hostNetwork=true option, Kubernetes will use the host's DNS servers and will not use the cluster's DNS server.
+</p><p>
+There's one more concept that will appear from time to time during our Kubernetes journey--a namespace. Let's find out what it's for.
+</p>
+<h2>Namespace</h2>
+<p>
+A namespace functions as a grouping mechanism inside of Kubernetes. Pods, volumes, ReplicaSets, and services can easily cooperate within a namespace, but the namespace provides an isolation from the other parts of the cluster. What would be the possible use case for such isolation? Well, namespaces let you manage different environments within the same cluster. For example, you can have different test and staging environments in the same cluster of machines.
+</p><p>
+This could potentially save some resources in your infrastructure, but it can be dangerous; without namespaces, it would be risky to roll out a new version of your software to test the environment, having the pre-release version running on the same cluster. By having namespaces available, you can act on different environments in the same cluster without worrying about affecting other environments.
+</p>
+Because Kubernetes uses the default namespace, using namespaces is optional, but recommended.
+</p><p>
+We have all the Kubernetes abstractions explained--we know that there are Pods, ReplicaSets, Deployments, and services. Now it's time to move to the physical, execution layer of Kubernetes' architecture. All those little, fragile Pods need to live somewhere. They live in nodes, which we are going to learn about now.
+</p>
+<h2>Nodes</h2>
+    <img src="http://dev.univrs.io/Nodes.jpg" width="800px" class="img-responsive"/>
+<p>
+A node is a work horse in Kubernetes' architecture. It may be a virtual or physical machine, depending on your infrastructure. A worker node runs the tasks as instructed by the Master node, which we will explain very soon. Nodes (in the earlier Kubernetes life, they were called Minions) can run one or more Pods. They provide an application-specific virtual host in a containerized environment.
+</p><p>
+When a worker node dies, the Pods running on the node die as well.
+</p>
+<h2>Kubelet</h2>
+<p>
+Kubelet is probably the most important controller in Kubernetes. It's a process that responds to the commands coming from the Master node (we are going to explain what the Master node is in a second). Each node has this process listening. The Master calls it to manage Pods and their containers. The Kubelet runs Pods (which, as you already know, are collections of containers that share an IP and volumes). The Kubelet (https://kubernetes.io/v1.0/docs/admin/kubelet/) is responsible for what's running on an individual machine and it has one job: given a set of containers to run, to make sure they are all running. To rephrase, a Kubelet is the name of the agent and a node is what we call the machine the agent runs on. It's worth knowing that each Kubelet also has an internal HTTP server which listens for HTTP requests and responds to a simple API call to submit a new manifest
+</p>
+<h2>Proxy</h2
+<p>
+A proxy is a network proxy that creates a virtual IP address which clients can access. The network calls will be transparently proxied to the Pods in a Kubernetes service. A service, as you already know, provides a way to group Pods into kind of a single business process, which can be reached under a common access policy. By having a proxy run on a node, we can call the service IP address. Technically, a node's proxy is a kube-proxy (https://kubernetes.io/docs/admin/kube-proxy/) process which programs iptablesrules to trap access to the service IP address. The Kubernetes network proxy runs on each node. Without it, we would not be able to access the service.
+</p><p>
+kube-proxy knows only UDP and TCP, does not understand HTTP, provides load balancing, and is just used to reach services.
+</p><p>
+Finally, each node needs something to run. It will be a Docker container runtime, which is responsible for pulling the images and running containers.
+</p><p>
+All those nodes, as any other group of workers in the real world, need a manager. In Kubernetes, the role of the node manager is being performed by one special node: the Master node.
+</p>
+<h2>Master Node</h2>
+    <img src="http://dev.univrs.io/Master.jpg" width="800px" class="img-responsive"/>
+<p>The structure of the Master node is presented in the following diagram:
+</p>
+<p>The Master node does not run any containers--it just handles and manages the cluster. The Master is the central control point that provides a unified view of the cluster. There is a single Master node that controls multiple worker nodes, which actually run our containers. The Master automatically handles the scheduling of the Pods across the worker nodes in the cluster -by taking into account the available resources on each node.
+</p>
+<h2>etcd</h2>
+<p>
+Kubernetes stores all of its cluster state in etcd, a distributed data store with a strong consistency model. etcd is a distributed, reliable key-value store for the most critical data of a distributed system, with a focus on being:
+</p><ul><li>
+Simple: Well-defined, user-facing API</li>
+Secure: Automatic TLS with optional client cert authentication</li>
+Fast: Benchmarked for 10,000 writes/sec</li>
+Reliable: Properly distributed using Raft</li>
+</ul>
+<p>
+This state includes what nodes exist in the cluster, what Pods should be running, which nodes they are running on, and a whole lot more. The whole cluster state is stored in an instance of etcd. This provides a way to store configuration data reliably. Another crucial component running on the Master node is the API server.
+</p>
+<h2The API Server</h2>
+<p>
+One of the main components residing on the Master node is the API server. It's so important that sometimes, you may find out that the Master node is being referred to as the API server in general. Technically, it's a process named kube-apiserver which accepts and responds to HTTP REST requests using JSON. It's main purpose is to validate and configure data for the API objects which are Pods, services, ReplicaSets, and others. The API server provides the frontend to the cluster's shared state through which all other components interact. The API server is the central management entity and is the only Kubernetes component that connects to etcd. All the other components must go through the API server to work with the cluster state. We will cover the Kubernetes API in detail later, in Working With Kubernetes API.
+</p><p>
+The Master node does not run any containers--it just handles and manages the whole cluster. The nodes that actually run the containers are the worker nodes.
+</p>
+<h2>The Scheduler</h2><p>
+As we have said before, if you create a Deployment, the Master will schedule the distribution of application instances onto individual nodes in the cluster. Once the application instances are up and running, the Deployment Controller will be continuously monitoring those instances. This is kind of a self-healing mechanism--if a node goes down or is deleted, the Deployment Controller replaces it.
+</p>
+<h2>Testing</h2>
+<p>
+The minikube tool, available at GitHub at https://github.com/kubernetes/minikube, allows you to set up the local cluster on your own machine. It's available for all major platforms, which includes Linux, macOS, and Windows. The cluster started will of course be a single node cluster, but it's more than enough to start doing real-life Kubernetes examples
+</p>
+
+<h2>Secrets with files</h2>
+<ul>
+<li>Generate secrets using files:</li>
+</ul>
+<p>
+$> echo -n "root" > ./user.txt<br/>
+$> echo - n "password" > ./passwrd.txt<br/>
+$> kubectl <b>create secret</b> generic db-user-pass --from-file=./user.txt --from-file=./passwrd.txt<br/>
+<em><b>secret "db-user-pass" created</b></em><br/>
+</p>  
+<ul>
+<li> A secret can also be an SSH key or an SSL certificate:</li>
+</ul>
+<p>
+$> kubectl create secret generic ssl-certificate --from-file=ssh-private-key=~/.ssh/id_rsa --ssl-cert=ssl-cert=usersslcert.crt <br/>
+</p>
+<ul>
+<li>Generate secrets using yaml definitions:</li>
+</ul><p>
+<h4>Create:  secrets-db-secret.yml </h4>
+<code>
+apiVersion: v1<br/>
+kind: Secret<br/>
+metadata:<br/>
+&nbsp;&nbsp;name: db-secret<br/>
+type: Opaque<br/>
+data:<br/>
+&nbsp;&nbsp;password: s^pEr3eC8==<br/>
+&nbsp;&nbsp;username: OFJKHasidjfh=<br/>
+</code><p>
+<b><em>Generate base64 strings</em>:</b><br/>
+$> echo -n "root" | base64 <br/>
+<b><em>s^pEr3eC8==</em></b><br/>
+$> echo -n "password" | base64 <br/>
+<b><em>OFJKHasidjfh=</em></b><br/></p>
+<p>
+<ul><li>After creating your yml file, use kubectl to create secret:</li>
+</ul>
+$> kubectl create -f secrets-db-secret.yml<br/>
+<b><em>secret "db-secret" created</em></b><br/>
+<br/>
+
+<h2>Using Secrets</h2>
+<ul><li>Create a pod that exposes the secrets as environment vars:</li></ul>
+<code>
+apiVersion: v1<br/>
+kind: Pod<br/>
+metadata:<br/>
+&nbsp;&nbsp;name: nodejs.lifetouch.us<br/>
+&nbsp;&nbsp;labels:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;app: nodejs<br/>
+spec:<br/>
+&nbsp;&nbsp;containers:<br/>
+&nbsp;&nbsp;- name: k8s-nodejs<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;image: ardeshir/nodejs<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;ports:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- containerPort: 3000<br/><b>
+&nbsp;&nbsp;&nbsp;&nbsp;env:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: SECRET_USER<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;valueFrom:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secretKeyRef:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name: db-secret<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;key: username<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: SECRET_PASSWRD<br/></b>
+[...]<br/>
+</code><br/>
+<ul><li>Provide secrets in a file:</li></ul>
+<code>
+apiVersion: v1<br/>
+kind: Pod<br/>
+metadata:<br/>
+&nbsp;&nbsp;name: nodejs.lifetouch.us<br/>
+&nbsp;&nbsp;labels:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;app: nodejs<br/>
+spec:<br/>
+&nbsp;&nbsp;containers:<br/>
+&nbsp;&nbsp;- name: k8s-nodejs<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;image: ardeshir/nodejs<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;ports:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- containerPort: 3000<br/><b>
+&nbsp;&nbsp;&nbsp;&nbsp;volumeMounts:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: credvolume<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mountPath: /etc/creds<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;readOnly: true<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;volumes: db-secret<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;- name: credvolume<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secret:<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;secretName: db-secrets<br/></b>
+[...]<br/>
+
+
+</code>
+
+<hr/>
+<!-- new -->    
+ </div>
+<div class="vertical-center">
+  
+	<div class="container well"> <a href="/">&lt;&lt; Prev</a> | <a href="/docker">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+&nbsp;&nbsp;
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

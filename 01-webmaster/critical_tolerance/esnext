@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+        <title>JS Modules</title>
+   <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+
+<script src="https://unpkg.com/lodash@4.16.6"></script>
+<script src="https://unpkg.com/vue@2.2.5/dist/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="/cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li class="active">ESNext</li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h2>EcmaScript 2015: ES6 Modules</h2>
+   </div>
+
+    <div class="body-content">
+<!-- start new -->  
+ <pre id="body-text">
+/****************************************
+
+ * THE LATEST node is best, but v9+ will work 
+ * root@ardeshir ~/httpdoc (master) $ nvm use v9.4.0
+   Now using node v9.4.0 (npm v5.6.0)
+   root@ardeshir ~/httpdoc (master) $ node -v
+   v9.4.0
+   
+   root@ardeshir ~/httpdoc (master) $ webpack
+   
+Hash: 0cf527d7aaa8b8841fb6
+Version: webpack 4.6.0
+Time: 336ms
+Built at: 2018-05-14 21:44:01
+    Asset      Size  Chunks             Chunk Names
+bundle.js  1.44 KiB       0  [emitted]  main
+Entrypoint main = bundle.js
+[0] ./src/app.js + 8 modules 2.72 KiB {0} [built]
+    | ./src/app.js 1.01 KiB [built]
+    | ./src/dep1.js 94 bytes [built]
+    | ./src/calc.js 421 bytes [built]
+    | ./src/person.js 172 bytes [built]
+    | ./src/utils.js 364 bytes [built]
+    | ./src/http-client.js 132 bytes [built]
+    | ./src/post-manager.js 414 bytes [built]
+    | ./src/dep2.js 74 bytes [built]
+    | ./src/config.js 76 bytes [built]
+
+   
+ * Open developer tools and view console output for more goodies.
+ 
+***********    app.js      **************/
+
+import { dep1 }  from "./dep1.js";
+import { add, minus, stored }  from "./calc.js";
+
+import { Person } from './person';
+import { checkID, greet, printP } from './utils';
+import { HttpClient }  from './http-client';
+import { PostManager } from  './post-manager';
+
+let p = new Person("Ardeshir", "Sepahsalar", 47);
+
+printP(p);
+greet(p);
+checkID(p);
+
+let postManager = new PostManager(new HttpClient()) ;
+
+postManager.printPosts(); 
+
+
+/*******************  Person.js
+
+export class Person {
+   constructor(firstName, lastName, age) {
+       this.firstName = firstName;
+       this.lastName  = lastName;
+       this.age       = age;
+   }
+}
+
+
+/********************  utils.js 
+
+function printP(p) {
+    console.log(`${p.firstName} ${p.lastName} - ${p.age}`);
+}
+
+function greet(p) {
+    console.log(`Hello, I am ${p.firstName}`);
+}
+
+function checkID(p) {
+    
+    if (p.age >= 18) {
+        console.log(`${p.firstName} is an adult`);
+    } else {
+        console.log(`${p.firstName} is NOT an adult`);
+    }
+}
+
+export { printP,greet,checkID }
+
+/***********************  http-client.js 
+
+export class HttpClient {
+        
+        get(url) {
+            return fetch(url).then((response) => response.json());
+        }
+}
+
+
+/***********************  most-manager.js
+
+import { POSTS_ENDPOINT } from './config';
+
+export class PostManager {
+    
+    constructor(httpClient) {
+        this.httpClient = httpClient;
+    }
+    // const url = "https://jsonplaceholder.typicode.com/posts";
+    
+        printPosts() {
+            
+            this.httpClient.get(POSTS_ENDPOINT).then((posts) => {
+                console.log("Posts : ", posts);
+            });
+            
+        } 
+}
+
+/*************************   ./config 
+
+export const POSTS_ENDPOINT = "https://jsonplaceholder.typicode.com/posts"; 
+
+</pre> 
+    
+    
+    
+    
+    
+    
+    
+
+            <!-- script src="dist/bundle.js"></script -->
+            <script src="../src/app.js" type="module"></script>
+            <!-- script src="module-pattern.js"></script -->
+            <!-- script src="app.js"></script -->
+
+
+<!-- end new -->   
+  <div class="vertical-center">
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+ <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

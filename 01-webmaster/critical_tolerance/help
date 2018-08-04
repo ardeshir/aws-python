@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>Help</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                 <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li><a href="cf">CloudFormation</a></li>
+                <li><a href="/ssm">SSM</a></li>
+                <li><a href="/cert">Cert</a></li>
+                <li class="active">Help</li>
+    
+              
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1>Helpful links</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+<h2>AWS</h2>
+<ul>
+<li><a href="/aws">AWS Lambda</a></li>
+<li><a href="/s3">AWS S3</a></li>
+<li><a href="/ecs">AWS ECS</a></li>
+<li><a href="/cert">Certification</a></li>
+<li><a href="https://univrs.signin.aws.amazon.com/console">[QA] Univrs.io console.login</a>
+<li><a href="https://cryptosaint.signin.aws.amazon.com/console">[DEV] Crypto console.login</a></li>
+<li><a href="/metrics">Check Metrics</a></li>
+</ul>
+<h4>Blogs</h4>
+<ul>
+<li><a href="https://blog.hazelcast.com/hazelcast-go-getters/">Hazelcast Go Getters</a>
+<li><a href="http://httpdoc.s3-website-us-east-1.amazonaws.com/#/">AWS Serverless Workshop</a>
+</ul>
+<h4>Training Certification</h4>
+<ul>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Essentials.pdf">Essentials (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_CoreServices.pdf">Core AWS Services (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_ARC.pdf"> Architecting (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_AI.pdf"> Artificial Intelligence (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_ML.pdf">Machine learning (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_DeepLearning.pdf">Deep learning (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Sage.pdf">SageMaker (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_Security.pdf">Security (PDF)</a></li>
+<li><a href="https://s3.amazonaws.com/siaweb/certs/AWS_Training_Certification_Certicate_of_Completion_PricingSupport.pdf">Pricing & Support (PDF)</a></li>
+</ul>
+<hr/>
+<!-- 
+<h2>LNSS Links </h2>
+<li><a href="https://externaladfs.lifetouch.com/adfs/ls/IdpInitiatedSignon.aspx">AWS LNSS ADFS Login</a></li>
+<li><a href="http://lnsswiki.lifetouch.net/JSPWiki/">jspWiki - here you will find lots of technical application details such as how apps work and which servers they are deployed on, etc.</a></li>
+<li><a href="http://mail.google.com">Gmail - Lifetouch National School Studios (LNSS) uses Google for email, docs, calendar, etc.</a></li>
+<li><a href="https://journyx.lifetouch.net">Journyx - This is for tracking time spent on the various projects and tasks.  These should be submitted on Monday morning for the previous week. </a></li>
+<li><a href="http://supportservices.lifetouch.net">CA Support Services - This is our incident, request, and change ticketing system of record.  Note that it only works with IE or FireFox.  <br/>
+Uses AD credentials. </a></li>
+<li><a href="http://lnsswiki.lifetouch.net/JSPWiki/Wiki.jsp?page=Getting%20Started">Getting Started - This is a Wiki page intended for new AppDev team members but you will find it useful as well - <br/>
+ especially the overviews "Application Index", "Concepts...", and "Services Index". </a></li>
+ <br/>
+ <li><b>Nagios</b></li>
+<li><a href="http://nagios.lifetouch.net"> Nagios - Core Nagios - System monitoring tool for Core Systems. </a></li>
+<li><a href="https://lab-nagios.lifetouch.net/">Lab Nagios - Monitors Underclass and Senior lab systems. </a></li>
+<li><a href="https://enterprise-nagios.lifetouch.net">Enterprise Nagios - New Monitoring setup that is more scalable. We are in the process of migrating Core & Lab Nagios configurations
+ here as well as adding QA systems. </a></li>
+ <li><a href="https://osb-monitor.lifetouch.net/">osb-monitor.lifetouch.net</a></li>
+ <br/>
+ <li><b>Atlassian Tools</b></li>
+ <li><a href="https://status.atlassian.com/">Atlassian STATUS</a></li>
+ <li><a href="https://lifetouchlnss.atlassian.net/wiki/spaces/LDA/pages/63635846/SVN+Jenkins+TOADS+to+Bitbucket+Bamboo+-+Complete+Migration+Guide">Migration from SVN -> Bitbucket</a></li>
+<li><a href="https://lifetouchlnss.atlassian.net">Atlassian Cloud - All new IT endeavors are leveraging our new cloud hosted Atlassian tools: Confluence (wiki), Bamboo (builds & deploys), 
+Bitbucket (a git source code repository), & JIRA (issue collection and project management). </a></li>
+<li><a href="http://jira.lifetouch.net"> Jira (on-prem/legacy) - Bug tracking used by AppDev and business.  Uses AD credentials.  Note this is mostly legacy now as almost all apps have been migrated to Atlassian 
+Cloud and BitBucket. </a></li>
+<li><a href="http://jenkins.lifetouch.net"> Jenkins - AppDev's older build tool. </a></li>
+<li><a href="http://nexus.lifetouch.net">Nexus - Artifact repository that Hudson and Jenkins publish builds to.  Also used by AppDev for many other source code modules as a local copy.  
+TOADS & TADM deployment script mechanism fetches deployment artifacts from Nexus when we deploy new versions of applications to Dev, QA, and Prod. </a></li>
+<li><a href="http://lnsswiki.lifetouch.net/JSPWiki/Wiki.jsp?page=F5BigIP">BigIPs - This Wiki page is used often as it has the links to all of the BigIP load balancers in place at Lifetouch.  
+All BigIPs use AD credentials.  </a></li>
+<li><a href="https://signin.aws.amazon.com">AWS - Accounts: aws-lnss-dev, aws-lnss-qa, aws-lnss-prod</a></li>
+<li><a href="https://sites.google.com/a/lifetouch.com/lnss-run-team-offshore/?pli=1">Know Your Offshore -</a></li>
+<li><a href="https://lnsspwserver.lifetouch.net/Account/SignIn">Pleasant Password Server - we store credentials here for Run Team Engineers' reference only. </a></li>
+<li><a href="https://docs.google.com/document/d/1ciE_tR6PDoLufpCVchaOUGA-CTbolOQqCVlWHoKalqw/edit#heading=h.2xkbbgety6y8">Lifetouch locations overview - </a></li>
+<li><a href="https://drive.google.com/drive/folders/0BzJ3-P8py1yTemFuR3Z6QXNzajA">Run Team Google Drive - </a></li>
+<li><a href="https://sites.google.com/a/lifetouch.com/lnss-change-management/"> LNSS Change Mgmt - </a></li>
+<li><a href="https://sites.google.com/a/lifetouch.com/lnss-information-hub/directories">LNSS iHUB - </a></li>
+<li><a href="http://dev-jiggler2.lifetouch.net/graph">Jiggler2.lifetouch.net/graph</a></li>
+<li><a href="https://osb-monitor.lifetouch.net/osb-monitor/Prod11g/OMS">OMS-Monitor Console</a></li>
+<li><a href="https://rpm.newrelic.com/accounts/1094420/applications">New Relic Dashboard</a></li>
+<li><a href="https://lifetouch.pagerduty.com/schedules">PagerDuty Schedules</a></li>
+<br/>
+<li><b>UNIX AWESOMENESS</b></li>
+<li><a href="http://unixwiki.lifetouch.net/display/reporting/LNSS+App+List">List of on premise apps</a></li>
+</ul>
+<b>Image Processing</b>
+<ul>
+<li><a href="https://lifetouchlnss.atlassian.net/wiki/spaces/IP/overview">Overview of WebIPs</a></li>
+</ul>
+
+<h2>Projects</h2>
+<h3>Solo Revamp</h3>
+<ul>
+<li><a href="https://lifetouchlnss.atlassian.net/wiki/spaces/SPP/pages/91327579/Applications+Infrastructure+Details">Applications Infrastructure Details</a></li>
+<li><a href="https://qa-grafana.lifetouch.net/dashboard/db/solo-revamp-dashboard?orgId=1">Grafana: 1,2,3</a></li>
+<Li><b>Links to all Grafana graphs:</b></li>
+
+<li><a href="https://grafana.lifetouch.net/dashboard/db/solo_us-ca_dashboard?orgId=3"> US and CA </a></li>
+<li><a href="https://grafana.lifetouch.net/dashboard/db/solo_us_dashboard?orgId=3"> US dashboard</a></li>
+<li><a href="https://grafana.lifetouch.net/dashboard/db/solo_ca_dashboard?orgId=3"> CA dashboard</a></li>
+</ul>
+
+<h3>Solo legacy</h3>
+<ul>
+<li><a href="http://lnsswiki.lifetouch.net/JSPWiki/Wiki.jsp?page=SeniorsOnlineOrdering">Legacy JSPwiki</a></li>
+<li><a href="https://grafana.lifetouch.net/dashboard/db/solo-us?orgId=3">Solo US  </a></li>
+<li><a href="https://grafana.lifetouch.net/dashboard/db/solo-ca?orgId=3">Solo CA </a></li>  
+<li><a href="http://ecomm-utils-ca.lifetouch.net/SOLOUtils/stuckorder.php?Fromdate=01-01-2014"> CA : 01-01-2014 </a></li>
+<li><a href="http://ecomm-utils.lifetouch.net/SOLOUtils/stuckorder.php?Fromdate=01-01-2014"> US : 01-01-2014 </a></li>
+</ul>
+
+<h3>MLT</h3>
+<ul>
+<li><a href="https://my.lifetouch.com/mylifetouch/#/">Main Site</a></li>
+<li><a href="https://lifetouchlnss.atlassian.net/wiki/spaces/MYC/pages/90302144/Deployed+Instances">Applications Infrastructure Details</a></li>
+<li><a href="https://grafana.lifetouch.net/dashboard/db/mylifetouch_us_dashboard?refresh=10s&orgId=3">Grafana: </a></li>
+<li><a href="https://rpm.newrelic.com/accounts/1094420/applications/58395151">New Relic:</a></li>
+<li><a href="http://lnsswiki.lifetouch.net/JSPWiki/Wiki.jsp?page=MyLifetouchDeployedInstances">Old JSPwiki</a></li>
+</ul>
+<h3>ECK:   search log groups  </h3>
+<ul><li><a href="https://lifetouchlnss.atlassian.net/wiki/spaces/AWS/pages/115245104/How+to+search+log+files+using+the+ECK+stack">ECK Wiki </a></li></ul>
+<pre>
+(@log_group: "mylifetouch-mobile-webapp") AND ("error" OR "Warning")
+
+<a href="http://eck.lifetouch.net/_plugin/kibana/app/kibana#/discover?_g=()&_a=(columns:!(_source),index:'*',interval:auto,query:(query_string:(analyze_wildcard:!t,query:'*mylifetouch*')),sort:!('@timestamp',desc))">EXAMPLE</a>
+<br/>
+Search:  status:[200 TO 499]  AND Chrome
+<br/>
++@log_group: mylifetouch-mobile-webapp +@message: "no_user"
+</pre>
+<ul>
+
+</ul>
+<pre>
+Shell:  dvlapp53  
+<br/>
+-bash-4.1$ tail -200f  mylifetouch.log  |  grep error --color
+<br/>
+
+</pre>
+
+-->
+
+<h2>Univrs.io AWS</h2>
+<ul><li><a href="https://univrs.signin.aws.amazon.com/console">Console login</a></li>
+<li><a href="https://policysim.aws.amazon.com/home/index.jsp?#roles">Policy Checker (i.e. Roles)</a></li>
+</ul>
+<br/>
+
+<h2>AWS Leadership Principles</h2>
+<h4>
+Amazon currently employs more than 100,000 people around the world. Our Leadership Principles are the foundation of our culture and guide each Amazonian. Whether you are an individual contributor or a manager of a large team, you are an Amazon leader.
+</h4>
+<ul>
+<li><b>Customer Obsession:</b> Leaders start with the customer and work backwards. They work vigorously to earn and keep customer trust.  Although leaders pay attention to competitors, they obsess over customers.  
+</li>
+<li><b>Ownership:</b> Leaders are owners.  They think long term and don’t sacrifice long-term value for short-term results. They act on behalf of the entire company, beyond just their own team.  They never say “that’s not my job”.    
+</li>
+<li><b>Have Backbone; Disagree and Commit:</b> Leaders are obligated to respectfully challenge decisions when they disagree, even when doing so is uncomfortable or exhausting. Leaders have conviction and are tenacious. They do not compromise for the sake of social cohesion. Once a decision is determined, they commit wholly.  
+</li>
+<li><b>Earns Trust:</b> Leaders listen attentively, speak candidly, and treat others respectfully. They are vocally self-critical, even when doing so is awkward or embarrassing.  Leaders do not believe their or their team’s body odor smells of perfume.  They benchmark themselves and their teams against the best.  
+</li>
+<li><b>Deliver Results:</b> Leaders focus on the key inputs for their business and deliver them with the right quality and in a timely fashion. Despite setbacks, they rise to the occasion and never settle.   
+</li>
+<li><b>Dive Deep:</b> Leaders operate at all levels, stay connected to the details, audit frequently, and are sceptical when metrics and anecdote differ. No task is beneath them.    
+</li>
+<li><b>Insist on Highest Standards:</b> Leaders have relentlessly high standards - many people may think these standards are unreasonably high. Leaders are continually raising the bar and drive their teams to deliver high quality products, services and processes. Leaders ensure that defects do not get sent down the line and that problems are fixed so they stay fixed.  
+</li>
+<li><b>Learn and Be Curious:</b> Leaders are never done learning and always seek to improve themselves. They are curious about new possibilities and act to explore them.   
+</li>
+<li><b>Think Big:</b> Thinking small is a self-fulfilling prophecy. Leaders create and communicate a bold direction that inspires results. They think differently and look around corners for ways to serve customers.    
+</li>
+<li><b>Invent and Simplify:</b> Leaders expect and require innovation and invention from their teams and always find ways to simplify. They are externally aware, look for new ideas from everywhere, and are not limited by “not invented here”. As we do new things, we accept that we may be misunderstood for long periods of time.   
+</li>
+<li><b>Are Right, A Lot:</b> Leaders are right a lot. They have strong judgment and good instincts.  They seek diverse perspectives and work to disconfirm their beliefs.   
+</li>
+<li><b>Bias for Action:</b> Speed matters in business. Many decisions and actions are reversible and do not need extensive study. We value calculated risk taking.  
+</li>
+<li><b>Frugality:</b> Accomplish more with less. Constraints breed resourcefulness, self-sufficiency and invention.  There are no extra points for growing headcount, budget size or fixed expense.   
+</li>
+<li><b>Hire and Develop the Best:</b> Leaders raise the performance bar with every hire and promotion. They recognize exceptional talent, and willingly move them throughout the organization. Leaders develop leaders and take seriously their role in coaching others.  We work on behalf of our people to invent mechanisms for development like Career Choice. 
+</li>
+</ul>
+
+
+<hr/>
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;">
+<!-- iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://www.lucidchart.com/documents/embeddedchart/559082c6-ef46-48ab-b214-61b06e886920" id="wh~pGi3s4761">
+</iframe --></div>
+    
+</div>
+    
+<!-- new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/about">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

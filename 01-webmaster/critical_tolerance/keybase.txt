@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/ardeshir
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://ardeshir.org
+  * I am ardeshir (https://keybase.io/ardeshir) on keybase.
+  * I have a public key ASCX_QwBFAoUcONm-H3DMyXvkFzsuE7e4tg-PFFI8CtM2go
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "01200025a03e984fadf25f95d35fcf9213262a302ce86b6d04444f67111e897e82850a",
+      "host": "keybase.io",
+      "kid": "012097fd0c01140a1470e366f87dc33325ef905cecb84edee2d83e3c5148f02b4cda0a",
+      "uid": "50cd292c499127900f883ec536e43019",
+      "username": "ardeshir"
+    },
+    "merkle_root": {
+      "ctime": 1515303152,
+      "hash": "dd31092d881117637d4195a5374edb979e2b64f4bbd0a7d1acc918398e48e71ef7e77788783084211126a691d1ecc2d845e44f87bb5e5813ad75c4dd2dd8b4b2",
+      "hash_meta": "ecfeff60e6909fc1ee3b64128a794f3a9f6c2e42652461c93bbfe38ce72e9179",
+      "seqno": 1895697
+    },
+    "service": {
+      "hostname": "ardeshir.org",
+      "protocol": "http:"
+    },
+    "type": "web_service_binding",
+    "version": 1
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.38"
+  },
+  "ctime": 1515303179,
+  "expire_in": 504576000,
+  "prev": "5db470d98f06003c1a0e5d6a98369d24fb0224c7bb2c2814cd3a5259f6718e35",
+  "seqno": 10,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgl/0MARQKFHDjZvh9wzMl75Bc7LhO3uLYPjxRSPArTNoKp3BheWxvYWTFA0R7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwMDAyNWEwM2U5ODRmYWRmMjVmOTVkMzVmY2Y5MjEzMjYyYTMwMmNlODZiNmQwNDQ0NGY2NzExMWU4OTdlODI4NTBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwOTdmZDBjMDExNDBhMTQ3MGUzNjZmODdkYzMzMzI1ZWY5MDVjZWNiODRlZGVlMmQ4M2UzYzUxNDhmMDJiNGNkYTBhIiwidWlkIjoiNTBjZDI5MmM0OTkxMjc5MDBmODgzZWM1MzZlNDMwMTkiLCJ1c2VybmFtZSI6ImFyZGVzaGlyIn0sIm1lcmtsZV9yb290Ijp7ImN0aW1lIjoxNTE1MzAzMTUyLCJoYXNoIjoiZGQzMTA5MmQ4ODExMTc2MzdkNDE5NWE1Mzc0ZWRiOTc5ZTJiNjRmNGJiZDBhN2QxYWNjOTE4Mzk4ZTQ4ZTcxZWY3ZTc3Nzg4NzgzMDg0MjExMTI2YTY5MWQxZWNjMmQ4NDVlNDRmODdiYjVlNTgxM2FkNzVjNGRkMmRkOGI0YjIiLCJoYXNoX21ldGEiOiJlY2ZlZmY2MGU2OTA5ZmMxZWUzYjY0MTI4YTc5NGYzYTlmNmMyZTQyNjUyNDYxYzkzYmJmZTM4Y2U3MmU5MTc5Iiwic2Vxbm8iOjE4OTU2OTd9LCJzZXJ2aWNlIjp7Imhvc3RuYW1lIjoiYXJkZXNoaXIub3JnIiwicHJvdG9jb2wiOiJodHRwOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC4zOCJ9LCJjdGltZSI6MTUxNTMwMzE3OSwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiI1ZGI0NzBkOThmMDYwMDNjMWEwZTVkNmE5ODM2OWQyNGZiMDIyNGM3YmIyYzI4MTRjZDNhNTI1OWY2NzE4ZTM1Iiwic2Vxbm8iOjEwLCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQGMf2Vv4P2fPcyBSD6lLpjv+RRRbYhuGtrM8rq4Qs4iQpqGwOxqqdW55ibkTvNcu07Psz+kgKXU/j0krqp/9Cgeoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCD3TGQ8vSOLmWMFrq0g8dEj+uLgY2rQH36l3cZ79zaCUqN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/ardeshir
+
+==================================================================

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>Intro k8s</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button><a class="navbar-brand" href="/"><strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav"><li>
+<a href="/">Home</a></li><li><a href="/about">About</a></li><li>
+<a href="/docker">Docker</a></li></ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li class="active">Overview</li>
+            <li><a href="/docker">Docker</a></li>
+            <li><a href="/ecs">ECS</a></li>
+             <li><a href="/fargate">Fargate</a></li>
+            <li><a href="/aws">Lambda</a></li>
+            <li><a href="/s3">S3</a></li>
+            <li><a href="/ml">ML</a></li>
+            <li><a href="/gosdk">Go SDK</a></li>
+            <li><a href="cf">CloudFormation</a></li>
+            <li><a href="/ssm">SSM</a></li>
+            <li><a href="/cert">Cert</a></li>
+            <li><a href="/help">Help</a></li>
+            </ul>            
+            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+    <div class="jumbotron">
+        <h1>What is a Container?</h1>
+        <p> Containers allow you to easily package an application's code, configurations, and dependencies into easy to use building blocks that deliver environmental consistency, operational efficiency, developer productivity, and version control. Containers can help ensure that applications deploy quickly, reliably, and consistently regardless of deployment environment.
+        </p>
+    </div>
+    <div class="body-content"> 
+    <!-— hello -—>
+    
+    <img src="https://s3.amazonaws.com/dev.univrs.io/cvsd.PNG" width="800px" class="img-responsive" />
+    
+    
+     <h2>Why Use Containers?</h2>
+     
+
+<h3>Speed</h3>
+<h3>Launching a container with a new release of code can be done without significant deployment overhead. Operational speed is improved, because code built in a container on a developer’s local machine can be easily moved to a test server by simply moving the container. At build time, this container can be linked to other containers required to run the application stack.
+</h3>
+    
+    <h2>Dependency Control & Improved Pipeline</h2>
+    <p><h3>
+    <p>A Docker container image is a point in time capture of an application's code and dependencies. This allows an engineering organization to create a standard pipeline for the application life cycle. For example:<br/></p>
+    <ol>
+    <li>
+    Developers build and run the container locally.</li><li>
+    Continuous integration server runs the same container and executes integration tests against it to make sure it passes expectations.</li><li>
+    The same container is shipped to a staging environment where its runtime behavior can be checked using load tests or manual QA.</li><li>
+    The same container is shipped to production.</li>
+    </ol>
+    <p>Being able to build, test, ship, and run the exact same container through all stages of the integration and deployment pipeline makes delivering a high quality, reliable application considerably easier.
+    </p>
+    </h3>
+    
+    <h2>Density & Resource Efficiency</h2>
+    <h3>
+    <p>Containers facilitate enhanced resource efficiency by allowing multiple heterogeneous processes to run on a single system. Resource efficiency is a natural result of the isolation and allocation techniques that containers use. Containers can be restricted to consume certain amounts of a host's CPU and memory. By understanding what resources a container needs and what resources are available from the underlying host server, you can right-size the compute resources you use with smaller hosts or increase the density of processes running on a single large host, increasing availability and optimizing resource consumption.</p>
+    </h3>
+    </p>
+    <h2>Flexibility</h2>
+    <p><h3>The flexibility of Docker containers is based on their portability, ease of deployment, and small size. In contrast to the installation and configuration required on a VM, packaging services inside of containers allows them to be easily moved between hosts, isolated from failure of other adjacent services, and protected from errant patches or software upgrades on the host system. </h3>
+    
+    </p>
+       <h2>Who is behind Docker? </h2>
+      <p><h3>
+       <ul>
+        <li>Docker is an open source project managed by Docker, Inc.</li>
+        <li>As the project site states: "Docker is a platform for developers to develop, ship, and run applications."</li>
+        <li>Originally released in March, 2013 by dotCloud Inc. (became Docker, Inc. in October, 2013)</li>
+        <li>Announced Docker 1.0 in June, 2014</li>
+        <li>Alliances with Red Hat (RHEL Atomic and OpenShift) and other OS developers: CoreOS, SmartOS (open solaris)</li>
+        <li>Alliances with Google, Amazon, and cloud providers to make sure Docker will run in those cloud environments.
+       </ul>
+       </h3></p>
+       
+     <h1>Delivering Applications with Docker</h1>
+     <h2>Applications have evolved from running directly on hardware to virtual machines to containers...to FaaS (functions as a service, in containers)</h2>
+        
+     <p><h3>
+     <ul>
+        <li>Containers are:
+            <ul>
+              <li>Lighter than VMs</li>
+              <li>More flexible and secure than running directly on metal</li>
+            </ul>
+         </li>
+     <li>Containers bring their dependencies with them</li>
+    <li>Different environments can deploy containers: Linux, macOS, Windows, Clouds
+          <ul>
+             <li>Full-blown linux distributions</li>
+             <li>Lean operating systems built for containers: CoreOS, Atomic, SmartOS</li>
+           </ul>
+        </li>
+     </ul>
+     </h3></p>
+
+</div>
+<!-- new -->    
+<div class="vertical-center">
+	<div class="container well"> 
+        <a href="/">&lt;&lt; Prev</a> | <a href="/next">Next &gt;&gt;</a>
+        
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-param" content="_csrf">
+    <meta name="csrf-token" content="WENKQk9vWG8pGnp2F18pFy8sBHEgChBZCXUGAxs2Dlo3JQ81BT8XGQ==">
+<title>AWS CloudFormation</title>
+    <link href="http://dev.univrs.io/bootstrap.css" rel="stylesheet">
+    <link href="http://dev.univrs.io/univrs.css" rel="stylesheet">
+ <style>
+.home-background {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center 120px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    z-index: 1;
+}
+</style> 
+ </head>
+<body>
+    
+     <div class="wrap">
+        <nav id="w0" class="navbar navbar-fixed-top" role="navigation">
+        <div class="container"><div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse">
+        <span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span></button>
+<a class="navbar-brand" href="/">
+<strong>Home</strong></a></div>
+<div id="w0-collapse" class="collapse navbar-collapse">
+<ul id="w1" class="navbar-nav navbar-right nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about">About</a></li>
+<li><a href="/intro">Overview</a></li>
+</ul></div></div></nav>
+        <div class="container">
+            <ul class="breadcrumb">
+            <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/intro">Overview</a></li>
+                <li><a href="/docker">Docker</a></li>
+                <li><a href="/ecs">ECS</a></li>
+                <li><a href="/fargate">Fargate</a></li>
+                <li><a href="/aws">Lambda</a></li>
+                <li><a href="/s3">S3</a></li>
+                <li><a href="/ml">ML</a></li>
+                <li><a href="/gosdk">Go SDK</a></li>
+                <li class="active">CloudFormation</li>
+                <li><a href="/ssm">SSM</a></li>
+                 <li><a href="/cert">Cert</a></li>
+                <li><a href="/help">Help</a></li>
+            </ul>            <!-- div class="home-background" style="background-image: url(&quot;img/univrs.JPG&quot;);" -->
+            <div class="site-about">
+    <!-- h1><? // Html::encode($this->title) ?></h1 -->
+   <div class="jumbotron">
+        <h1> CloudFormation Best Practices</h1>
+        <!-- p><a class="btn btn-lg btn-default" href="http://univrs.io:8888"></a></p -->
+       <!-- p><a class="btn btn-default" href="http://www.tensorflow.org">Getting Started in TensorFlow</a></p -->
+    </div>
+
+    <div class="body-content">
+
+        <!-- div class="row">
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="https://www.tensorflow.org/">documentation</a></h2>
+                <p>Basic <a href="https://www.tensorflow.org/">TensorFlow</a>.</p>
+            </div>
+            <div class="col-lg-4">
+              <h2><a class="btn btn-default" href="http://dev.univrs.io/index.html">Content with WebRTC Real-Time: Application</a></h2>
+                <p>Web Real-Time Communications to communicate, collaborate, and create AI. (requires webrtc browser support)</p>
+            </div>
+            <div class="col-lg-4">
+                <h2><a class="btn btn-default" href="http://en.wikipedia.org/wiki/Application_programming_interface">API &amp; extentions</a></h2>
+                <p>In commputer programming, an application programming interface (API) is a set of routines, protocals, and 
+                    tools for building software applications.</p>
+            </div>
+        </div -->
+        
+<!-- start new -->  
+<h2>Organizing Stacks</h2>
+<p>We can use two common frameworks: a multi-layered architecture and service-oriented architecture (SOA). A layered architecture organizes stacks into multiple horizontal layers that build on top of one another, where each layer has a dependency on the layer directly below it. You can have one or morestacks in each layer, but within each layer, your stacks should have AWS resources with similar lifecycles and ownership. Withaservice-oriented architecture, you can organize big business problems into manageable parts. Each of these parts is a service that has a clearly defined purpose and represents a self-contained unit of functionality. You can map these services to a stack, where each stack has its own lifecycle and owners. All of these services (stacks) can be wired together so that they can interact with one another. For our example project, we will create 3 stacks: IAM stack, Network stack, and Application stack. IAM stack will contain all the IAM resources we need for our project, including IAM instance profiles and service roles. Network stack will contain all the network resources like VPC, subnets, security groups, NAT gateways, and Route53 hosted zone. Application stack will contain all the resources for our application, like Auto Scaling Groups, Elastic Load Balancers, and RDS database instances. </p>
+<a href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#organizingstacks">http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html</a>
+<h2>Cross-Stack References to Export Shared Resources</h2>
+<p>When you're organizing your AWS resources based on lifecycle and ownership, you might want to build a stack that uses resources that are in another stack. You can hard-code values or use input parameters to pass resource names and IDs. However, these methods can make templates difficult to reuse or can increase the overhead to get a stack running. Instead, use cross-stack references to export resources from a stack so that other stacks can use them. Stacks can use the exported resources by calling them using the Fn::ImportValue function. For example, you might have a network stack that includes a VPC, a security group, and a subnet. You want all public web applications to use these resources. By exporting the resources, you allow all stacks with public web applications to use them. To create a cross-stack reference, use the Export output field to flag the value of a resource output for export. Then, use the Fn::ImportValue intrinsic function to import the value. </p>
+<p>
+The following restrictions apply to cross-stack references: <br/>
+<ul>
+<li> Export names must be unique within an account and within a region. </li>
+<li> You can’t create cross-stack references across different regions. </li>
+<li> You can use the intrinsic function Fn::ImportValue only to import values that have been exported within the same region. </li>
+<li> Cross-stack references can’t use a Ref or GetAtt that depends on another resource. </li>
+<li> You can’t delete a stack if another stack references one of its outputs. </li>
+<li> You can’t modify or remove the output value as long as it’s referenced by another stack.</li>
+</ul>
+</p>
+<a href=<a href="http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html">http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html</a>
+<h2>Instance Profile</h2>
+<p>
+   Applications that run on an EC2 instance must include AWS credentials in their AWS API requests. You could have your developers store AWS credentials directly within the EC2 instance and allow applications in that instance to use those credentials. But developers would then have to manage the credentials and ensure that they securely pass the credentials to each instance and update each EC2 instance when it’s time to rotate the credentials. That’s a lot of additional work.  Instead, you can and should use an IAM role to manage temporary credentials for applications that run on an EC2 instance. When you use a role, you don’t have to distribute long-term credentials to an EC2 instance. Instead, the role supplies temporary permissions that applications can use when they make calls to other AWS resources. When you launch an EC2 instance, you specify an IAM role to associate with the instance. Applications that run on the instance can then use the role-supplied temporary credentials to sign API requests. Using roles to grant permissions to applications that run on EC2 instances requires a bit of extra configuration. An application running on an EC2 instance is abstracted from AWS by the virtualized operating system. Because of this extra separation, an additional step is needed to assign an AWS role and its associated permissions to an EC2 instance and make them available to its applications. This extra step is the creation of an instance profile that is attached to the instance. The instance profile contains the role and can provide the role’s credentials to an application that runs on the instance. Those credentials can then be used in the application’s API calls to access resources and to limit access to only those resources that the role specifies. Note that only one role can be assigned to an EC2 instance at a time, and all applications on the instance share the same role and permissions. Using roles in this way has several benefits. Because role credentials are temporary and rotated automatically, you don’t have to manage credentials, and you don’t have to worry about long-term security risks. In addition, if you use a single role for multiple instances, you can make a change to that one role and the change is propagated automatically to all the instances. A role is assigned to an EC2 instance when you launch it. It cannot be assigned to an instance that is already running. If you need to add a role to an instance that is already running, you can create an image of the instance, and then launch a new instance from the image with the desired role assigned. 
+</p>
+
+<h2>IAM Template</h2>
+<p>In our IAM template we will define an instance profile to be used by the application server in another stack.
+This example instance profile will allow the application server to interact with S3 to download and upload files.</p>
+<pre>
+AWSTemplateFormatVersion: 2010-09-09
+Description: Instance Profile IAM Stack 
+
+Resources:
+  AppRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow 
+          Principle:
+            Service: 
+            - ec2.amazonaws.com
+          Action: 
+            - sts:AssumeRole 
+      Path: /
+  RolePolicies: 
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: S3Access
+      PolicyDocument: 
+        Version: 2012-10-17
+        Statement: 
+        - Effect: Allow
+          Action:
+          - s3: *
+          Resource: '*'
+      Roles:
+      - Ref: AppRole 
+  AppInstanceProfile: 
+    Type: AWS::IAM::InstanceProfile 
+    Properties: 
+      Path: /
+      Roles:
+      - Ref: AppRole 
+Outputs: 
+  AppInstanceProfile: 
+    Description: Application EC2 Instance Profile 
+    Value: !Ref AppInstanceProfile
+    Export: 
+      Name: !Sub ${AWS::StackName}-AppInstanceProfile 
+</pre>
+<p>
+This Instance Profile Stack creates three resources:
+<ol>
+<li>IAM Role (AWS::IAM::Role)</li>
+<li>IAM Policy (AWS::IAM::Policy)</li>
+<li>IAM Instance Profile (AWS::IAM::InstanceProfile)</li>
+</ol>
+It creates an Output AppInstanceProfile, which contains the IAM Instance Profile name, and exports it so it
+can be referenced by other stacks.
+</p>
+<h4>Cross-Stack References & Nested Stacks Help Modularize CloudFormation</h4>
+<p>When should you use which? Can they be used together: Yes</p>
+<ul>
+<li>Use Nested Stacks when you want to deploy and manage all stacks from one stack.</li>
+<li>Use Cross-Stack References when you want to manage all stacks separately.</li>
+<li>Nested Stacks are good for when you need to isolate sharing of information.</li>
+<li>Use Cross-Stack references when you want to share information with other stacks, including nested stacks.</li>
+</ul>
+
+
+
+<hr/>
+
+<h4>QUIZ</h4>
+<p>
+1) You are creating a template with the intent to have one template work for different environments (Dev, Test, Prod). Dev and Test don’t need instance types as large as prod will need. Where can you set up the template to do this?
+</p>
+
+<b>Correct answer:</b><br/>
+Conditions<br/>
+<p>
+<b>Explanation:</b><br/>
+Conditions that control whether certain resources are created or whether certain resource properties are assigned a value during stack creation or update. For example, you could conditionally create a resource that depends on whether the stack is for a production or test environment.
+</p><p>
+2) You are working in CloudFormation and need to export resources from one stack to two other stacks. One of the stacks is in the same region, and the other is in a different region. Can you export resources from your stack to them?
+</p><p>
+<b>Correct answer:</b><br/>
+Yes, but only to the stack that is in the same region as your stack.
+</p><p>
+<b>Explanation:</b><br/>
+You can't create cross-stack references across regions. You can use the intrinsic function Fn::ImportValue to import only values that have been exported within the same region.
+</p><p>
+3) You created a template, and from that, a stack was created, but you forgot to specify the instance type. What type of instance will be created?
+</p><p>
+
+<b>Correct answer:</b><br/>
+The default instance type will be created which is an m3.medium.
+</p><p>
+<b>Explanation:</b><br/>
+The default instance type is "m3.medium".
+</p><p>
+4) You are creating CloudFormation templates and begin working with custom resources. What three parties are involved in any action for a custom resource? (Choose all that apply)
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Template developer, Custom resource provider, AWS CloudFormation
+</p><p>
+<b>Explanation:</b><br/>
+Any action taken for a custom resource involves three parties. Template developer — Creates a template that includes a custom resource type. The template developer specifies the service token and any input data in the template. Custom resource provider — Owns the custom resource and determines how to handle and respond to requests from AWS CloudFormation. The custom resource provider must provide a service token that the template developer uses. AWS CloudFormation — During a stack operation, it sends a request to a service token that is specified in the template, and then waits for a response before proceeding with the stack operation.
+</p><p>
+5) You are working in CloudFormation and need to export resources from one stack to another. How can you do this?
+</p><p>
+
+<b>Correct answer:</b><br/>
+Create a cross-stack reference.
+</p><p>
+<b>Explanation:</b><br/>
+To export resources from one AWS CloudFormation stack to another, create a cross-stack reference. Cross-stack references let you use a layered or service-oriented architecture. Instead of including all resources in a single stack, you create related AWS resources in separate stacks; then you can refer to required resource outputs from other stacks. By restricting cross-stack references to outputs, you control the parts of a stack that are referenced by other stacks.
+</p><p>
+6) You are creating a template and need to work with template snippets that are stored separately from the main AWS CloudFormation template. You know you need to work with AWS::Include. But what is a limitation of AWS::Include?
+
+
+</p><p>
+<b>Correct answer:</b><br/>
+It is supported only in regions where AWS Lambda is available.
+</p><p>
+<b>Explanation:</b><br/>
+AWS::Include is supported only in regions where AWS Lambda is available.
+</p><p>
+7) You are creating a template and need to include arbitrary JSON or YAML objects that provide details about the template. Which section of the template would you use?
+</p><p>
+
+<b>Correct answer:</b><br/>
+Metadata
+</p><p>
+<b>Explanation:</b><br/>
+Metadata contains Objects that provide additional information about the template.
+</p><p>
+8) You need to create a stack with multiple EC2 instances. How can you do this?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+With the Parameter InstanceTypeParameter.
+</p><p>
+<b>Explanation:</b><br/>
+This parameter lets you specify the Amazon EC2 instance type for the stack to use when you create or update the stack.
+</p><p>
+9) You are using CloudFormation Designer and want to add an EC2 instance directly to a VPC. Can you do this?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+No, you must add the EC2 instance to a subnet within the VPC.
+</p><p>
+<b>Explanation:</b><br/>
+Adding the instance in the subnet automatically associates the instance with the subnet.
+</p><p>
+10) You have taken over creating a template from a co-worker who was using YAML. You are more comfortable with JSON. Can you change the template language in Designer?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+Yes, but you need to make sure the template is valid first.
+</p><p>
+<b>Explanation:</b><br/>
+You can convert a valid template back and forth between JSON and YAML by selecting the appropriate radio button in Choose template language. Designer can only convert valid YAML or valid JSON templates.
+</p><p>
+11) You have created a template and want to begin refining stack creation using wait conditions. You want to set a wait condition immediately after the creation of an EC2 instance. How can you do this?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Amazon recommends using a Creation Policy with Ec2 instances instead of Wait Conditions.
+</p><p>
+<b>Explanation:</b><br/>
+For Amazon EC2 and Auto Scaling resources, it is recommended that you use a CreationPolicy attribute instead of wait conditions. Add a CreationPolicy attribute to those resources, and use the cfn-signal helper script to signal when an instance creation process has completed successfully.
+</p><p>
+12) You want to create a CloudFormation template to deploy your new architecture. You have created four sections in the template (Metadata, Parameters, Mappings, Conditions) but it is not working. Why?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+You do not have the required resources section.
+</p><p>
+<b>Explanation:</b><br/>
+The Resources section is the only required section.
+</p><p>
+13) You are working with CloudFormation Designer and are considering adding comments to the template. Why should you not add comments? (Choose all that apply)
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Designer does not preserve those comments when converting the template to JSON., If you modify your template in Designer, your comments are lost.
+</p><p>
+<b>Explanation:</b><br/>
+JSON templates cannot contain comments. Comments are not retained in CloudFormation Designer.
+</p><p>
+14) You are going to use Lambda stored in an S3 Bucket to create a stack. What do you need to specify to do this?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+The location of the S3 bucket that contains the Lambda source code.
+</p><p>
+<b>Explanation:</b><br/>
+When you create a stack with a Lambda function, you must specify the location of the Amazon S3 bucket that contains the function's source code. The bucket must be in the same region in which you create your stack.
+</p><p>
+15) You are creating a template and need to work with template snippets that are stored separately from the main AWS CloudFormation template. Which transform can you use to do this?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+AWS::Include
+</p><p>
+<b>Explanation:</b><br/>
+You can use the AWS::Include transform to work with template snippets that are stored separately from the main AWS CloudFormation template. When you specify Name: 'AWS::Include' and the Location parameter, the Transform key is a placeholder where snippets are injected.
+</p><p>
+16) You are working on a CloudFormation template and need to refer to other resources in the template and their properties. What can you use?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Intrinsic Functions
+</p><p>
+<b>Explanation:</b><br/>
+Use intrinsic functions in your templates to assign values to properties that are not available until runtime.
+</p><p>
+17) You need to update a stack using transforms. What do you need to do?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Create a change set and then execute it.
+</p><p>
+<b>Explanation:</b><br/>
+You can use the AWS::Include transform to work with template snippets that are stored separately from the main AWS CloudFormation template. When you specify Name: 'AWS::Include' and the Location parameter, the Transform key is a placeholder where snippets are injected. AWS CloudFormation inserts those snippets into your main template when Creating a Change Set or Updating Stacks Using Change Sets.
+</p><p>
+18) You come from a development background and have concerns about seeing hard-coded instance types in a template. What can you use to remove the hard-coded instance types?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+By using parameters to provide the instance type when the stack is created.
+</p><p>
+<b>Explanation:</b><br/>
+Use the optional Parameters section to customize your templates. Parameters enable you to input custom values to your template each time you create or update a stack.
+</p><p>
+19) You are working on your first CloudFormation template and want to declare an object. How can you do this? (Choose all that apply)
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+Create a name-value pair., Create a pairing of a name with a set of child objects enclosed.
+</p><p>
+<b>Explanation:</b><br/>
+You declare an object as a name-value pair or a pairing of a name with a set of child objects enclosed. The syntax depends on the format you use.
+</p><p>
+20) Your first template has run, and your resources have been created. Of what three elements are the physical ID for the resources comprised? (Choose all that apply)
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+Logical Name, Stack Name, Unique ID
+</p><p>
+<b>Explanation:</b><br/>
+The Physical ID is comprised of the Stack Name, Logical name, and a unique ID such as: Stack123123123123-s3bucket-abcdefghijk1.
+</p><p>
+21) You are creating a template with the intent to have one template work for different environments (Dev, Test, Prod). Dev and Test don’t need instance types as large as Prod will need. To conditionally create resources, you must include statements in at least three different sections of a template. Which section is not one of these sections?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+Metadata
+</p><p>
+<b>Explanation:</b><br/>
+To conditionally create resources, you must include statements in at least three different sections of a template: Parameters section — Define the input values that you want to evaluate in your conditions. Conditions will result in true or false based on values from these input parameters. Conditions section — Define conditions by using the intrinsic condition functions. These conditions determine when AWS CloudFormation creates the associated resources. Resources and Outputs sections — Associate conditions with the resources or outputs that you want to conditionally create. AWS CloudFormation creates entities that are associated with a true condition and ignores entities that are associated with a false condition.
+</p><p>
+22) What is the signaling mechanism for a CloudFormation wait condition?
+</p><p>
+
+
+<b>Correct answer:</b><br/>
+A preassigned URL
+</p><p>
+<b>Explanation:</b><br/>
+Resources must send wait condition responses to a pre-signed Amazon S3 URL.
+</p><p>
+23) You are creating a template and need to include an EC2 instance. You are going to use the instance type of t2.micro, so you don’t need to specify the instance type in the template. But what do you need to specify?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+The AMI to be used.
+</p><p>
+<b>Explanation:</b><br/>
+AWS CloudFormation templates that declare an Amazon Elastic Compute Cloud (Amazon EC2) instance must also specify an Amazon Machine Image (AMI) ID, which includes an operating system and other software and configuration information used to launch the instance. The correct AMI ID depends on the instance type and region in which you're launching your stack. Also, IDs can change regularly, such as when an AMI is updated with software updates.
+</p><p>
+24) You are trying to delete a stack, but CloudFormation is not letting you delete the stack, what is the most likely cause?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+An S3 Bucket in the stack is not empty.
+</p><p>
+<b>Explanation:</b><br/>
+Some resources must be empty before they can be deleted. For example, you must delete all objects in an Amazon S3 bucket or remove all instances in an Amazon EC2 security group before you can delete the bucket or security group.
+</p><p>
+25) You are performing a stack update so that you can update the metadata section. What steps do you need to take?
+
+</p><p>
+
+<b>Correct answer:</b><br/>
+You can update it only when you include changes that add, modify, or delete resources.
+</p><p>
+<b>Explanation:</b><br/>
+During a stack update, you cannot update the Metadata section by itself. You can update it only when you include changes that add, modify, or delete resources.
+</p>
+
+
+
+<!-- end new -->    
+
+<div class="vertical-center">
+  
+	<div class="container well"><a href="/cfansible">Next &gt;&gt;</a>
+       <!-- b>Join the discussion:</b><br/>
+	<ul id="messages" class="list-unstyled">
+	
+	</ul>
+	<hr/>
+
+	<form role="form" id="chat_form" onsubmit="sendMessage(); return false;">
+		<div class="form-group">
+		<input class="form-control" type="text" id="message" name="message"
+		placeholder="Type your text here" value="" autofocus/>
+		</div>
+	<button type="button" id="send" class="btn btn-primary" onclick="sendMessage();">Send Message</button><button type="button" id="clear" class="btn btn-default" onclick="clearMessages(); return false;">Clear</button>
+	</form -->
+	</div><!-- end of vertial -->
+	</div><!-- end container -->
+</div>
+           <!-- /div -->
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; univrs.io 2018</p>
+            <p class="pull-right"><a href="https://github.com/ardeshir/">powered by open source</a></p>
+        </div>
+    </footer>
+
+<script src="http://dev.univrs.io/jquery.js"></script>
+<script src="http://dev.univrs.io/bootstrap.js"></script>
+</body>
+</html>
