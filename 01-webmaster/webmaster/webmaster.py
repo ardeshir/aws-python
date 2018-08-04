@@ -16,8 +16,8 @@ from botocore.exceptions import ClientError
 import click
 
 
-session = boto3.Session(profile_name='default')
-s3 = session.resource('s3')
+SESSION = boto3.Session(profile_name='default')
+s3 = SESSION.resource('s3')
 
 
 @click.group()
@@ -49,15 +49,15 @@ def setup_bucket(bucket):
 
     try:
         s3_bucket = s3.create_bucket(
-           Bucket=bucket,
-           CreateBucketConfiguration={
-            'LocationConstraint': session.region_name}
+            Bucket=bucket,
+            CreateBucketConfiguration={
+                'LocationConstraint': SESSION.region_name}
         )
-    except ClientError as e:
-        if e.response['Error']['Code'] == 'BucketAlreadyOwnedByYou':
+    except ClientError as error:
+        if error.response['Error']['Code'] == 'BucketAlreadyOwnedByYou':
             s3_bucket = s3.Bucket(bucket)
         else:
-            raise e
+            raise error
 
     policy = """
         {
@@ -78,10 +78,9 @@ def setup_bucket(bucket):
     pol = s3_bucket.Policy()
     pol.put(Policy=policy)
 
-    ws = s3_bucket.Website()
-    ws.put(WebsiteConfiguration={'ErrorDocument': {'Key': 'index.html'},
-           'IndexDocument': {'Suffix': 'index.html'}})
-    return
+    s3_bucket.Website().put(WebsiteConfiguration={
+                           'ErrorDocument': {'Key': 'index.html'},
+                           'IndexDocument': {'Suffix': 'index.html'}})
 
 
 def upload_file(s3_bucket, path, key):
@@ -91,7 +90,7 @@ def upload_file(s3_bucket, path, key):
         path,
         key,
         ExtraArgs={
-            'ContentType': 'text/html'
+            'ContentType': content_type
         })
 
 
@@ -109,7 +108,7 @@ def sync(pathname, bucket):
             if p.is_dir():
                 handle_directory(p)
             if p.is_file():
-                upload_file(s3_bucket, str(p), str(p.relative_to(root)))
+                upload_file(s3_bucket, str(p), str(p.relative_to(target)))
 
     handle_directory(root)
 
